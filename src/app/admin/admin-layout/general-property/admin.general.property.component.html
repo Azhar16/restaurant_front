@@ -1,0 +1,593 @@
+<div class="container-fluid" style="padding:10px 0px; ">
+    <div class="row booking-row">
+
+        <div class="col-12 col-flexible">
+            <alert *ngIf="alertMessageDetails.response" [type]="alertMessageDetails.type" [dismissible]="true" class="text-center">
+                {{alertMessageDetails.message}}
+            </alert>
+        </div>
+
+        <div class="col-12 col-flexible">
+            <div class="form-container">
+                <header>
+                    General Settings
+                </header>
+                <perfect-scrollbar class="position-relative" [style.max-height.px]="scrollBarContainerHeight" [scrollIndicators]="true">
+                    <section class="form-body" *ngIf="generalComponentData">
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="propertyName">Default Language</label>
+                                    <div>
+                                        <div class="btn-group" dropdown>
+                                            <button id="button-language" dropdownToggle type="button" class="btn dropdown-toggle" aria-controls="dropdown-language">
+                                                {{selectedLanguage}} <span class="caret"></span>
+                                            </button>
+                                            
+                                            <ul id="dropdown-language" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-language">
+                                                <perfect-scrollbar class="position-relative" [style.max-height.px]="250" [scrollIndicators]="true">
+                                                    <li role="menuitem" *ngFor="let lngItem of languageMasterDataList" (click)="generalComponentData.defaultLanguage = lngItem.languageCode; selectedLanguage = lngItem.languageText;">
+                                                        <a class="dropdown-item" href="javascript:void(0);">{{lngItem.languageText}}</a>
+                                                    </li>                                                
+                                                </perfect-scrollbar>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="propertyName">Adjustment Invoice/Folios</label>
+                                    <div class="radio-group-block">
+                                        <div class="form-check form-check-inline">
+                                            <label class="radio">Yes
+                                                <input type="radio" class="form-check-input" name="adjradio" value="true" (input)="generalComponentData.invoiceFolioAdjustment = true" [checked]="generalComponentData.invoiceFolioAdjustment == true">
+                                                <span class="checkround"></span>
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="radio">No
+                                                <input type="radio" class="form-check-input" name="adjradio" value="false" (input)="generalComponentData.invoiceFolioAdjustment = false" [checked]="generalComponentData.invoiceFolioAdjustment == false">
+                                                <span class="checkround"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="propertyName">Default Currency</label>
+                                    <div>
+                                        <div class="btn-group" dropdown>
+                                            <button id="button-currency" dropdownToggle type="button" class="btn dropdown-toggle" aria-controls="dropdown-currency">
+                                                {{generalComponentData.defaultCurrency}} <span class="caret"></span>
+                                            </button>
+                                            <ul id="dropdown-currency" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-currency">
+                                                <perfect-scrollbar class="position-relative" [style.max-height.px]="250" [scrollIndicators]="true">
+                                                    <li role="menuitem" *ngFor="let currencyItem of currencyMasterDataList" (click)="generalComponentData.defaultCurrency = currencyItem.currencyCode">
+                                                        <a class="dropdown-item" href="javascript:void(0);">{{currencyItem.currencyCode}}</a>
+                                                    </li>
+                                                </perfect-scrollbar>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="propertyName">Account Folio Date</label>
+                                    <div>
+                                        <div class="btn-group" dropdown>
+                                            <button id="button-folio-date" dropdownToggle type="button" class="btn dropdown-toggle" aria-controls="dropdown-folio-date">
+                                                {{generalComponentData.acFolioDate}} <span class="caret"></span>
+                                            </button>
+                                            <ul id="dropdown-folio-date" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-folio-date">
+                                                <li role="menuitem" (click)="generalComponentData.acFolioDate = 'Closing Date'"><a class="dropdown-item" href="javascript:void(0);">Closing Date</a></li>
+                                                <li role="menuitem" (click)="generalComponentData.acFolioDate = 'Starting Date'"><a class="dropdown-item" href="javascript:void(0);">Starting Date</a></li>
+                                                <li role="menuitem" (click)="generalComponentData.acFolioDate = 'Check In Date'"><a class="dropdown-item" href="javascript:void(0);">Check In Date</a></li>
+                                                <li role="menuitem" (click)="generalComponentData.acFolioDate = 'Check Out Date'"><a class="dropdown-item" href="javascript:void(0);">Check Out Date</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="propertyName">Currency Conversion Rate</label>
+                                    <div>
+                                        <div class="btn-group" dropdown style="width:46%; margin-right:4%;">
+                                            <button id="button-currency" dropdownToggle type="button" class="btn dropdown-toggle" aria-controls="dropdown-currency">
+                                                {{generalComponentData.autoCurrencyConversion == true ? 'Automatic' : 'Manual'}} <span class="caret"></span>
+                                            </button>
+                                            <ul id="dropdown-currency" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-currency">
+                                                <li role="menuitem" (click)="generalComponentData.autoCurrencyConversion = true"><a class="dropdown-item" href="javascript:void(0);">Automatic</a></li>
+                                                <li role="menuitem" (click)="generalComponentData.autoCurrencyConversion = false"><a class="dropdown-item" href="javascript:void(0);">Manual</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="input-text-group" style="width:26%; margin-right:4%;">
+                                            <input type="text" class="form-control" [class.blocked]="generalComponentData.autoCurrencyConversion == true" [(ngModel)]="generalComponentData.conversionRate">
+                                        </div>
+                                        <div class="input_wrapper" style="margin-top:.2rem" [class.blocked]="generalComponentData.autoCurrencyConversion == true">
+                                            <input type="checkbox" class="switch_4" [(ngModel)]="generalComponentData.conversionRatePercent">
+                                            <span class="is_checked">%</span>
+                                            <span class="is_unchecked">.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="propertyName">Deposit Alert on Check-in</label>
+                                    <div class="radio-group-block">
+                                        <div class="form-check form-check-inline">
+                                            <label class="radio">Yes
+                                                <input type="radio" class="form-check-input" name="checkinalertradio" (input)="generalComponentData.depositeAlertOnCheckin = true" value="true" [checked]="generalComponentData.depositeAlertOnCheckin == true">
+                                                <span class="checkround"></span>
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="radio">No
+                                                <input type="radio" class="form-check-input" name="checkinalertradio" (input)="generalComponentData.depositeAlertOnCheckin = false" value="false" [checked]="generalComponentData.depositeAlertOnCheckin == false">
+                                                <span class="checkround"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-row">
+                                    <div class="form-group col">
+                                        <label for="propertyName">Conversion Margin</label>
+                                        <div>
+                                            <div class="input-text-group" style="width:66%; margin-right:4%;">
+                                                <input type="text" class="form-control" [(ngModel)]="generalComponentData.conversionMargin">
+                                            </div>
+                                            <div class="input_wrapper" style="top: 53.2%;margin-right:5px;">
+                                                <input type="checkbox" class="switch_4" [(ngModel)]="generalComponentData.marginPercent">
+                                                <span class="is_checked">%</span>
+                                                <span class="is_unchecked">.00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="propertyName" class="col" style="margin-top:6px;margin-bottom:2px;">Decimal Places</label>
+                                    <div class="col-4">
+                                        <div class="btn-group" dropdown>
+                                            <button id="button-decimal-place" dropdownToggle type="button" class="btn dropdown-toggle" aria-controls="dropdown-decimal-place">
+                                                {{generalComponentData.decimalPlace}} <span class="caret"></span>
+                                            </button>
+                                            <ul id="dropdown-decimal-place" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-decimal-place">
+                                                <li role="menuitem" (click)="generalComponentData.decimalPlace = decPlace" *ngFor="let decPlace of [0,1,2,3,4]">
+                                                    <a class="dropdown-item" href="javascript:void(0);">{{decPlace}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="propertyName">High Weekdays Nights</label>
+                                    <div>
+                                        <div class="form-check form-check-inline">
+                                            <div class="chiller_cb">
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [(ngModel)]="generalComponentData.hightWeekDays.monday">
+                                                <label class="form-check-label" for="inlineCheckbox1">Mon</label>
+                                                <span></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <div class="chiller_cb">
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" [(ngModel)]="generalComponentData.hightWeekDays.tuesday">
+                                                <label class="form-check-label" for="inlineCheckbox2">Tue</label>
+                                                <span></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <div class="chiller_cb">
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox3" [(ngModel)]="generalComponentData.hightWeekDays.wednesday">
+                                                <label class="form-check-label" for="inlineCheckbox3">Wed</label>
+                                                <span></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <div class="chiller_cb">
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox4" [(ngModel)]="generalComponentData.hightWeekDays.thursday">
+                                                <label class="form-check-label" for="inlineCheckbox4">Thu</label>
+                                                <span></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <div class="chiller_cb">
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox5" [(ngModel)]="generalComponentData.hightWeekDays.friday">
+                                                <label class="form-check-label" for="inlineCheckbox5">Fri</label>
+                                                <span></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <div class="chiller_cb">
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox6" [(ngModel)]="generalComponentData.hightWeekDays.saturday">
+                                                <label class="form-check-label" for="inlineCheckbox6">Sat</label>
+                                                <span></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <div class="chiller_cb">
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox7" [(ngModel)]="generalComponentData.hightWeekDays.sunday">
+                                                <label class="form-check-label" for="inlineCheckbox7">Sun</label>
+                                                <span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <small><i>The weekdays charge will apply on these day(s) automatically skip if not applicable</i> (Room reservation)</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="propertyName">Tax Break up in Account Statement</label>
+                                    <div class="radio-group-block">
+                                        <div class="form-check form-check-inline">
+                                            <label class="radio">Yes
+                                                <input type="radio" class="form-check-input" name="accbreakuptaxradio" value="true" (input)="generalComponentData.accountStatementTaxBreakup = true" [checked]="generalComponentData.accountStatementTaxBreakup == true">
+                                                <span class="checkround"></span>
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="radio">No
+                                                <input type="radio" class="form-check-input" name="accbreakuptaxradio" value="false" (input)="generalComponentData.accountStatementTaxBreakup = false" [checked]="generalComponentData.accountStatementTaxBreakup == false">
+                                                <span class="checkround"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="propertyName">Date Format</label>
+                                    <div>
+                                        <div class="btn-group" dropdown style="width:66%; margin-right:4%;">
+                                            <button id="button-dateformat" dropdownToggle type="button" class="btn dropdown-toggle" aria-controls="dropdown-dateformat">
+                                                {{generalComponentData.dateFormat}} <span class="caret"></span>
+                                            </button>
+                                            <ul id="dropdown-dateformat" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-dateformat">
+                                                <li role="menuitem" *ngFor="let dateFormatItem of dateFormatList" (click)="generalComponentData.dateFormat = dateFormatItem.key; dateFormat=dateFormatItem;">
+                                                    <a class="dropdown-item" href="javascript:void(0);">{{dateFormatItem.key}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <span><small>{{ now | date : dateFormat.value }}</small></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="propertyName">Tax Break up</label>
+                                    <div class="radio-group-block">
+                                        <div class="form-check form-check-inline">
+                                            <label class="radio">Yes
+                                                <input type="radio" class="form-check-input" name="taxbreakupradio" value="true" (input)="generalComponentData.taxBreakUp = true" [checked]="generalComponentData.taxBreakUp == true">
+                                                <span class="checkround"></span>
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="radio">No
+                                                <input type="radio" class="form-check-input" name="taxbreakupradio" value="false" (input)="generalComponentData.taxBreakUp = false" [checked]="generalComponentData.taxBreakUp == false">
+                                                <span class="checkround"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="propertyName">Time Zone Locatiion</label>
+                                    <div>
+                                        <div class="btn-group" dropdown>
+                                            <button id="button-dateformat" dropdownToggle type="button" class="btn btn-block btn-default dropdown-toggle" aria-controls="dropdown-dateformat">
+                                                {{generalComponentData.timeZone}} <span class="caret"></span>
+                                            </button>
+                                            <ul id="dropdown-dateformat" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-dateformat">
+                                                <div class="dropdownSearchDiv" (click)="preventClose($event)">
+                                                    <input class="dropdownSearchText form-control" type="text" placeholder="search timezone" [(ngModel)]="timezonefilter">
+                                                </div>
+                                                <perfect-scrollbar class="position-relative" [style.max-height.px]="250" [scrollIndicators]="true">
+                                                    <li role="menuitem" *ngFor="let timezone of timezoneList | searchresult: timezonefilter : 'timezone'" (click)="generalComponentData.timeZone = timezone">
+                                                        <a class="dropdown-item" href="javascript:void(0);">{{timezone}}</a>
+                                                    </li>
+                                                </perfect-scrollbar>
+                                            </ul>
+                                        </div>
+                                        <span><small><i>Current time {{ now | date : 'h:mm:ss a' }}</i></small></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="propertyName">Account Statement Exclusive of Tax(es)</label>
+                                    <div class="radio-group-block">
+                                        <div class="form-check form-check-inline">
+                                            <label class="radio">Yes
+                                                <input type="radio" class="form-check-input" name="accstatementexctaxradio" value="true" (input)="generalComponentData.accountStatementTaxExcusive=true" [checked]="generalComponentData.accountStatementTaxExcusive == true">
+                                                <span class="checkround"></span>
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="radio">No
+                                                <input type="radio" class="form-check-input" name="accstatementexctaxradio" value="false" (input)="generalComponentData.accountStatementTaxExcusive=false" [checked]="generalComponentData.accountStatementTaxExcusive == false">
+                                                <span class="checkround"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="propertyName">Time Format</label>
+                                    <div>
+                                        <div class="btn-group" dropdown>
+                                            <button id="button-dateformat" dropdownToggle type="button" class="btn btn-block btn-default dropdown-toggle" aria-controls="dropdown-dateformat">
+                                                {{generalComponentData.timeFormat}} <span class="caret"></span>
+                                            </button>
+                                            <ul id="dropdown-dateformat" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-dateformat">
+                                                <li role="menuitem" (click)="generalComponentData.timeFormat = '12 Hours'"><a class="dropdown-item" href="javascript:void(0);">12 Hours</a></li>
+                                                <li role="menuitem" (click)="generalComponentData.timeFormat = '24 Hours'"><a class="dropdown-item" href="javascript:void(0);">24 Hours</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="propertyName">Check-in Time</label>
+                                    <div class="row">
+                                        <div class="col">
+                                            <timepicker [(ngModel)]="checkinTime"></timepicker>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="row">
+                                        <div class="col">
+                                            <div class="btn-group" dropdown>
+                                                <button id="button-dateformat" dropdownToggle type="button" class="btn btn-block btn-default dropdown-toggle" aria-controls="dropdown-dateformat">
+                                                    11 <span class="caret"></span>
+                                                </button>
+                                                <ul id="dropdown-dateformat" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-dateformat">
+                                                    <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">12 Hours</a></li>
+                                                    <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">24 Hours</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="btn-group" dropdown>
+                                                <button id="button-dateformat" dropdownToggle type="button" class="btn btn-block btn-default dropdown-toggle" aria-controls="dropdown-dateformat">
+                                                    30 <span class="caret"></span>
+                                                </button>
+                                                <ul id="dropdown-dateformat" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-dateformat">
+                                                    <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">12 Hours</a></li>
+                                                    <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">24 Hours</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="btn-group" dropdown>
+                                                <button id="button-dateformat" dropdownToggle type="button" class="btn btn-block btn-default dropdown-toggle" aria-controls="dropdown-dateformat">
+                                                    AM <span class="caret"></span>
+                                                </button>
+                                                <ul id="dropdown-dateformat" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-dateformat">
+                                                    <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">AM</a></li>
+                                                    <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">PM</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="propertyName">Check-out Time</label>
+                                    <div class="row">
+                                        <div class="col">
+                                            <timepicker [(ngModel)]="checkoutTime"></timepicker>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="row">
+                                        <div class="col">
+                                            <div class="btn-group" dropdown>
+                                                <button id="button-dateformat" dropdownToggle type="button" class="btn btn-block btn-default dropdown-toggle" aria-controls="dropdown-dateformat">
+                                                    11 <span class="caret"></span>
+                                                </button>
+                                                <ul id="dropdown-dateformat" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-dateformat">
+                                                    <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">12 Hours</a></li>
+                                                    <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">24 Hours</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="btn-group" dropdown>
+                                                <button id="button-dateformat" dropdownToggle type="button" class="btn btn-block btn-default dropdown-toggle" aria-controls="dropdown-dateformat">
+                                                    30 <span class="caret"></span>
+                                                </button>
+                                                <ul id="dropdown-dateformat" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-dateformat">
+                                                    <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">12 Hours</a></li>
+                                                    <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">24 Hours</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="btn-group" dropdown>
+                                                <button id="button-dateformat" dropdownToggle type="button" class="btn btn-block btn-default dropdown-toggle" aria-controls="dropdown-dateformat">
+                                                    AM <span class="caret"></span>
+                                                </button>
+                                                <ul id="dropdown-dateformat" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-dateformat">
+                                                    <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">AM</a></li>
+                                                    <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">PM</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="propertyName">Corporate Discount</label>
+                                    <div>
+                                        <div class="input-text-group" style="width:66%; margin-right:4%;">
+                                            <input type="text" class="form-control" [(ngModel)]="generalComponentData.corpDiscount">
+                                        </div>
+                                        <div class="input_wrapper">
+                                            <input type="checkbox" class="switch_4" [(ngModel)]="generalComponentData.corpDiscountPercent">
+                                            <span class="is_checked">%</span>
+                                            <span class="is_unchecked">.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="propertyName">Agent Commission</label>
+                                    <div>
+                                        <div class="input-text-group" style="width:66%; margin-right:4%;">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                        <div class="input_wrapper">
+                                            <input type="checkbox" class="switch_4">
+                                            <span class="is_checked">%</span>
+                                            <span class="is_unchecked">.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-8 col-sm-12">
+
+                                <label for="propertyName">Financial Year</label>
+
+                                <div class="form-row">
+                                    <div class="from-group col">
+                                        <div class="btn-group" dropdown>
+                                            <button id="button-dateformat" dropdownToggle type="button" class="btn btn-block btn-default dropdown-toggle" aria-controls="dropdown-dateformat">
+                                                {{generalComponentData.financialYearStart.month}} <span class="caret"></span>
+                                            </button>
+                                            <ul id="dropdown-dateformat" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-dateformat">
+                                                <li role="menuitem" *ngFor="let month of ['01','02','03','04','05','06','07','08','09',10,11,12]" (click)="generalComponentData.financialYearStart.month = month">
+                                                    <a class="dropdown-item" href="javascript:void(0);">{{month}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="from-group col">
+                                        <div class="btn-group" dropdown>
+                                            <button id="button-dateformat" dropdownToggle type="button" class="btn btn-block btn-default dropdown-toggle" aria-controls="dropdown-dateformat">
+                                                {{generalComponentData.financialYearStart.year}} <span class="caret"></span>
+                                            </button>
+                                            <ul id="dropdown-dateformat" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-dateformat">
+                                                <li role="menuitem" *ngFor="let year of yearList" (click)="generalComponentData.financialYearStart.year = year">
+                                                    <a class="dropdown-item" href="javascript:void(0);">{{year}}</a>
+                                                </li> 
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="from-group col-1 text-center">to</div>
+                                    <div class="from-group col">
+                                        <div class="btn-group" dropdown>
+                                            <button id="button-dateformat" dropdownToggle type="button" class="btn btn-block btn-default dropdown-toggle" aria-controls="dropdown-dateformat">
+                                                {{generalComponentData.financialYearEnd.month}} <span class="caret"></span>
+                                            </button>
+                                            <ul id="dropdown-dateformat" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-dateformat">
+                                                <li role="menuitem" *ngFor="let month of ['01','02','03','04','05','06','07','08','09',10,11,12]" (click)="generalComponentData.financialYearStart.month = month">
+                                                    <a class="dropdown-item" href="javascript:void(0);">{{month}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="from-group col">
+                                        <div class="btn-group" dropdown>
+                                            <button id="button-dateformat" dropdownToggle type="button" class="btn btn-block btn-default dropdown-toggle" aria-controls="dropdown-dateformat">
+                                                {{generalComponentData.financialYearEnd.year}} <span class="caret"></span>
+                                            </button>
+                                            <ul id="dropdown-dateformat" *dropdownMenu class="dropdown-menu dropup" role="menu" aria-labelledby="button-dateformat">
+                                                <li role="menuitem" *ngFor="let year of yearList" (click)="generalComponentData.financialYearEnd.year = year">
+                                                    <a class="dropdown-item" href="javascript:void(0);">{{year}}</a>
+                                                </li>                                                
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-sm-12">
+                                <label for="propertyName">Loyalty Discount</label>
+                                <div class="radio-group-block">
+                                    <div class="form-check form-check-inline">
+                                        <label class="radio">Yes
+                                            <input type="radio" class="form-check-input" name="loyaltyradio" value="true" (input)="generalComponentData.loyaltyDiscount=true" [checked]="generalComponentData.loyaltyDiscount == true">
+                                            <span class="checkround"></span>
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="radio">No
+                                            <input type="radio" class="form-check-input" name="loyaltyradio" value="false" (input)="generalComponentData.loyaltyDiscount=false" [checked]="generalComponentData.loyaltyDiscount == false">
+                                            <span class="checkround"></span> </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+                </perfect-scrollbar>
+            </div>
+        </div>
+
+        <div class="col-12 col-flexible" style="margin-top: 2px;">
+            <div class="form-container">
+                <section class="form-footer">
+                    <div class="row">
+                        <div class="col text-center">
+                            <button class="btn btn-normal pull-right" (click)="updateGeneralSettings()"> Update </button>
+                            <button class="btn btn-normal pull-right" (click)="updateGeneralSettings()"> Reset </button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+    </div>
+</div>

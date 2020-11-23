@@ -1,0 +1,84 @@
+@import "~./default-variables";
+
+@font-face {
+    font-family: "Roboto-Light";
+    src: url("./fonts/Roboto/Roboto-Light.ttf");
+}
+
+@font-face {
+    font-family: "Roboto-Regular";
+    src: url("./fonts/Roboto/Roboto-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Roboto-Medium";
+    src: url("./fonts/Roboto/Roboto-Medium.ttf");
+}
+
+@font-face {
+    font-family: "Roboto-Bold";
+    src: url("./fonts/Roboto/Roboto-Bold.ttf");
+}
+
+//@extend-elements
+//original selectors
+//.nav-side-menu ul, .nav-side-menu li
+%side_menu_ul_li {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	height: 40px;
+	line-height: 40px;
+	border: 2px solid $nav_menu_border_color;
+    border-radius: 5px;
+	cursor: pointer;
+	clear: both;
+}
+
+//original selectors
+//.nav-side-menu ul .collapsed .arrow:before, .nav-side-menu li .collapsed .arrow:before
+%side_menu_collapsed_arrow_before {
+	background-image: url(./assets/images/right-arrow.png);
+	background-repeat: no-repeat;
+	background-position: 5px 10px;
+}
+
+//original selectors
+//.nav-side-menu ul :not(collapsed) .arrow:before, .nav-side-menu li :not(collapsed) .arrow:before
+%slide_menu_not_collapsed_arrow_before {
+	background-image: url(./assets/images/down-arrow.png);
+	background-repeat: no-repeat;
+	background-position: 5px 10px;
+}
+
+//original selectors
+//.nav-side-menu ul .active, .nav-side-menu li .active
+%slide_menu_active_ul_li {
+	border: 2px solid $active_menu_border_color;
+	border-radius: 5px;
+	color: $active_menu_text_color;
+	height: 40px;
+	line-height: 40px;
+	outline: none;
+}
+
+//original selectors
+//.nav-side-menu ul .sub-menu li.active, .nav-side-menu li .sub-menu li.active, .nav-side-menu ul .sub-menu li.active a, .nav-side-menu li .sub-menu li.active a
+%main_active_extention
+ {
+	background-color: $color_anakiwa_approx;
+	color: $active_menu_text_color;
+	outline: none;
+}
+
+//original selectors
+//.nav-side-menu ul .sub-menu li, .nav-side-menu li .sub-menu li
+%sub_menu_ui_li_extention {
+	background-color: $nav_menu_border_color;
+	border: none;
+	line-height: 35px;
+	height: 35px;
+	border-bottom: 1px solid $nav_menu_border_color;
+	margin-left: 0;
+	padding-left: 40px;
+}

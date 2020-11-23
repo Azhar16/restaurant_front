@@ -1,0 +1,175 @@
+<div class="container-fluid" style="padding:10px 0px; ">
+    <h5>Hotel Rate Plans</h5>
+
+    <div class="row">
+
+        <div class="col-12 col-flexible">
+            <alert *ngIf="alertMessageDetails.response" [type]="alertMessageDetails.type" [dismissible]="true" class="text-center">
+                {{alertMessageDetails.message}}
+            </alert>
+        </div>
+
+        <div class="col">
+            <div class="table-responsive">
+
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow" id="tableHeaderRow">
+                        <div class="divDisplayTableCell head brdLft text-center" style="width:7%;">Sl. No.</div>
+                        <!-- <div class="divDisplayTableCell head brdLft text-center" style="width:5%;">
+                            <input type="checkbox" name="head" id="headckb" [(ngModel)]="allRatePlanCkbox" (change)="selectRatePlanCKBStatus('all')">
+                        </div> -->
+                        <div class="divDisplayTableCell head text-center" style="width:20%;">Rate Plan</div>
+                        <div class="divDisplayTableCell head text-center" style="width:30%;">Descriptions</div>
+                        <div class="divDisplayTableCell head text-center" style="width:8%;">Code</div>
+                        <div class="divDisplayTableCell head text-center" style="width:16%;">Weightage</div>
+                        <div class="divDisplayTableCell head text-center" style="width:12%;">Map Policies</div>
+                        <div class="divDisplayTableCell head text-center" style="width:7%;">Actions</div>
+                    </div>
+                </div>
+
+                <!-- <perfect-scrollbar class="position-relative" [style.max-height.px]="scrollBarContainerHeight" [scrollIndicators]="true"> -->
+
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow" *ngFor="let ratePlanItem of ratePlanList; let i = index;">
+                        <div class="divDisplayTableCell brdLft text-center" style="width:7%;">{{i + 1}}</div>
+                        <!-- <div class="divDisplayTableCell text-center" style="width:5%;">
+                            <input type="checkbox" name="rateCkb" id="rpckb_{{i}}" [(ngModel)]="ratePlanItem.checked" (change)="selectRatePlanCKBStatus(ratePlanItem)">
+                        </div> -->
+                        <div class="divDisplayTableCell text-center" style="width:20%;">
+                            <span [hidden]="ratePlanItem.editable">
+                                {{ratePlanItem.ratePlanName}}
+                            </span>
+                            <input [hidden]="!ratePlanItem.editable" type="text" name="editRatePlanName" id="editRatePlanName_{{i}}" [(ngModel)]="ratePlanItem.ratePlanName" class="edit-input-box" />
+                        </div>
+                        <div class="divDisplayTableCell text-center" style="width:30%;">
+                            <span [hidden]="ratePlanItem.editable">
+                                {{ratePlanItem.ratePlanDesc}}
+                            </span>
+                            <input [hidden]="!ratePlanItem.editable" type="text" name="editRatePlanDesc" id="editRatePlanDesc_{{i}}" [(ngModel)]="ratePlanItem.ratePlanDesc" class="edit-input-box" />
+                        </div>
+                        <div class="divDisplayTableCell text-center" style="width:8%;">
+                            <span [hidden]="ratePlanItem.editable">
+                                {{ratePlanItem.ratePlanCode}}
+                            </span>
+                            <input [hidden]="!ratePlanItem.editable" type="text" name="editRatePlanCode" id="editRatePlanCode_{{i}}" [(ngModel)]="ratePlanItem.ratePlanCode" class="edit-input-box" />
+                        </div>
+                        <div class="divDisplayTableCell position-relative" style="width:16%;">
+                            <div *ngIf="!ratePlanItem.editable" class="d-inline-block text-right" style="margin-right: 10px; top:0px; width:60%">
+                                <span>{{ratePlanItem.weight}}</span>
+                            </div>
+                            <div *ngIf="!ratePlanItem.editable" class="d-inline-block text-center" style="width:30%">
+                                <div class="decimal-percent-badge">{{ratePlanItem.weightIsPercent ? '%' : '.00'}}</div>
+                            </div>
+
+                            <div *ngIf="ratePlanItem.editable" class="d-inline-block text-center" style="width:55%">
+                                <input type="text" name="editTaxAmt" id="editTaxAmt_{{i}}" [(ngModel)]="ratePlanItem.weight" class="edit-input-box" />
+                            </div>
+                            <div *ngIf="ratePlanItem.editable" class="d-inline-block position-absolute" style="width:30%;right: 14%;top:5px;">
+                                <div class="input_wrapper">
+                                    <input type="checkbox" class="switch_4" [(ngModel)]="ratePlanItem.weightIsPercent">
+                                    <span class="is_checked">%</span>
+                                    <span class="is_unchecked">.00</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="divDisplayTableCell text-center" style="width:12%;">
+                            <!--  (click)="mapFloorRoom(floorRoomMapModal, floorData);" -->
+                            <div class="d-inline-block point-cursor" [popover]="popTemplate" placement="left" container="body" [outsideClick]="true" (onShown)="mapPolicies(ratePlanItem)">
+                                <img src="./assets/images/flow-chart.png" alt="map room">
+                            </div>
+                        </div>
+                        <div class="divDisplayTableCell text-center" style="width:7%;">
+                            <div class="d-inline-block point-cursor" (click)="ratePlanItem.editable = !ratePlanItem.editable">
+                                <img *ngIf="!ratePlanItem.editable" src="./assets/images/edit.png" alt="edit">
+                                <i *ngIf="ratePlanItem.editable" style="color:#6787BF;" class="fa fa-save" alt="save" (click)="editRatePlan(ratePlanItem)"></i>
+                            </div>
+                            <div class="d-inline-block point-cursor" style="margin-left: 10px;" (click)="openConfirmModal(i)">
+                                <img src="./assets/images/delete.png" alt="delete">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="divDisplayTableRow" *ngIf="showNewRatePlanRow">
+                        <div class="divDisplayTableCell brdLft text-center" style="width:7%;">&nbsp;</div>
+                        <!-- <div class="divDisplayTableCell text-center" style="width:5%;">
+                            <input type="checkbox" name="rateCkb" id="rpckb_{{i}}" [(ngModel)]="ratePlanItem.checked" (change)="selectRatePlanCKBStatus(ratePlanItem)">
+                        </div> -->
+                        <div class="divDisplayTableCell text-center" style="width:20%;">                            
+                            <input type="text" name="editRatePlanName" id="addRatePlanName" [(ngModel)]="addNewRatePlan.ratePlanName" class="edit-input-box" />
+                        </div>
+                        <div class="divDisplayTableCell text-center" style="width:30%;">                            
+                            <input type="text" name="addRatePlanDesc" id="addRatePlanDesc" [(ngModel)]="addNewRatePlan.ratePlanDesc" class="edit-input-box" />
+                        </div>
+                        <div class="divDisplayTableCell text-center" style="width:8%;">                           
+                            <input type="text" name="addRatePlanCode" id="addRatePlanCode" [(ngModel)]="addNewRatePlan.ratePlanCode" class="edit-input-box" />
+                        </div>
+                        <div class="divDisplayTableCell position-relative" style="width:16%;">
+                            <div class="d-inline-block text-center" style="width:55%">
+                                <input type="text" name="addRateWeight" id="addRateWeight" [(ngModel)]="addNewRatePlan.weight" class="edit-input-box" />
+                            </div>
+                            <div class="d-inline-block position-absolute" style="width:30%;right: 14%;top:5px;">
+                                <div class="input_wrapper">
+                                    <input type="checkbox" class="switch_4" [(ngModel)]="addNewRatePlan.weightIsPercent">
+                                    <span class="is_checked">%</span>
+                                    <span class="is_unchecked">.00</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="divDisplayTableCell text-center" style="width:12%;">
+                           &nbsp;
+                        </div>
+                        <div class="divDisplayTableCell text-center" style="width:7%;">
+                            <div class="d-inline-block point-cursor" (click)="addNewRatePlanDetails()">
+                                <i style="color:#6787BF;" class="fa fa-save" alt="save"></i>
+                            </div>                            
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- </perfect-scrollbar> -->
+
+                <ng-template #popTemplate>
+
+                    <div class="table-responsive" style="width:350px;">
+                        <div class="divDisplayTable">
+                            <div class="divDisplayTableRow" id="tableHeaderRow">
+                                <div class="divDisplayTableCell head brdLft text-center" style="width:20%;">Sl. No.</div>
+                                <div class="divDisplayTableCell head text-center" style="width:20%;">
+                                    Select
+                                </div>
+                                <div class="divDisplayTableCell head text-center" style="width:60%;">Cancellation Policies</div>
+                            </div>
+                            <div class="divDisplayTableRow" *ngFor="let policyItem of mappedCancellationPolicyList; let i = index;">
+                                <div class="divDisplayTableCell brdLft text-center" style="width:20%;">{{i + 1}}</div>
+                                <div class="divDisplayTableCell text-center" style="width:20%;">
+                                    <label class="radio" for="cancelRadio_{{i}}">&nbsp;
+                                        <input type="radio" name="nsAppliedPolicy" id="cancelRadio_{{i}}" value="policyItem.cancelPolicyId" [checked]="policyItem.applied">
+                                        <span class="checkround"></span>
+                                    </label>
+                                </div>
+                                <div class="divDisplayTableCell text-left" style="width:60%;">{{policyItem.policyCode}}</div>
+                            </div>
+                        </div>
+                        <div class="col text-center table-footer">
+                            <button class="btn btn-normal">Ok</button>
+                        </div>
+                    </div>
+
+                </ng-template>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="footerButtonContainer" style="margin-top:20px;">
+        <div class="col point-cursor" (click)="showNewRatePlanRow = !showNewRatePlanRow">
+            <span class="badge badge-sky" style="vertical-align:text-top;"><i class="fa fa-plus"></i></span>
+            <div style="margin-left:6px;display: inline-block;">Add Rate Plan</div>
+        </div>
+
+        <div class="col">
+            <!-- <button class="btn btn-normal pull-right" type="submit">Save</button> -->
+            <!-- <button class="btn btn-normal pull-right" type="submit">Reset</button> -->
+        </div>
+    </div>
+</div>

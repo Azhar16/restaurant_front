@@ -1,0 +1,217 @@
+@import "~./admin-components";
+
+.booking-row {
+    margin: 0px 10px;
+
+    &.no-margin {
+        margin: 0px;
+    }
+
+    .col-flexible {
+        padding: 0px;
+
+        .form-container {
+            margin: 0px 0.5px;
+
+            header {
+                background-color: #DCE2FF;
+                padding: 5px 15px;
+                margin-bottom: 1px;
+            }
+
+            section {
+                background-color: #F7F9FF;
+                margin-bottom: 1px;
+                padding: 5px 15px;
+                
+                &.form-body {
+                    background-color: #fff;                                        
+                }
+                
+                &.form-footer {
+                    background-color: #FFF; 
+                }
+
+                .input-group {
+                    &.date-cal {
+                        span {
+                            position: absolute;
+                            right: 10px;
+                            top: 3px;
+                            height: 25px;
+                            display: flex;
+                            align-items: center;
+                            z-index: 9;
+                        }
+
+                        input {
+                            &.form-control {
+                                padding-right: 30px;
+                                border-top-left-radius: 4px;
+                                border-bottom-left-radius: 4px;
+                            }
+                        }
+                    }
+                }
+
+                .btn-group {
+                    width: 100%;
+
+                    button {
+                        &.btn-default {
+                            border: 1px solid $dropdown-border-color;
+                            outline: none;
+                            background-color: $dropdown-background-color;
+                            color: #000;
+                            text-align: left;
+                            position: relative;
+                            padding-left: 0.5rem;
+                            padding-right: 0.5rem;
+
+                            /*&.dropdown-toggle {
+                                &:after {
+                                    position: absolute;
+                                    right: 4%;
+                                    top: 42%;
+                                }
+
+                                &:focus {
+                                    box-shadow: none;
+                                }
+                            }*/
+                        }
+                    }
+
+                    .dropdownSearchDiv {
+                        border-bottom: 1px solid $button_normal_background_color;
+
+                        .dropdownSearchText {
+                            &.form-control {
+                                border-width: 0px;
+                            }
+                        }
+                    }
+                }
+
+                .input-text-group {
+                    display: inline-flex;
+                    vertical-align: middle;
+
+                    .form-control {
+                        height: 32px;
+                        line-height: 32px;
+                    }
+                }
+
+                .form-control {
+                    &.bs-timepicker-field {
+                        width: 100%;
+                    }
+                }
+
+                .input_wrapper {
+                    display: inline-flex;
+                    //margin-right: 15px;
+                    position: absolute;
+                    top: 42.1%;
+                    //right: 0;
+                }
+
+                .radio-group-block {
+                    margin-top: .35rem;
+                }
+
+                .card-holder {
+                    margin-top: 6px;
+                    margin-bottom: 3px;
+                    a {
+                        margin-right: 5px;
+                    }
+                }
+            }
+        }
+    }
+
+    &.border-layout {
+        .col-flexible {
+            header {
+                border: 1px solid #DCDCDC;
+                margin-bottom: 0px;
+            }
+
+            section {
+                border-width: 0px 1px;
+                border-style: solid;
+                border-color: #DCDCDC;
+                margin-bottom: 0px;
+            }
+
+            .table-responsive {
+                .divDisplayTable {
+                    .divDisplayTableRow {
+                        .divDisplayTableCell {
+                            &.head {
+                                padding: 0px;
+                                background-color: #F7F9FF;
+                                .week-day {
+                                    background-color: #FFF;
+                                    border-bottom-width: 1px; 
+                                    border-bottom-style: solid;
+                                    border-bottom-color: inherit;
+                                }
+                            }
+                            &.text-left {
+                                padding-left: 0.8rem;
+                            }
+                            .edit-input-box {
+                                text-align: right;
+                                &.short-width {
+                                    width: 82%;
+                                }
+                            }
+                        }
+                        &:nth-child(even) {
+                            .divDisplayTableCell {
+                                background-color: #fff;
+                                &.head {
+                                    background-color: #F7F9FF;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+.admin-cust-container {
+
+    .head-section {
+        background-color: $admin_top_box_background;
+        color: $admin_top_box_text_color;
+        padding: 0.5rem 0px;
+        border-collapse: collapse;
+
+        .row {
+            &.body-row {
+                margin: auto;
+
+                .card {
+                    background-color: $admin_top_box_inner_panel_background;
+                    color: $admin_top_box_inner_panel_text_color;
+                    padding: 0.5rem;
+                    border-collapse: collapse;
+                    border-radius: 6px;
+
+                    .form-group {
+                        .btn-group {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

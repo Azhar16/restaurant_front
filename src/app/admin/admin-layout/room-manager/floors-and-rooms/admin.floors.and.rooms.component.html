@@ -1,0 +1,141 @@
+<div class="container-fluid" style="padding:10px 0px; ">
+    <h5 id="pageHeading">Floor & Room Management</h5>
+    <div class="row">
+
+        <div class="col-12 col-flexible">
+            <alert *ngIf="alertMessageDetails.response" [type]="alertMessageDetails.type" [dismissible]="true" class="text-center">
+                {{alertMessageDetails.message}}
+            </alert>
+        </div>
+
+        <div class="col">
+            <div class="table-responsive">
+
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow">
+                        <div class="divDisplayTableCell head brdLft text-center" style="width: 10%">
+                            Sl.No.
+                        </div>
+                        <!-- <div class="divDisplayTableCell head text-center" style="width: 15%">
+                            Floor Number
+                        </div> -->
+                        <div class="divDisplayTableCell head text-center" style="width: 45%">
+                            Floor Description
+                        </div>
+                        <div class="divDisplayTableCell head text-center" style="width: 25%">
+                            Total Rooms
+                        </div>
+                        <div class="divDisplayTableCell head text-center" style="width: 20%">Action</div>
+                    </div>
+                </div>
+
+                <perfect-scrollbar class="position-relative" [style.max-height.px]="scrollBarContainerHeight" [scrollIndicators]="true">
+                    <div class="divDisplayTable">
+                        <div class="divDisplayTableRow" *ngFor="let floorData of floorList; let i = index">
+                            <div class="divDisplayTableCell brdLft text-center" style="width: 10%">
+                                {{i + 1}}
+                            </div>
+                            <!-- <div class="divDisplayTableCell" style="width: 15%">
+                                {{floorData.floorNumber}}
+                            </div> -->
+                            <div class="divDisplayTableCell" style="width: 45%">
+                                {{floorData.floorName}}
+                            </div>
+                            <div class="divDisplayTableCell text-center" style="width: 25%">
+                                {{floorData.numberOfRooms}}
+                            </div>
+                            <div class="divDisplayTableCell text-center" style="width: 20%">
+                                <div class="d-inline-block point-cursor" (click)="mapFloorRoom(floorRoomMapModal, floorData);">
+                                    <img src="./assets/images/flow-chart.png" alt="map room">
+                                </div>
+                                <div class="d-inline-block point-cursor" style="margin-left: 10px;" (click)="openConfirmModal(i)">
+                                    <img src="./assets/images/delete.png" alt="delete">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="divDisplayTableRow" *ngIf="showAddFloor">
+                            <div class="divDisplayTableCell brdLft" style="width:10%;">&nbsp;</div>
+                            <div class="divDisplayTableCell text-center" style="width:45%;">
+                                <input type="text" name="floorName" id="floorName" [(ngModel)]="newFloorName" style="width:90%" />
+                            </div>
+                            <div class="divDisplayTableCell text-center" style="width:25%;">
+                                <input name="noOfRooms" id="noOfRooms" style="width:90%" [(ngModel)]="newNoOfRooms" />
+                            </div>
+                            <div class="divDisplayTableCell text-center" style="width:20%;" (click)="createFloor()">
+                                <div class="d-inline-block point-cursor">
+                                    <img src="./assets/images/save.png" alt="create floor">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </perfect-scrollbar>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="footerButtonContainer" style="margin-top:20px;">
+        <div class="col point-cursor" (click)="addFloor();">
+            <span class="badge badge-sky" style="vertical-align:text-top;"><i class="fa fa-plus"></i></span>
+            <div style="margin-left:6px;display: inline-block;">Add Floor</div>
+        </div>
+
+        <!-- <div class="col">
+            <button class="btn btn-normal pull-right" type="submit">Save</button>
+            <button class="btn btn-normal pull-right" type="submit">Cancel</button>
+        </div> -->
+    </div>
+</div>
+
+<ng-template #floorRoomMapModal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 id="dialog-static-name" class="modal-title pull-left">Floor Room mapping</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="container">
+                <div class="form-row align-items-center">
+                    <div class="col-2 text-center">Floor Name</div>
+                    <div class="col-2 text-right">{{mappedFloor.floorName}}</div>
+                    <div class="col-1">&nbsp;</div>
+                    <div class="col-4">
+                        <!-- <ngx-multiselect [(ngModel)]="model" [options]="array" [displayName]="'name'" [trackBy]="'id'" [multiple]="true"></ngx-multiselect> -->
+                        <!-- <ss-multiselect-dropdown [options]="availableRoomList" [(ngModel)]="mappedFloor.mapprdRoomList" (ngModelChange)="mappedRooms($event)"></ss-multiselect-dropdown> -->
+                        <div class="btn-group w-75" dropdown [autoClose]="false">
+                            <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+                                <span [ngPlural]="selectedFloorMappedRoomLength">
+                                    <ng-template ngPluralCase="=0">No room selected</ng-template>
+                                    <ng-template ngPluralCase="=1">1 room selected</ng-template>
+                                    <ng-template ngPluralCase="other"> {{selectedFloorMappedRoomLength}} rooms selected</ng-template>
+                                </span>
+                                <span class="caret"></span>
+                            </button>
+                            <ul *dropdownMenu class="dropdown-menu" role="menu">
+                                <perfect-scrollbar class="position-relative" [style.max-height.px]="250" [scrollIndicators]="true">
+                                    <li role="menuitem" *ngFor="let roomItem of availableRoomListForMap;">
+                                        <label class="dropdown-item" data-value="option1">
+                                            <div class="chiller_cb">
+                                                <input type="checkbox" id="roomitem_{{roomItem.ruid}}" [(ngModel)]="roomItem.mapped" (change)="floorMapSelectionUpdate()" />
+                                                <label for="roomitem_{{roomItem.ruid}}">&nbsp;{{roomItem.roomNumber}}</label>
+                                                <span></span>
+                                            </div>
+                                        </label>
+                                    </li>
+                                </perfect-scrollbar>
+                                <!-- <li class="divider dropdown-divider"></li>
+                                  <li role="menuitem"><a class="dropdown-item">Separated link</a></li> -->
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <button class="btn btn-normal pull-right" type="button" (click)="saveFloorRoomMapping()">Map</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

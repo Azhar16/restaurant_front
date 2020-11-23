@@ -1,0 +1,4 @@
+<app-admin-user-basic-details *ngIf="userView == 'user_basic_details'" [userDetails]="userDetails" (userDetailViewChange)="openWorkDetailsView($event)"></app-admin-user-basic-details>
+
+<app-admin-user-work-details *ngIf="userView == 'user_work_details'" [departmentList]="departmentList" [userDetails]="userDetails" (userDetailViewChange)="openBasicDetailsView($event)"></app-admin-user-work-details>
+

@@ -1,0 +1,305 @@
+<div class="container-fluid" style="padding:10px 0px; ">
+    <div class="row booking-row">
+
+        <div class="col-12 col-flexible">
+            <alert *ngIf="alertMessageDetails.response" [type]="alertMessageDetails.type" [dismissible]="true"
+                class="text-center">
+                {{alertMessageDetails.message}}
+            </alert>
+        </div>
+
+        <div class="col-12 col-flexible">
+            <div class="form-container">
+                <header>
+                    <div class="row">
+                        <div class="col">
+                            Work Details
+                        </div>
+                        <div class="float-right">
+                            <div class="form-check form-check-inline">
+                                <div class="chiller_cb">
+                                    <input type="checkbox" id="loginEmployee" value="option1">
+                                    <label class="form-check-label" for="loginEmployee">Not a Login Employee</label>
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <section class="form-body">
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="workDept" class="col-4 col-form-label">Department</label>
+                                <div class="col">
+                                    <div class="btn-group" dropdown>
+                                        <button id="button-gender" dropdownToggle type="button"
+                                            class="btn btn-block btn-default dropdown-toggle"
+                                            aria-controls="dropdown-gender">
+                                            {{userDetails.Employee.department == null ? 'Select' : userDetails.Employee.department}}
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul id="dropdown-gender" *dropdownMenu class="dropdown-menu" role="menu"
+                                            aria-labelledby="button-gender">
+                                            <li role="menuitem" *ngFor="let deptItem of departmentList"
+                                                (click)="userDetails.Employee.department = deptItem.departmentName">
+                                                <a class="dropdown-item"
+                                                    href="javascript:void(0);">{{deptItem.departmentName}}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="inputDesignation" class="col-4 col-form-label">Designation</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="inputDesignation"
+                                        [(ngModel)]="userDetails.Employee.designation">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label class="col-4 col-form-label">Counter(s)</label>
+                                <div class="col">
+                                    <label for="availableCounters" class="form-label">Available Counter(s)</label>
+                                    <textarea class="form-control" name="availableCounters" id="availableCounters" cols="30" rows="2" style="resize:none"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label class="col-4 col-form-label">&nbsp;</label>
+                                <div class="col">
+                                    <label for="selectedCounters" class="form-label">Selected Counter(s)</label>
+                                    <textarea class="form-control" name="selectedCounters" id="selectedCounters" cols="30" rows="2" style="resize:none"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="workEmail" class="col-4 col-form-label">Email</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="workEmail"
+                                        [(ngModel)]="userDetails.Employee.email" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="userType" class="col-4 col-form-label">User Type</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="userType"
+                                        [(ngModel)]="userDetails.User.userType">
+                                    <small><i>The user's default access permissions will be based on his user
+                                            type</i></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="workPassword" class="col-4 col-form-label">Password</label>
+                                <div class="col">
+                                    <input type="password" class="form-control" id="workPassword"
+                                        [(ngModel)]="userDetails.User.password">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="confirmPassword" class="col-4 col-form-label">Confirm Password</label>
+                                <div class="col">
+                                    <input type="password" class="form-control" id="confirmPassword"
+                                        [(ngModel)]="confirmPassword">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="workJoin" class="col-4 col-form-label">Date of Joining</label>
+                                <div class="col">
+                                    <div class="input-group date-cal">
+                                        <span (click)="joiningdate.show()">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                        <input type="text" class="form-control" id="workJoin"
+                                            #joiningdate="bsDatepicker" bsDatepicker [bsConfig]="bsConfigJoiningDate"
+                                            [(ngModel)]="userDetails.Employee.dOJ">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="shiftTimings" class="col-4 col-form-label">Shift Timings</label>
+                                <div class="col">
+                                    <div class="btn-group" dropdown style="width:23%; margin-right:2%;">
+                                        <button id="button-shift-start-hour" dropdownToggle type="button"
+                                            class="btn btn-block btn-default dropdown-toggle"
+                                            aria-controls="button-shift-start-hour">
+                                            {{shiftStartTime.timeval}} <span class="caret"></span>
+                                        </button>
+                                        <ul id="dropdown-shift-start-hour" *dropdownMenu class="dropdown-menu"
+                                            role="menu" aria-labelledby="button-shift-start-hour">
+                                            <li role="menuitem" (click)="setSift('start', 'timeval', item+'.00')"
+                                                *ngFor="let item of [1,2,3,4,5,6,7,8,9,10,11,12]">
+                                                <a class="dropdown-item" href="javascript:void(0);">{{item}}.00</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="btn-group" dropdown style="width:23%; margin-right:4%;">
+                                        <button id="button-shift-start-meridian" dropdownToggle type="button"
+                                            class="btn btn-block btn-default dropdown-toggle"
+                                            aria-controls="button-shift-start-meridian">
+                                            {{shiftStartTime.meridian}} <span class="caret"></span>
+                                        </button>
+                                        <ul id="dropdown-shift-start-button-shift-start-meridian" *dropdownMenu
+                                            class="dropdown-menu" role="menu"
+                                            aria-labelledby="button-shift-start-button-shift-start-meridian">
+                                            <li role="menuitem" (click)="setSift('start', 'meridian', 'AM')">
+                                                <a class="dropdown-item" href="javascript:void(0);">AM</a>
+                                            </li>
+                                            <li role="menuitem" (click)="setSift('start', 'meridian', 'PM')">
+                                                <a class="dropdown-item" href="javascript:void(0);">PM</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="btn-group" dropdown style="width:23%; margin-right:2%;">
+                                        <button id="button-shift-end-hour" dropdownToggle type="button"
+                                            class="btn btn-block btn-default dropdown-toggle"
+                                            aria-controls="dropdown-shift-end-hour">
+                                            {{shiftEndTime.timeval}} <span class="caret"></span>
+                                        </button>
+                                        <ul id="dropdown-shift-end-hour" *dropdownMenu class="dropdown-menu" role="menu"
+                                            aria-labelledby="button-shift-end-hour">
+                                            <li role="menuitem" (click)="setSift('end', 'timeval', item+'.00')"
+                                                *ngFor="let item of [1,2,3,4,5,6,7,8,9,10,11,12]">
+                                                <a class="dropdown-item" href="javascript:void(0);">{{item}}.00</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="btn-group" dropdown style="width:23%;">
+                                        <button id="button-shift-end-meridian" dropdownToggle type="button"
+                                            class="btn btn-block btn-default dropdown-toggle"
+                                            aria-controls="button-shift-end-meridian">
+                                            {{shiftEndTime.meridian}} <span class="caret"></span>
+                                        </button>
+                                        <ul id="dropdown-shift-end-button-shift-end-meridian" *dropdownMenu
+                                            class="dropdown-menu" role="menu"
+                                            aria-labelledby="button-shift-end-meridian">
+                                            <li role="menuitem" (click)="setSift('end', 'meridian', 'AM')">
+                                                <a class="dropdown-item" href="javascript:void(0);">AM</a>
+                                            </li>
+                                            <li role="menuitem" (click)="setSift('end', 'meridian', 'PM')">
+                                                <a class="dropdown-item" href="javascript:void(0);">PM</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="posPIN" class="col-4 col-form-label">POS Un-Lock PIN</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="posPIN"
+                                        [(ngModel)]="userDetails.User.posUnlockPin">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="confirmPosPIN" class="col-4 col-form-label">Confirm Un-Lock PIN</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="confirmPosPIN"
+                                        [(ngModel)]="confirmPosUnlockPin">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label class="col-4 col-form-label">Permitted IP's</label>
+                                <div class="col">
+                                    <textarea class="form-control" name="permittedips" id="permittedips" rows="2"
+                                        style="resize:none"
+                                        (input)="setPermittedIps($event)">{{userDetails.User.permittedIps}}</textarea>
+                                    <small><i>(Add multiple IP's using a comma"," as the seperator)</i></small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label class="col-4 col-form-label">Comments</label>
+                                <div class="col">
+                                    <textarea class="form-control" name="comments" id="comments" rows="2"
+                                        style="resize:none"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <div class="col">
+                                    <div class="form-check form-check-inline">
+                                        <div class="chiller_cb">
+                                            <input type="checkbox" id="restrictReservation" value="option1">
+                                            <label class="form-check-label" for="restrictReservation">Restrict
+                                                Reservation on Minimum Bookable Nights</label>
+                                            <span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+            </div>
+        </div>
+
+        <div class="col-12 col-flexible" style="margin-top: 2px;">
+            <div class="form-container">
+                <section class="form-footer">
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-normal pull-right" style="margin-left:10px;"
+                                (click)="saveUser();">Save</button>
+                            <button class="btn btn-normal pull-right" style="margin-left:10px;">Reset</button>
+                            <button class="btn btn-normal pull-right" (click)="openUserBasicDetails()">Previous</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+    </div>
+</div>

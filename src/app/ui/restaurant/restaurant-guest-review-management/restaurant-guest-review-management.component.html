@@ -1,0 +1,532 @@
+<div class="cust-container" style="padding: 0px; margin: 10px 0px;">
+  <section class="rev-mng-filter-panel h-100">
+    <div class="row align-items-center h-100">
+        <div class="col">
+            <i class="fa fa-calendar"></i>&nbsp;&nbsp;{{ now | date : 'dd-MMMM-y | h:mm a' }}
+        </div>
+        <div class="col-sm-7 col-lg-5 h-100" style="padding: .3rem 16px;">
+            <div class="form-row h-100 align-items-center">
+                <div class="col">
+                    <input type="text" class="pull-right form-control"
+                        [class.blocked]="guestReviewList == null || guestReviewList.length <= 0" placeholder="Search"
+                        [(ngModel)]="filterSearchData" (ngModelChange)="changeSearchFilter($event)" />
+                </div>
+                <div class="col">
+                    <div class="btn-group w-100" dropdown
+                        [class.blocked]="guestReviewList == null || guestReviewList.length <= 0">
+                        <button dropdownToggle type="button" class="btn btn-block btn-default dropdown-toggle"
+                            aria-controls="paginate-count-menu">
+                            {{pageItems}} entries<span class="caret"></span>
+                        </button>
+                        <ul id="paginate-count-menu" *dropdownMenu class="dropdown-menu" role="menu">
+                            <li (click)="numPages({page: 1, itemsPerPage: 5})">
+                                <a class="dropdown-item point-cursor">5 entries</a>
+                            </li>
+                            <li (click)="numPages({page: 1, itemsPerPage: 10})">
+                                <a class="dropdown-item point-cursor">10 entries</a>
+                            </li>
+                            <li (click)="numPages({page: 1, itemsPerPage: 15})">
+                                <a class="dropdown-item point-cursor">15 entries</a>
+                            </li>
+                            <li (click)="numPages({page: 1, itemsPerPage: 20})">
+                                <a class="dropdown-item point-cursor">20 entries</a>
+                            </li>
+                            <!-- <perfect-scrollbar class="position-relative" [style.max-height.px]="250"
+                                [scrollIndicators]="true">
+                                <li role="menuitem" *ngFor="let employeeItem of hotelEmployeeData"
+                                    (click)="bulkAssignedEmployee = employeeItem">
+                                    <a class="dropdown-item">{{employeeItem.empName}}</a>
+                                </li>
+                            </perfect-scrollbar> -->
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-auto point-cursor" (click)="printData()"
+                    [class.blocked]="guestReviewList == null || guestReviewList.length <= 0">
+                    <img src="./assets/images/print-ico.png" alt="print"> <span
+                        style="position: relative;top:2px;padding-left:4px;">Print</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+  <div class="head-section">
+    <div class="row head-row">
+      <div
+        class="inner-col-right-reduce"
+        style="width: 50%; padding-left: 16px;"
+      >
+        <h5>Guest Management</h5>
+      </div>
+      
+    </div>
+ 
+
+    <div class="row body-row">
+      <div class="row col-md-12">
+        <div class="col-md-5">
+          <!-- <div class="col"> -->
+          <div class="card">
+            <div class="row col-md-12">
+              <div class="col-md-4 col-sm-4">
+                <!-- <label for="propertyName">Table No: </label> -->
+
+                <div class="form-group">
+                  <select
+                    class="form-control"
+                    [(ngModel)]="guestReviewData.table"
+                  >
+                    <option value="">Select Table</option>
+                    <option
+                      *ngFor="let allTable of guestAllTable"
+                      value="{{ allTable.tableId }}"
+                      >{{ allTable.tableNumber }}</option
+                    >
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4 col-sm-4">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="recipedetails"
+                    placeholder="Guest Name"
+                    [(ngModel)]="guestReviewData.guestName"
+                  />
+                </div>
+              </div>
+              <div class="col-md-4 col-sm-6">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="recipedetails"
+                    placeholder="Guest Number"
+                    [(ngModel)]="guestReviewData.guestNumber"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row col-md-12">
+              <div class="col-md-4 col-sm-6">
+                <!-- <label for="propertyName">Staff:  </label> -->
+
+                <div class="form-group">
+                  <!-- <select
+                    class="form-control"
+                    [(ngModel)]="guestReviewData.staff"
+                  >
+                    <option value="">Select Staff</option>
+                    <option
+                      *ngFor="let allStaff of guestAllStaff"
+                      value="{{ allStaff.empId }}"
+                      >{{ allStaff.empName }}</option
+                    >
+                  </select> -->
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Staff Name"
+                    [(ngModel)]="guestReviewData.staff"
+                  />
+                </div>
+              </div>
+              <div class="col-md-4 col-sm-6">
+                <div class="form-group form-row">
+                  <div class="input-group date-cal">
+                    <span>
+                      <i class="fa fa-calendar"></i>
+                    </span>
+                    <input
+                      bsDatepicker
+                      class="form-control"
+                      id="startDate"
+                      #dpsrt="bsDatepicker"
+                      type="text"
+                      [bsConfig]="bsConfigStart"
+                      placeholder="DD-MMM-YYYY"
+                      [(ngModel)]="guestReviewData.gdate"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 col-sm-6">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="recipedetails"
+                    placeholder="Guest email ids"
+                    [(ngModel)]="guestReviewData.guestEmail"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- </div> -->
+        </div>
+
+        <div class="col-md-7 col-sm-12">
+          <!-- <div class="col"> -->
+          <div class="card">
+            <div class="row col-12">
+              <div class="col-md-3 col-sm-6">
+                <div class="form-group">
+                  <select
+                    class="form-control"
+                    [(ngModel)]="guestReviewData.foodQuality"
+                  >
+                    <option value="">Food Quality</option>
+                    <option
+                      *ngFor="let reviewTypeMaster of guestReviewTypeMaster"
+                      value="{{ reviewTypeMaster.reviewId }}"
+                      >{{ reviewTypeMaster.reviewDesc }}</option
+                    >
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-3 col-sm-6">
+                <div class="form-group">
+                  <select
+                    class="form-control"
+                    [(ngModel)]="guestReviewData.service"
+                  >
+                    <option value="">Service</option>
+                    <option
+                      *ngFor="let reviewTypeMaster of guestReviewTypeMaster"
+                      value="{{ reviewTypeMaster.reviewId }}"
+                      >{{ reviewTypeMaster.reviewDesc }}</option
+                    >
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-3 col-sm-6">
+                <div class="form-group">
+                  <select
+                    class="form-control"
+                    [(ngModel)]="guestReviewData.ambience"
+                  >
+                    <option value="">Ambience</option>
+                    <option
+                      *ngFor="let reviewTypeMaster of guestReviewTypeMaster"
+                      value="{{ reviewTypeMaster.reviewId }}"
+                      >{{ reviewTypeMaster.reviewDesc }}</option
+                    >
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-3 col-sm-6">
+                <div class="form-group">
+                  <select
+                    class="form-control"
+                    id="category"
+                    [(ngModel)]="guestReviewData.rating"
+                  >
+                    <option value="">Ratings</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row col-12">
+              <div class="col-md-3 col-sm-6">
+                <div class="form-group">
+                  <select
+                    class="form-control"
+                    [(ngModel)]="guestReviewData.staffRating"
+                  >
+                    <option value="">Staff Ratings</option>
+                    <option
+                      *ngFor="let reviewTypeMaster of guestReviewTypeMaster"
+                      value="{{ reviewTypeMaster.reviewId }}"
+                      >{{ reviewTypeMaster.reviewDesc }}</option
+                    >
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4 col-sm-6">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="recipedetails"
+                    placeholder="Enter Comments"
+                    [(ngModel)]="guestReviewData.comments"
+                  />
+                </div>
+              </div>
+              <div class="col-md-5 col-sm-12">
+                <div class="form-group">
+                  <button
+                    class="btn btn-normal ml-0"
+                    type="button"
+                    mwlConfirmationPopover
+                    [popoverTitle]="popoverTitle2"
+                    [popoverMessage]="popoverMessage2"
+                    [confirmText]="confirmText1"
+                    [cancelText]="cancelText1"
+                    placement="right"
+                    (confirm)="guestRiviewAdd()"
+                    (cancel)="cancelClicked = true"
+                    confirmButtonType="coninfo"
+                    cancelButtonType="light"
+                  >
+                    <i
+                      class="fa fa-plus"
+                      aria-hidden="true"
+                      style="color: #fff;"
+                    ></i>
+                    Save
+                  </button>
+                  &nbsp;
+                  <button
+                    class="btn btn-normal ml-0"
+                    type="button"
+                    (click)="clearSearch()"
+                  >
+                    Clear
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="body-section cust-container" style="padding: 0;">
+  <div class="row body-row">
+    <div class="table-responsive">
+      <div class="divDisplayTable">
+        <div class="divDisplayTableRow" id="tableHeaderRow">
+          <div class="divDisplayTableCell head text-center" style="width: 7%;">
+            SL. NO.
+          </div>
+          <div class="divDisplayTableCell head text-center" style="width: 10%;">
+            Date
+          </div>
+          <div class="divDisplayTableCell head text-center" style="width: 12%;">
+            Guest Name
+          </div>
+          <div class="divDisplayTableCell head text-center" style="width: 12%;">
+            Staff Name
+          </div>
+          <div class="divDisplayTableCell head text-center" style="width: 10%;">
+            Quality
+          </div>
+          <div class="divDisplayTableCell head text-center" style="width: 10%;">
+            Service
+          </div>
+          <div class="divDisplayTableCell head text-center" style="width: 10%;">
+            Ambience
+          </div>
+          <div class="divDisplayTableCell head text-center" style="width: 10%;">
+            Staff Ratings
+          </div>
+          <div class="divDisplayTableCell head text-center" style="width: 10%;">
+            Overall Score
+          </div>
+          <div class="divDisplayTableCell head text-center" style="width: 10%;">
+            Action
+          </div>
+        </div>
+      </div>
+
+      <perfect-scrollbar
+        *ngIf="
+          guestReviewList != null && guestReviewList.length > 0;
+          else noDataBody
+        "
+        class="scroll-container position-relative"
+        [style.max-height.px]="304"
+        [scrollIndicators]="true"
+      >
+        <div class="divDisplayTable mb-1">
+          <div
+            class="divDisplayTableRow"
+            *ngFor="let item of paginateBookingList; let i = index"
+          >
+            <div
+              class="divDisplayTableCell brdLft text-center"
+              style="width: 7%;"
+            >
+              {{ item.slNo }}
+            </div>
+            <div
+              class="divDisplayTableCell brdLft text-center"
+              style="width: 10%;"
+            >
+              {{ item.reviewDate }}
+            </div>
+            <div
+              class="divDisplayTableCell brdLft text-center"
+              style="width: 12%;"
+            >
+              {{ item.guestName }}
+            </div>
+            <div
+              class="divDisplayTableCell brdLft text-center"
+              style="width: 12%;"
+            >
+              {{ item.staffName }}
+            </div>
+            <div
+              class="divDisplayTableCell brdLft text-center"
+              style="width: 10%;"
+            >
+              {{ item.qualityDesc }}
+            </div>
+            <div
+              class="divDisplayTableCell brdLft text-center"
+              style="width: 10%;"
+            >
+              {{ item.serviceDesc }}
+            </div>
+            <div
+              class="divDisplayTableCell brdLft text-center"
+              style="width: 10%;"
+            >
+              {{ item.ambienceDesc }}
+            </div>
+            <div
+              class="divDisplayTableCell brdLft text-center"
+              style="width: 10%;"
+            >
+              {{ item.staffRatingDesc }}
+            </div>
+            <div
+              class="divDisplayTableCell brdLft text-center"
+              style="width: 10%;"
+            >
+              {{ item.overallScore }}
+            </div>
+            <div
+              class="divDisplayTableCell brdLft text-left"
+              style="width: 10%;"
+            >
+              <div
+                class="d-inline-block point-cursor"
+                *ngIf="i < guestListLength"
+              >
+                <button
+                  style="padding: 0; cursor: pointer;"
+                  class="btn btn-default"
+                  mwlConfirmationPopover
+                  [popoverTitle]=""
+                  [popoverMessage]="popoverMessage"
+                  placement="bottom"
+                  [confirmText]="confirmText1"
+                  [cancelText]="cancelText1"
+                  (confirm)="deleteGuestReview(item.guestReviewMapId)"
+                  (cancel)="cancelClicked = true"
+                  confirmButtonType="coninfo"
+                  cancelButtonType="light"
+                >
+                  <img src="./assets/images/delete.png" alt="create amenity" />
+                </button>
+              </div>
+              <div
+                class="d-inline-block point-cursor"
+                *ngIf="i >= guestListLength"
+              >
+                <button
+                  style="padding: 0; cursor: pointer;"
+                  class="btn btn-default"
+                  mwlConfirmationPopover
+                  [popoverTitle]=""
+                  [popoverMessage]="popoverMessage"
+                  placement="top"
+                  [confirmText]="confirmText1"
+                  [cancelText]="cancelText1"
+                  (confirm)="deleteGuestReview(item.guestReviewMapId)"
+                  (cancel)="cancelClicked = true"
+                  confirmButtonType="coninfo"
+                  cancelButtonType="light"
+                >
+                  <img src="./assets/images/delete.png" alt="create amenity" />
+                </button>
+              </div>
+              &nbsp;
+              <div
+                class="d-inline-block point-cursor"
+                (click)="editGuestReview(item)"
+              >
+                <img src="./assets/images/save.png" alt="create amenity" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </perfect-scrollbar>
+
+      <ng-template #noDataBody>
+        <div class="divDisplayTable">
+          <div
+            class="divDisplayTableRow"
+            *ngIf="guestReviewList != null && guestReviewList.length == 0"
+          >
+            <div class="divDisplayTableCell text-center" style="width: 100%;">
+              No Data Found
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-3" *ngIf="guestReviewList != null">
+    <div class="col-auto mx-auto text-center" *ngIf="guestReviewList.length">
+        <pagination [totalItems]="guestReviewList.length" [(ngModel)]="currentPage" [boundaryLinks]="true"
+            [maxSize]="5" [itemsPerPage]="pageItems" previousText="&lsaquo;" firstText="&laquo;"
+            lastText="&raquo;" nextText="&rsaquo;" (pageChanged)="pageChanged($event)"></pagination>
+    </div>
+</div>
+</div>
+<div class="printSection" id="printSection" style="display: none;">
+  <table border="1" style="width: 100%; border-collapse: collapse">
+      <tr>
+          <!-- <td style="width:4%; text-align: center;">#</td> -->
+          <td style="width:10%; text-align: center;">SL. NO.</td>
+          <td style="width:10%; text-align: center;">Date</td>
+          <td style="width:15%; text-align: center;">Guest Name</td>
+          <td style="width:15%; text-align: center;">Staff Name</td>
+          <td style="width:10%; text-align: center;">Quality</td>
+          <td style="width:10%; text-align: center;">Service</td>
+          <td style="width:10%; text-align: center;">Ambience</td>
+          <td style="width:10%; text-align: center;">Staff Ratings</td>
+          <td style="width:10%; text-align: center;">Overall Score</td>
+          
+      </tr>
+      <tr *ngFor="let item of guestReviewList; let i = index;">
+          <!-- <td style="width:4%; text-align: center;">{{i+1}}</td> -->
+          <td style="width:10%; text-align: center;">{{i+1}}</td>
+          <td style="width:15%; text-align: center;">{{ item.reviewDate }}</td>
+          <td style="width:15%; text-align: center;">
+            {{ item.guestName }}
+          </td>
+          <td style="width:10%; text-align: center;">{{ item.staffName }}</td>
+          <td style="width:10%; text-align: center;">{{ item.qualityDesc }}</td>
+          <td style="width:10%; text-align: center;">{{ item.serviceDesc }}</td>
+          <td style="width:10%; text-align: center;">{{ item.ambienceDesc }}</td>
+          <td style="width:10%; text-align: center;">{{ item.staffRatingDesc }}</td>
+          <td style="width:10%; text-align: center;">{{ item.overallScore }}</td>
+         
+      </tr>
+  </table>
+</div>
+<ng4-loading-spinner
+  [timeout]="1300000"
+  [loadingText]="'Please wait...'"
+></ng4-loading-spinner>

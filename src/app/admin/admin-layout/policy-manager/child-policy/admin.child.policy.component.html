@@ -1,0 +1,226 @@
+<div class="container-fluid" style="padding:10px 0px; ">
+    <h5>Child Policy</h5>
+
+    <div class="row">
+
+        <div class="col-12 col-flexible">
+            <alert *ngIf="alertMessageDetails.response" [type]="alertMessageDetails.type" [dismissible]="true" class="text-center">
+                {{alertMessageDetails.message}}
+            </alert>
+        </div>
+
+        <div class="col">
+            <div class="table-responsive">
+
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow" id="tableHeaderRow">
+                        <div class="divDisplayTableCell head brdLft text-center" style="width:7%;">Sl. No.</div>
+                        <!-- <div class="divDisplayTableCell head text-center" style="width:5%;">
+                            <input type="checkbox" name="head" id="headckb" [(ngModel)]="allChildPolicyCkbox" (change)="selectChildPolicyCKBStatus('all')">                            
+                        </div> -->
+                        <div class="divDisplayTableCell head text-center" style="width:15%;">Category</div>
+                        <div class="divDisplayTableCell head text-center" style="width:8%;">Min Age</div>
+                        <div class="divDisplayTableCell head text-center" style="width:8%;">Max Age</div>
+                        <div class="divDisplayTableCell head text-center" style="width:14%;">Room Night(s)</div>
+                        <div class="divDisplayTableCell head text-center" style="width:12%;">% of Booking</div>
+                        <div class="divDisplayTableCell head text-center" style="width:10%;">Amount</div>
+                        <div class="divDisplayTableCell head text-center" style="width:10%;">Value</div>
+                        <div class="divDisplayTableCell head text-center" style="width:10%;">Actions</div>
+                    </div>
+                </div>
+
+                <perfect-scrollbar class="position-relative" [style.max-height.px]="scrollBarContainerHeight" [scrollIndicators]="true">
+
+                    <div class="divDisplayTable">
+                        <div class="divDisplayTableRow" *ngFor="let policyItem of childPolicyList; let i = index;">
+                            <div class="divDisplayTableCell brdLft text-center" style="width:7%;">{{i+1}}</div>
+                            <!-- <div class="divDisplayTableCell text-center" style="width:5%;">
+                            <input type="checkbox" name="childPolicyCkb" id="cpckb_{{i}}" [(ngModel)]="policyItem.checked" (change)="selectChildPolicyCKBStatus(policyItem)">
+                        </div> -->
+
+                            <div class="divDisplayTableCell text-center" style="width:15%;">
+                                <span [hidden]="policyItem.editable">
+                                    {{policyItem.childPolicyName}}
+                                </span>
+                                <input [hidden]="!policyItem.editable" type="text" name="editChildPolicyCategory" id="editChildPolicyCategory_{{i}}" [(ngModel)]="policyItem.childPolicyName" class="edit-input-box" />
+                            </div>
+
+                            <div class="divDisplayTableCell text-center" style="width:8%;padding-left:2%;padding-right:2%;">
+                                <span [hidden]="policyItem.editable">{{policyItem.minAge}}</span>
+                                <div [hidden]="!policyItem.editable" class="btn-group btn-block" dropdown>
+                                    <button dropdownToggle type="button" class="btn btn-dropdown dropdown-toggle">
+                                        {{policyItem.minAge}} <span class="caret"></span>
+                                    </button>
+                                    <ul *dropdownMenu class="dropdown-menu" role="menu">
+                                        <li role="menuitem"><a class="dropdown-item">0</a></li>
+                                        <li role="menuitem"><a class="dropdown-item">1</a></li>
+                                        <li role="menuitem"><a class="dropdown-item">2</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="divDisplayTableCell text-center" style="width:8%;padding-left:2%;padding-right:2%;">
+                                <span [hidden]="policyItem.editable">{{policyItem.maxAge}}</span>
+                                <div [hidden]="!policyItem.editable" class="btn-group btn-block" dropdown>
+                                    <button dropdownToggle type="button" class="btn btn-dropdown dropdown-toggle">
+                                        {{policyItem.maxAge}} <span class="caret"></span>
+                                    </button>
+                                    <ul *dropdownMenu class="dropdown-menu" role="menu">
+                                        <li role="menuitem"><a class="dropdown-item">0</a></li>
+                                        <li role="menuitem"><a class="dropdown-item">1</a></li>
+                                        <li role="menuitem"><a class="dropdown-item">2</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+
+                            <div class="divDisplayTableCell text-center" style="width:14%;">
+                                <!-- <div class="d-inline-block">                                
+                                <img [hidden]="policyItem.editable && policyItem.percentageOfBooking != '0'" src="./assets/images/iconfinder_tick_16_22643.png" alt="true">                                
+                                
+                                <img [hidden]="policyItem.editable && policyItem.percentageOfBooking == '0'" src="./assets/images/iconfinder_DeleteRed.png" alt="true">
+                                [hidden]="!policyItem.editable"
+                            </div> -->
+                                <label class="radio" for="chkinchkoutpolicy_{{i}}">&nbsp;
+                                    <input type="radio" name="chkinChkoutPolicyRadio_{{policyItem.childPolicyId}}" [checked]="policyItem.percentageOfBooking == '0'" [value]="policyItem.childPolicyId" id="chkinchkoutpolicy_{{i}}" (change)="onSelectionChange('edit', '0')">
+                                    <span class="checkround"></span>
+                                </label>
+                            </div>
+
+
+                            <div class="divDisplayTableCell text-center" style="width:12%;">
+                                <label class="radio" for="chkinchkoutpolicy_{{i}}">&nbsp;
+                                    <input type="radio" name="chkinChkoutPolicyRadio_{{policyItem.childPolicyId}}" [checked]="policyItem.percentageOfBooking == '1'" [value]="policyItem.childPolicyId" id="chkinchkoutpolicy_{{i}}" (change)="onSelectionChange('edit', '1')">
+                                    <span class="checkround"></span>
+                                </label>
+                            </div>
+
+                            <div class="divDisplayTableCell text-center" style="width:10%;">
+                                <label class="radio" for="chkinchkoutpolicy_{{i}}">&nbsp;
+                                    <input type="radio" name="chkinChkoutPolicyRadio_{{policyItem.childPolicyId}}" [checked]="policyItem.percentageOfBooking == '2'" [value]="policyItem.childPolicyId" id="chkinchkoutpolicy_{{i}}" (change)="onSelectionChange('edit', '2')">
+                                    <span class="checkround"></span>
+                                </label>
+                            </div>
+
+                            <div class="divDisplayTableCell text-center" style="width:10%;">
+                                <span [hidden]="policyItem.editable">{{policyItem.charge}}</span>
+                                <input [hidden]="!policyItem.editable" type="text" name="editChildPolicyCategory" id="editChildPolicyCategory_{{i}}" [(ngModel)]="policyItem.charge" class="edit-input-box" style="width:70%" />
+                            </div>
+
+                            <div class="divDisplayTableCell text-center" style="width:10%;">
+                                <div class="d-inline-block point-cursor" (click)="policyItem.editable = !policyItem.editable">
+                                    <img *ngIf="!policyItem.editable" src="./assets/images/edit.png" alt="edit">
+                                    <i *ngIf="policyItem.editable" style="color:#6787BF;" class="fa fa-save" alt="save"></i>
+                                </div>
+                                <div class="d-inline-block point-cursor" style="margin-left: 10px;" (click)="openConfirmModal(i)">
+                                    <img src="./assets/images/delete.png" alt="delete">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="divDisplayTableRow" *ngIf="showAddChildPolicyRow">
+                            <div class="divDisplayTableCell brdLft" style="width:7%;">&nbsp;</div>
+                            <div class="divDisplayTableCell  text-center" style="width:15%;">
+                                <input type="text" name="addChildPolicyCategory" id="addChildPolicyCategory" [(ngModel)]="newChildPolicy.childPolicyName" class="edit-input-box" style="width:90%" />
+                            </div>
+                            <div class="divDisplayTableCell  text-center" style="width:8%;">
+                                <input type="text" name="addChildPolicyMinAge" id="addChildPolicyMinAge" [(ngModel)]="newChildPolicy.minAge" class="edit-input-box" style="width:90%" />
+                                <!-- <div class="btn-group btn-block" dropdown>
+                                        <button dropdownToggle type="button" class="btn btn-dropdown dropdown-toggle">
+                                            {{newChildPolicy.maxAge}} <span class="caret"></span>
+                                        </button>
+                                        <ul *dropdownMenu class="dropdown-menu" role="menu">
+                                            <li role="menuitem" *ngFor="let monthItem of monthList">
+                                                <a class="dropdown-item">{{monthItem}}&nbsp;Months</a>
+                                            </li>
+                                            <li role="menuitem" *ngFor="let yearItem of yearList">
+                                                <a class="dropdown-item">{{yearItem}}&nbsp;Years</a>
+                                    </li>
+                                </ul>
+                            </div> -->
+                            </div>
+
+                            <div class="divDisplayTableCell  text-center" style="width:8%;">
+                                <input type="text" name="addChildPolicyMaxAge" id="addChildPolicyMaxAge" [(ngModel)]="newChildPolicy.maxAge" class="edit-input-box" style="width:90%" />
+                                <!-- <div class="btn-group btn-block" dropdown>
+                                <button dropdownToggle type="button" class="btn btn-dropdown dropdown-toggle">
+                                    {{newChildPolicy.minAge}} <span class="caret"></span>
+                                </button>
+                                <ul *dropdownMenu class="dropdown-menu" role="menu">
+                                    <li role="menuitem" *ngFor="let monthItem of monthList">
+                                        <a class="dropdown-item">{{monthItem}}&nbsp;Months</a>
+                                    </li>
+                                    <li role="menuitem" *ngFor="let yearItem of yearList">
+                                        <a class="dropdown-item">{{yearItem}}&nbsp;Years</a>
+                                    </li>
+                                </ul>
+                            </div> -->
+                            </div>
+
+                            <div class="divDisplayTableCell text-center" style="width:14%;">
+                                <input type="radio" name="newChildPolicyRadio" id="newChildPolicyRadio_0" [checked]="newChildPolicy.percentageOfBooking == '0'" [value]="newChildPolicyId" (change)="onSelectionChange('new', '0')">
+                            </div>
+
+                            <div class="divDisplayTableCell text-center" style="width:12%;">
+                                <input type="radio" name="newChildPolicyRadio" id="newChildPolicyRadio_1" [checked]="newChildPolicy.percentageOfBooking == '1'" [value]="newChildPolicyId" (change)="onSelectionChange('new', '1')">
+                            </div>
+
+                            <div class="divDisplayTableCell text-center" style="width:10%;">
+                                <input type="radio" name="newChildPolicyRadio" id="newChildPolicyRadio_2" [checked]="newChildPolicy.percentageOfBooking == '2'" [value]="newChildPolicyId" (change)="onSelectionChange('new', '2')">
+                            </div>
+
+                            <div class="divDisplayTableCell text-center" style="width:10%;">
+                                <input type="text" name="addChildPolicyCharge" id="addChildPolicyCharge" [(ngModel)]="newChildPolicy.charge" class="edit-input-box" style="width:90%" />
+                            </div>
+
+                            <div class="divDisplayTableCell text-center" style="width:10%;">
+                                <div class="d-inline-block point-cursor" (click)="saveNewChildPolicy();">
+                                    <img src="./assets/images/save.png" alt="create child policy">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </perfect-scrollbar>
+
+                <!-- <ng-template #popTemplate>
+
+                    <div class="table-responsive" style="width:400px;">
+                        <div class="divDisplayTable">
+                            <div class="divDisplayTableRow" id="tableHeaderRow">
+                                <div class="divDisplayTableCell head brdLft text-center" style="width:15%;">Sl. No.</div>
+                                <div class="divDisplayTableCell head text-center" style="width:10%;">
+                                    <input type="checkbox" name="body" id="headCkb" [(ngModel)]="allCkbox" (change)="selectCKBStatus('all')">
+                                </div>
+                                <div class="divDisplayTableCell head text-center" style="width:35%;">Policies</div>
+                            </div>
+                            <div class="divDisplayTableRow" *ngFor="let policyItem of policyList">
+                                <div class="divDisplayTableCell brdLft text-center" style="width:15%;">{{policyItem.policyId}}</div>
+                                <div class="divDisplayTableCell text-center" style="width:10%;">
+                                    <input type="checkbox" name="body" id="policyckb_{{i}}" [(ngModel)]="policyItem.checked" (change)="selectCKBStatus(policyItem)">
+                                </div>
+                                <div class="divDisplayTableCell text-left" style="width:15%;">{{policyItem.name}}</div>
+                            </div>
+                        </div>
+                        <div class="col text-center table-footer">
+                            <button class="btn btn-normal">Ok</button>
+                        </div>
+                    </div>
+
+                </ng-template> -->
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="footerButtonContainer" style="margin-top:20px;">
+        <div class="col point-cursor">
+            <span class="badge badge-sky" style="vertical-align:text-top;"><i class="fa fa-plus"></i></span>
+            <div style="margin-left:6px;display: inline-block;" (click)="createChildPolicy()">Add</div>
+        </div>
+
+        <div class="col">
+            <!-- <button class="btn btn-normal pull-right" type="submit">Save</button> -->
+            <!-- <button class="btn btn-normal pull-right" type="submit">Reset</button> -->
+        </div>
+    </div>
+</div>

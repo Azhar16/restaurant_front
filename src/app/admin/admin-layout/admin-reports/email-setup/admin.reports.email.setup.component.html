@@ -1,0 +1,131 @@
+<div class="container-fluid" style="padding:10px 0px; ">
+    <div class="row booking-row">
+
+        <div class="col-12 col-flexible">
+            <div class="form-container">
+                <header>
+                    Email Configuration
+                    <span class="pull-right point-cursor">&times;</span>
+                </header>
+
+                <section>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label for="accountName">Account Name</label>
+                                <input type="text" class="form-control" id="accountName" name="accountName" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label for="outgoingEmailServer">Outgoing (SMTP) email server <span style="color:red;">*</span></label>
+                                <input type="text" class="form-control" id="outgoingEmailServer" name="outgoingEmailServer" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label for="accountName">Email address</label>
+                                <input type="email" class="form-control" id="emailAddress" name="emailAddress" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label for="outgoingEmailServer">User nmae <span style="color:red;">*</span></label>
+                                <input type="text" class="form-control" id="userName" name="userName" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label for="accountName">Account type <span style="color:red;">*</span></label>
+                                <div class="btn-group" dropdown>
+                                    <button id="button-decimal-place" dropdownToggle type="button" class="btn btn-block btn-default dropdown-toggle" aria-controls="dropdown-decimal-place">
+                                        IMAP4 <span class="caret"></span>
+                                    </button>
+                                    <ul id="dropdown-decimal-place" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-decimal-place">
+                                        <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">1</a></li>
+                                        <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">2</a></li>
+                                        <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">3</a></li>
+                                        <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">4</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label for="outgoingEmailServer">Password <span style="color:red;">*</span></label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-check form-check-inline">
+                                <div class="chiller_cb">
+                                    <input type="checkbox" class="form-check-input" id="serverAuth">
+                                    <label class="form-check-label" for="serverAuth">Outgoing server requires authentication</label>
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-check form-check-inline">
+                                <div class="chiller_cb">
+                                    <input type="checkbox" class="form-check-input" id="tslemail">
+                                    <label class="form-check-label" for="tslemail">Require TSL for outgoing email</label>
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-check form-check-inline">
+                                <div class="chiller_cb">
+                                    <input type="checkbox" class="form-check-input" id="sendEmailPass">
+                                    <label class="form-check-label" for="sendEmailPass">Use the same user name and password for sending email</label>
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-check form-check-inline">
+                                <div class="chiller_cb">
+                                    <input type="checkbox" class="form-check-input" id="sslemail">
+                                    <label class="form-check-label" for="sslemail">Require SSL for outgoing email</label>
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+            </div>
+        </div>
+
+        <div class="col-12 col-flexible" style="margin-top: 2px;">
+            <div class="form-container">
+                <section>
+                    <div class="row">
+                        <div class="col">
+                            <span style="color:red;">*</span> <small>Fields are mandatory</small>
+                        </div>
+                        <div class="col">
+                            <button class="btn  btn-normal pull-right"> Update </button>
+                            <button class="btn  btn-normal pull-right"> Reset </button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+
+    </div>
+</div>

@@ -1,0 +1,147 @@
+<div class="container-fluid" style="padding:10px 0px; ">
+    <h5>No Show Policy</h5>
+
+    <div class="row">
+
+        <div class="col-12 col-flexible">
+            <alert *ngIf="alertMessageDetails.response" [type]="alertMessageDetails.type" [dismissible]="true" class="text-center">
+                {{alertMessageDetails.message}}
+            </alert>
+        </div>
+
+        <div class="col">
+            <div class="table-responsive">
+
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow" id="tableHeaderRow">
+                        <div class="divDisplayTableCell head brdLft text-center" style="width:8%;">Sl. No.</div>
+                        <div class="divDisplayTableCell head text-center" style="width:8%;">Apply</div>
+                        <div class="divDisplayTableCell head text-center" style="width:18%;">Name</div>
+                        <div class="divDisplayTableCell head text-center" style="width:10%;">Hours</div>
+                        <div class="divDisplayTableCell head text-center" style="width:28%;">Descriptions</div>
+                        <div class="divDisplayTableCell head text-center" style="width:18%;">Charges</div>
+                        <div class="divDisplayTableCell head text-center" style="width:10%;">Actions</div>
+                    </div>
+                </div>
+
+                <perfect-scrollbar class="position-relative" [style.max-height.px]="scrollBarContainerHeight" [scrollIndicators]="true">
+
+                    <div class="divDisplayTable">
+                        <div class="divDisplayTableRow" *ngFor="let policyItem of noShowPolicyList; let i = index;">
+                            <div class="divDisplayTableCell brdLft text-center" style="width:8%;">{{i+1}}</div>
+
+                            <div class="divDisplayTableCell text-center" style="width:8%;">
+                                <label class="radio" for="nsRadio_{{i}}">&nbsp;
+                                    <input type="radio" name="nsAppliedPolicy" id="nsRadio_{{i}}" value="policyItem.noshowPolicyID" [checked]="policyItem.applied">
+                                    <span class="checkround"></span>
+                                </label>
+                            </div>
+
+                            <div class="divDisplayTableCell text-left" style="width:18%;padding-left: 10px;">
+                                <span [hidden]="policyItem.editable">
+                                    {{policyItem.nsPolicyName}}
+                                </span>
+                                <input [hidden]="!policyItem.editable" type="text" name="editNoShowName" id="editNoShowName_{{i}}" [(ngModel)]="policyItem.nsPolicyName" class="edit-input-box" />
+                            </div>
+
+
+                            <div class="divDisplayTableCell text-center" style="width:10%;padding-left: 10px;">
+                                <span [hidden]="policyItem.editable">
+                                    {{policyItem.hours}}
+                                </span>
+                                <input [hidden]="!policyItem.editable" type="text" name="editNoShowHour" id="editNoShowHour_{{i}}" [(ngModel)]="policyItem.hours" class="edit-input-box" />
+                            </div>
+
+                            <div class="divDisplayTableCell text-left" style="width:28%;padding-left: 10px;">
+                                <span [hidden]="policyItem.editable">
+                                    {{policyItem.hoursDesc}}
+                                </span>
+                                <input [hidden]="!policyItem.editable" type="text" name="editNoShowDesc" id="editRatePlanDesc_{{i}}" [(ngModel)]="policyItem.hoursDesc" class="edit-input-box" />
+                            </div>
+
+                            <div class="divDisplayTableCell text-center position-relative" style="width:18%;">
+                                <div *ngIf="!policyItem.editable" class="d-inline-block text-right" style="margin-right: 10px; top:0px; width:55%">
+                                    <span>{{policyItem.charge}}</span>
+                                </div>
+                                <div *ngIf="!policyItem.editable" class="d-inline-block text-center" style="width:30%">
+                                    <div class="decimal-percent-badge">{{policyItem.percent ? '%' : '.00'}}</div>
+                                </div>
+                                <div *ngIf="policyItem.editable" class="d-inline-block text-center position-absolute" style="width:55%;left:5%;top:5px;">
+                                    <input type="text" name="editTaxAmt" id="editTaxAmt_{{i}}" [(ngModel)]="policyItem.charge" class="edit-input-box" />
+                                </div>
+                                <div *ngIf="policyItem.editable" class="d-inline-block position-absolute" style="width:30%;right: 6%;top:5px;">
+                                    <div class="input_wrapper">
+                                        <input type="checkbox" class="switch_4" [(ngModel)]="policyItem.percent">
+                                        <span class="is_checked">%</span>
+                                        <span class="is_unchecked">.00</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="divDisplayTableCell text-center" style="width:10%;">
+                                <div class="d-inline-block point-cursor" (click)="policyItem.editable = !policyItem.editable">
+                                    <img *ngIf="!policyItem.editable" src="./assets/images/edit.png" alt="edit">
+                                    <i *ngIf="policyItem.editable" style="color:#6787BF;" class="fa fa-save" alt="save" (click)="editNoShowPolicy(policyItem)"></i>
+                                </div>
+                                <div class="d-inline-block point-cursor" style="margin-left: 10px;" (click)="openConfirmModal(i)">
+                                    <img src="./assets/images/delete.png" alt="delete">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="divDisplayTableRow" *ngIf="showAddNoShowRow">
+                            <div class="divDisplayTableCell brdLft" style="width:8%;">
+                                &nbsp;
+                            </div>
+                            <div class="divDisplayTableCell brdLft" style="width:8%;">
+                                &nbsp;
+                            </div>
+                            <div class="divDisplayTableCell text-center" style="width:18%;">
+                                <input type="text" name="addNoShowName" id="addNoShowName" [(ngModel)]="newNoShowPolicy.nsPolicyName" class="edit-input-box" />
+                            </div>
+                            <div class="divDisplayTableCell text-center" style="width:10%;">
+                                <input type="text" name="addNoShowHour" id="addNoShowHour" [(ngModel)]="newNoShowPolicy.hours" class="edit-input-box" />
+                            </div>
+                            <div class="divDisplayTableCell text-center" style="width:28%;">
+                                <input type="text" name="addNoShowDesc" id="addNoShowDesc" [(ngModel)]="newNoShowPolicy.hoursDesc" class="edit-input-box" />
+                            </div>
+                            <div class="divDisplayTableCell position-relative" style="width:18%;">
+                                <div class="d-inline-block text-center position-absolute" style="width:55%;left:5%;top:5px;">
+                                    <input type="text" name="addNoShowCharge" id="addNoShowCharge" [(ngModel)]="newNoShowPolicy.charge" class="edit-input-box" />
+                                </div>
+                                <div class="d-inline-block position-absolute" style="width:30%;right: 6%;top:5px;">
+                                    <div class="input_wrapper">
+                                        <input type="checkbox" class="switch_4" [(ngModel)]="newNoShowPolicy.percent">
+                                        <span class="is_checked">%</span>
+                                        <span class="is_unchecked">.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="divDisplayTableCell text-center" style="width:10%;">
+                                <div class="d-inline-block point-cursor" (click)="saveNoShowPolicy();">
+                                    <img src="./assets/images/save.png" alt="Add No Show Policy">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </perfect-scrollbar>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="footerButtonContainer" style="margin-top:20px;">
+        <div class="col">
+            <div class="d-inline-block point-cursor" (click)="displayAddNoShowPolicy();">
+                <span class="badge badge-sky" style="vertical-align:text-top;"><i class="fa fa-plus"></i></span>
+                <div style="margin-left:6px;display: inline-block;">Add</div>
+            </div>
+        </div>
+
+        <div class="col">
+            <!-- <button class="btn btn-normal pull-right" type="submit">Save</button> -->
+            <!-- <button class="btn btn-normal pull-right" type="submit">Reset</button> -->
+        </div>
+    </div>
+</div>

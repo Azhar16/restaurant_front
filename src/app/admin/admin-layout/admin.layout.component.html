@@ -1,0 +1,129 @@
+<app-admin-header></app-admin-header>
+
+<div class="container-fluid">
+
+    <div class="row admin-container">
+        <div class="col-3" style="padding-right:0px">
+
+            <!-- Sidebar -->
+            <perfect-scrollbar class="position-relative" [style.max-height.px]="scrollBarContainerHeight" [scrollIndicators]="true">
+                <div class="nav-side-menu">
+
+                    <div class="menu-list">
+                        <ul id="menu-content" class="menu-content collapse out" id="menu-list">
+
+                            <li data-toggle="collapse" class="main-li-menu collapsed" routerLinkActive="active" routerLink="./general">
+                                <a href="javascript:void(0)">General <span class="arrow"></span></a>
+                            </li>
+
+                            <li data-toggle="collapse" class="main-li-menu collapsed" routerLinkActive="active" routerLink="./departments">
+                                <a href="javascript:void(0)">Departments <span class="arrow"></span></a>
+                            </li>
+
+                            <li data-toggle="collapse" data-target="#compinfo" class="main-li-menu collapsed blocked">
+                                <a href="javascript:void(0)">Company Info <span class="arrow"></span></a>
+                            </li>
+                            <ul class="sub-menu collapse" id="compinfo">
+                                <li>Sensorkonfiguration</li>
+                                <li>Betriebsarten</li>
+                            </ul>
+
+                            <li data-toggle="collapse" data-target="#service" class="main-li-menu collapsed" data-parent="#menu-list">
+                                <!-- <a href="javascript:void(0)"><i class="fa fa-globe fa-lg"></i> Room Manager <span class="arrow"></span></a> -->
+                                <a href="javascript:void(0)">Room Manager <div class="arrow"></div></a>
+                            </li>
+                            <ul class="sub-menu collapse" id="service">
+                                <li routerLinkActive="active" routerLink="./floorsandrooms"><span>Floors</span></li>
+                                <li routerLinkActive="active" routerLink="./roomunits"><span>Rooms</span></li>
+                                <li routerLinkActive="active" routerLink="./roomtypes"><span>Room Types</span></li>
+                                <li routerLinkActive="active" routerLink="./taxes"><span>Room Taxes</span></li>
+                                <li routerLinkActive="active" routerLink="./amenities"><span>Amenities</span></li>
+                                <li routerLinkActive="active" routerLink="./phoneextension"><span>Phone Extensions</span></li>
+                                <li class="blocked"><span>Blocks</span></li>
+                                <li class="blocked"><span>Short Rooms</span></li>
+                                <li class="blocked"><span>Display Colours</span></li>
+                                <li class="blocked"><span>Overbooking</span></li>
+                            </ul>
+
+                            <li data-toggle="collapse" data-target="#pricemanager" class="main-li-menu collapsed" data-parent="#menu-list">
+                                <a href="javascript:void(0)">Price Manager<div class="arrow"></div></a>
+                            </li>
+                            <ul class="sub-menu collapse" id="pricemanager">
+                                <li routerLinkActive="active" routerLink="./rateplans"><span>Rate Plans</span></li>
+                                <li routerLinkActive="active" routerLink="./rateupdate"><span>Rate Update</span></li>
+                                <li routerLinkActive="active" routerLink="./rateavalabilityandrestriction" ><span>Availability &amp; Restrictions</span></li>
+                            </ul>
+
+                            <li data-toggle="collapse" data-target="#policies" class="main-li-menu collapsed">
+                                <a href="javascript:void(0)">Policies<div class="arrow"></div></a>
+                            </li>
+                            <ul class="sub-menu collapse" id="policies">
+                                <li routerLinkActive="active" routerLink="./cancellationpolicy"><span>Cancellation Policy</span></li>
+                                <li routerLinkActive="active" routerLink="./checkincheckoutpolicy"><span>Check In &amp; Check Out Policy</span></li>
+                                <li class="blocked" routerLinkActive="active" routerLink="./paymentpolicy"><span>Payment Policy</span></li>
+                                <li routerLinkActive="active" routerLink="./childpolicy"><span>Child Policy</span></li>
+                                <li routerLinkActive="active" routerLink="./noshowpolicy"><span>No Show Policy</span></li>
+                                <li routerLinkActive="active" routerLink="./webpolicy"><span>Web Policy</span></li>
+                                <li routerLinkActive="active" routerLink="./petpolicy"><span>Pet Policy</span></li>
+                                <li routerLinkActive="active" routerLink="./mealplan"><span>Meal Plan</span></li>
+                                <li class="blocked"><span>Other Policies</span></li>
+                            </ul>
+
+                            <li data-toggle="collapse" data-target="#hqaccountmanager" routerLinkActive="active" routerLink="./hqaccountmanager" class="main-li-menu collapsed">
+                                <a href="javascript:void(0)">HQ Account<div class="arrow"></div></a>
+                            </li>
+
+                            <li data-toggle="collapse" data-target="#hqfundmanagement" routerLinkActive="active" routerLink="./hqfundmanager" class="main-li-menu collapsed">
+                                <a href="javascript:void(0)">HQ Fund Management<div class="arrow"></div></a>
+                            </li>
+
+                            <li data-toggle="collapse" data-target="#guestmanage" class="main-li-menu collapsed blocked">
+                                <a href="javascript:void(0)">Guest Manage <span class="arrow"></span></a>
+                            </li>
+
+                            <li data-toggle="collapse" data-target="#guestmanage" class="main-li-menu collapsed blocked">
+                                <a href="javascript:void(0)">Marketing Office <span class="arrow"></span></a>
+                            </li>
+
+                            <li data-toggle="collapse" data-target="#guestmanage" class="main-li-menu collapsed blocked">
+                                <a href="javascript:void(0)">POS Manager <span class="arrow"></span></a>
+                            </li>
+
+                            <li data-toggle="collapse" data-target="#usermanage" class="main-li-menu collapsed">
+                                <a href="javascript:void(0)">User Manager <span class="arrow"></span></a>
+                            </li>
+                            <ul class="sub-menu collapse" id="usermanage">
+                                <li routerLinkActive="active" routerLink="./createuser"><span>User Creation</span></li>
+                                <li routerLinkActive="active" routerLink="./userlist"><span>User List</span></li>
+                            </ul>
+
+                            <li data-toggle="collapse" data-target="#guestmanage" class="main-li-menu collapsed blocked">
+                                <a href="javascript:void(0)">Console <span class="arrow"></span></a>
+                            </li>
+
+                            <li data-toggle="collapse" data-target="#reports" class="main-li-menu collapsed">
+                                <a href="javascript:void(0)">Reports <span class="arrow"></span></a>
+                            </li>
+                            <ul class="sub-menu collapse" id="reports">
+                                <li routerLinkActive="active" routerLink="./emailsetup"><span>Email Setup</span></li>
+                                <li routerLinkActive="active" routerLink="./schedulereport"><span>Schedule Report</span></li>
+                            </ul>
+
+                            <li data-toggle="collapse" data-target="#guestmanage" class="main-li-menu collapsed blocked">
+                                <a href="javascript:void(0)">Web Manager <span class="arrow"></span></a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </perfect-scrollbar>
+
+        </div>
+
+        <div class="col">
+            <!-- Page Content -->
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+
+</div>

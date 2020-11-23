@@ -1,0 +1,407 @@
+<div class="container-fluid" style="padding:10px 0px; ">
+    <h5 id="pageHeading">Rooms Types</h5>
+    <div class="row">
+
+        <div class="col-12 col-flexible">
+            <alert *ngIf="alertMessageDetails.response" [type]="alertMessageDetails.type" [dismissible]="true"
+                class="text-center">
+                {{alertMessageDetails.message}}
+            </alert>
+        </div>
+
+        <div class="col">
+            <div class="table-responsive">
+
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow" id="tableHeaderRow">
+                        <div class="divDisplayTableCell head brdLft text-center" style="width:28%;">Room Type</div>
+                        <div class="divDisplayTableCell head text-center" style="width:12%;">Base Price</div>
+                        <div class="divDisplayTableCell head text-center" style="width:12%;">Ext. Person Chr.</div>
+                        <div class="divDisplayTableCell head text-center" style="width:12%;">Ext. Bed Chr.</div>
+                        <div class="divDisplayTableCell head text-center" style="width:27%;padding:0px;">
+                            <div style="border-bottom:1px solid #d3d3d3;"> Mapping </div>
+                            <div>
+                                <div class="d-inline-block text-center" style="width:33.3%;"> Room No. </div>
+                                <div class="d-inline-block text-center" style="width:33.4%;"> Amenities </div>
+                                <div class="d-inline-block text-center" style="width:33.3%;"> Rate </div>
+                            </div>
+                        </div>
+                        <div class="divDisplayTableCell head text-center" style="width:9%;">Actions</div>
+                    </div>
+                </div>
+
+                <perfect-scrollbar class="position-relative" [style.max-height.px]="scrollBarContainerHeight"
+                    [scrollIndicators]="true">
+                    <div class="divDisplayTable">
+                        <div class="divDisplayTableRow" *ngFor="let roomTypeItem of roomTypeList; let i = index">
+                            <div class="divDisplayTableCell brdLft noPadding" style="width:28%;">
+                                <div
+                                    style="width: 49%; display:inline-block; margin-top:5px; margin-bottom:5px; text-align: center;">
+                                    <input type="text" class="edit-input-box" id="blahA"
+                                        [(ngModel)]="roomTypeItem.roomCode" />
+                                </div>
+                                <div
+                                    style="width: 49%; display:inline-block; margin-top:5px; margin-bottom:5px; text-align: center;">
+                                    <input type="text" class="edit-input-box" id="blahA"
+                                        [(ngModel)]="roomTypeItem.roomType" />
+                                </div>
+                                <div style="padding: 5px;">
+                                    <div>Occupancy</div>
+                                    <div class="d-inline-block" style="width: 31%">
+                                        Base
+                                        <div class="btn-group btn-block" dropdown>
+                                            <button dropdownToggle type="button"
+                                                class="btn btn-dropdown dropdown-toggle">
+                                                {{roomTypeItem.basePax}} <span class="caret"></span>
+                                            </button>
+                                            <ul *dropdownMenu class="dropdown-menu" role="menu">
+                                                <li role="menuitem" *ngFor="let item of [1,2,3,4,5,6]">
+                                                    <a class="dropdown-item">{{item}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="d-inline-block" style="width: 31%;margin-left: 2%;margin-right: 2%;">
+                                        Max
+                                        <div class="btn-group btn-block" dropdown>
+                                            <button dropdownToggle type="button"
+                                                class="btn btn-dropdown dropdown-toggle">
+                                                {{roomTypeItem.maxPax}} <span class="caret"></span>
+                                            </button>
+                                            <ul *dropdownMenu class="dropdown-menu" role="menu">
+                                                <li role="menuitem" *ngFor="let item of [1,2,3,4,5,6]">
+                                                    <a class="dropdown-item">{{item}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="d-inline-block" style="width: 34%">
+                                        Ex. Bed(s)
+                                        <div class="btn-group btn-block" dropdown>
+                                            <button dropdownToggle type="button"
+                                                class="btn btn-dropdown dropdown-toggle">
+                                                {{roomTypeItem.extraBedsAllowed}} <span class="caret"></span>
+                                            </button>
+                                            <ul *dropdownMenu class="dropdown-menu" role="menu">
+                                                <li role="menuitem" *ngFor="let item of [1,2,3,4,5,6]">
+                                                    <a class="dropdown-item">{{item}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="divDisplayTableCell align-top" style="width:12%;">
+                                <!-- <span><img src="./assets/images/icons8-rupee-20.png" alt=""></span> -->
+                                <input type="text" class="edit-input-box pull-right"
+                                    style="max-width:80%;margin-right: 10px;" id="blahA"
+                                    [(ngModel)]="roomTypeItem.basePrice" />
+                                <div class="pull-right" style="margin-right: 10px;"><small>Per Person</small></div>
+                            </div>
+                            <div class="divDisplayTableCell align-top" style="width:12%;">
+                                <!-- <span><img src="./assets/images/icons8-rupee-20.png" alt=""></span> -->
+                                <input type="text" class="edit-input-box pull-right"
+                                    style="max-width:80%;margin-right: 10px;" id="blahA"
+                                    [(ngModel)]="roomTypeItem.extraPersonPrice" />
+                                <div class="pull-right" style="margin-right: 10px;"><small>Per Person</small></div>
+                            </div>
+                            <div class="divDisplayTableCell align-top" style="width:12%;">
+                                <!-- <span><img src="./assets/images/icons8-rupee-20.png" alt=""></span> -->
+                                <input type="text" class="edit-input-box pull-right"
+                                    style="max-width:80%;margin-right: 10px;" id="blahA"
+                                    [(ngModel)]="roomTypeItem.extraBedPrice" />
+                                <div class="pull-right" style="margin-right: 10px;"><small>Per Bed</small></div>
+                            </div>
+                            <div class="divDisplayTableCell align-top text-center" style="width:9%;">
+                                <div class="d-inline-block">{{roomTypeItem.numberOfRooms}}</div>
+                                <div class="d-inline-block" style="margin-left:5%;cursor:pointer;">
+                                    <img src="./assets/images/flow-chart.png" alt="map room type"
+                                        [popover]="popRoomUnitTemplate" placement="left"
+                                        (onShown)="generatePopoverContent('room', i, roomTypeItem)" container="body"
+                                        [outsideClick]="true">
+                                </div>
+                            </div>
+                            <div class="divDisplayTableCell align-top text-center" style="width:9%;">
+                                <div class="d-inline-block" style="cursor:pointer;">
+                                    <img src="./assets/images/flow-chart.png" alt="map amenity"
+                                        [popover]="popRoomAmenitiesTemplate" placement="left"
+                                        (onShown)="generatePopoverContent('amenities', i, roomTypeItem)"
+                                        container="body" [outsideClick]="true">
+                                </div>
+                            </div>
+                            <div class="divDisplayTableCell align-top text-center" style="width:9%;">
+                                <div class="d-inline-block" style="cursor:pointer;margin-left: 10px;">
+                                    <img src="./assets/images/flow-chart.png" alt="map rate plan"
+                                        [popover]="popRatePlanTemplate" placement="left"
+                                        (onShown)="generatePopoverContent('rate', i, roomTypeItem)" container="body"
+                                        [outsideClick]="true">
+                                </div>
+                            </div>
+                            <div class="divDisplayTableCell text-center align-top" style="width:9%;">
+                                <div class="d-inline-block" style="cursor:pointer;">
+                                    <img src="./assets/images/save.png" alt="save" (click)="saveRoomType(roomTypeItem)">
+                                </div>
+                                <div class="d-inline-block" style="margin-left: 10px;cursor:pointer;">
+                                    <img src="./assets/images/delete.png" alt="delete">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="divDisplayTableRow" *ngIf="showAddNewRoomType == true">
+                            <div class="divDisplayTableCell brdLft noPadding" style="width:28%;">
+                                <div
+                                    style="width: 49%; display:inline-block; margin-top:5px; margin-bottom:5px; text-align: center;">
+                                    <input type="text" class="edit-input-box" id="blahA"
+                                        [(ngModel)]="addRoomType.roomCode" />
+                                </div>
+                                <div
+                                    style="width: 49%; display:inline-block; margin-top:5px; margin-bottom:5px; text-align: center;">
+                                    <input type="text" class="edit-input-box" id="blahA"
+                                        [(ngModel)]="addRoomType.roomType" />
+                                </div>
+                                <div style="padding: 5px;">
+                                    <div>Occupancy</div>
+                                    <div class="d-inline-block" style="width: 31%">
+                                        Base
+                                        <div class="btn-group btn-block" dropdown [dropup]="true">
+                                            <button dropdownToggle type="button"
+                                                class="btn btn-dropdown dropdown-toggle">
+                                                {{addRoomType.basePax}} <span class="caret"></span>
+                                            </button>
+                                            <ul *dropdownMenu class="dropdown-menu" role="menu">
+                                                <li role="menuitem" *ngFor="let item of [1,2,3,4,5,6]">
+                                                    <a class="dropdown-item">{{item}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="d-inline-block" style="width: 31%;margin-left: 2%;margin-right: 2%;">
+                                        Max
+                                        <div class="btn-group btn-block" dropdown [dropup]="true">
+                                            <button dropdownToggle type="button"
+                                                class="btn btn-dropdown dropdown-toggle" >
+                                                {{addRoomType.maxPax}} <span class="caret"></span>
+                                            </button>
+                                            <ul *dropdownMenu class="dropdown-menu" role="menu" style="transform: translateY(0%)!important;">
+                                                <li role="menuitem" *ngFor="let item of [1,2,3,4,5,6]">
+                                                    <a class="dropdown-item">{{item}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="d-inline-block" style="width: 34%">
+                                        Ex. Bed(s)
+                                        <div class="btn-group btn-block" dropdown [dropup]="true">
+                                            <button dropdownToggle type="button"
+                                                class="btn btn-dropdown dropdown-toggle">
+                                                {{addRoomType.extraBedsAllowed}} <span class="caret"></span>
+                                            </button>
+                                            <ul *dropdownMenu class="dropdown-menu" role="menu">
+                                                <li role="menuitem" *ngFor="let item of [1,2,3,4,5,6]">
+                                                    <a class="dropdown-item">{{item}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="divDisplayTableCell align-top" style="width:12%;">
+                                <!-- <span><img src="./assets/images/icons8-rupee-20.png" alt=""></span> -->
+                                <input type="text" class="edit-input-box pull-right"
+                                    style="max-width:80%;margin-right: 10px;" id="blahA"
+                                    [(ngModel)]="addRoomType.basePrice" />
+                                <div class="pull-right" style="margin-right: 10px;"><small>Per Person</small></div>
+                            </div>
+                            <div class="divDisplayTableCell align-top" style="width:12%;">
+                                <!-- <span><img src="./assets/images/icons8-rupee-20.png" alt=""></span> -->
+                                <input type="text" class="edit-input-box pull-right"
+                                    style="max-width:80%;margin-right: 10px;" id="blahA"
+                                    [(ngModel)]="addRoomType.extraPersonPrice" />
+                                <div class="pull-right" style="margin-right: 10px;"><small>Per Person</small></div>
+                            </div>
+                            <div class="divDisplayTableCell align-top" style="width:12%;">
+                                <!-- <span><img src="./assets/images/icons8-rupee-20.png" alt=""></span> -->
+                                <input type="text" class="edit-input-box pull-right"
+                                    style="max-width:80%;margin-right: 10px;" id="blahA"
+                                    [(ngModel)]="addRoomType.extraBedPrice" />
+                                <div class="pull-right" style="margin-right: 10px;"><small>Per Bed</small></div>
+                            </div>
+                            <div class="divDisplayTableCell align-top text-center" style="width:9%;">
+                                <!-- <div class="d-inline-block">{{addRoomType.numberOfRooms}}</div>
+                                <div class="d-inline-block" style="margin-left:5%;cursor:pointer;">
+                                    <img src="./assets/images/flow-chart.png" alt="map room type"
+                                        [popover]="popRoomUnitTemplate" placement="left"
+                                        (onShown)="generatePopoverContent('room', i, roomTypeItem)" container="body"
+                                        [outsideClick]="true">
+                                </div> -->
+                            </div>
+                            <div class="divDisplayTableCell align-top text-center" style="width:9%;">
+                                <!-- <div class="d-inline-block" style="cursor:pointer;">
+                                    <img src="./assets/images/flow-chart.png" alt="map amenity"
+                                        [popover]="popRoomAmenitiesTemplate" placement="left"
+                                        (onShown)="generatePopoverContent('amenities', i, roomTypeItem)"
+                                        container="body" [outsideClick]="true">
+                                </div> -->
+                            </div>
+                            <div class="divDisplayTableCell align-top text-center" style="width:9%;">
+                                <!-- <div class="d-inline-block" style="cursor:pointer;margin-left: 10px;cursor:pointer;">
+                                    <img src="./assets/images/flow-chart.png" alt="map rate plan"
+                                        [popover]="popRatePlanTemplate" placement="left"
+                                        (onShown)="generatePopoverContent('rate', i, roomTypeItem)" container="body"
+                                        [outsideClick]="true">
+                                </div> -->
+                            </div>
+                            <div class="divDisplayTableCell text-center align-top" style="width:9%;">
+                                <div class="d-inline-block" style="cursor:pointer;">
+                                    <img src="./assets/images/save.png" alt="save" (click)="saveRoomType(addRoomType)">
+                                </div>
+                                <!-- <div class="d-inline-block" style="margin-left: 10px;cursor:pointer;">
+                                    <img src="./assets/images/delete.png" alt="delete">
+                                </div> -->
+                            </div>
+                        </div>
+
+                    </div>
+                </perfect-scrollbar>
+
+            </div>
+        </div>
+    </div>
+
+    <ng-template #popRoomUnitTemplate>
+
+        <div class="table-responsive" style="width:400px;">
+            <div class="divDisplayTable">
+                <div class="divDisplayTableRow" id="tableHeaderRow">
+                    <div class="divDisplayTableCell head brdLft text-center" style="width:20%;">Sl. No.</div>
+                    <div class="divDisplayTableCell head text-center" style="width:20%;">
+                        <div class="chiller_cb">
+                            <input type="checkbox" name="body" id="headRoomRateCkb" [(ngModel)]="allRoomUnitMapCkbox"
+                                (change)="selectRoomTypeCKBStatus('all')">
+                            <label class="form-check-label" for="headRoomRateCkb">&nbsp;</label>
+                            <span></span>
+                        </div>
+                    </div>
+                    <div class="divDisplayTableCell head text-center" style="width:60%;">Room No</div>
+                </div>
+            </div>
+            <perfect-scrollbar class="position-relative" [style.max-height.px]="250" [scrollIndicators]="true">
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow"
+                        *ngFor="let mappedRoomUnitItem of roomRateMappingDataList; let i = index;">
+                        <div class="divDisplayTableCell brdLft text-center" style="width:20%;">{{i + 1}}</div>
+                        <div class="divDisplayTableCell text-center" style="width:20%;">
+                            <div class="chiller_cb">
+                                <input type="checkbox" name="body" id="roomtypeckb_{{i}}"
+                                    [(ngModel)]="mappedRoomUnitItem.checked"
+                                    (change)="selectRoomTypeCKBStatus(mappedRoomUnitItem)">
+                                <label class="form-check-label" for="roomtypeckb_{{i}}">&nbsp;</label>
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="divDisplayTableCell text-center" style="width:60%;">
+                            {{mappedRoomUnitItem.roomNumber}}</div>
+                    </div>
+                </div>
+            </perfect-scrollbar>
+
+            <div class="col text-center table-footer">
+                <button class="btn btn-normal" (click)="mapRoomOnHide()">Ok</button>
+            </div>
+        </div>
+
+    </ng-template>
+
+    <ng-template #popRoomAmenitiesTemplate>
+        <div class="table-responsive" style="width:450px;">
+            <div class="divDisplayTable">
+                <div class="divDisplayTableRow" id="tableHeaderRow">
+                    <div class="divDisplayTableCell head brdLft text-center" style="width:25%;">Sl No.</div>
+                    <div class="divDisplayTableCell head text-center" style="width:15%;">
+                        <div class="chiller_cb">
+                            <input type="checkbox" name="body" id="headAmenityCkb" [(ngModel)]="allAmenityMapCkbox"
+                                (change)="selectAmenityCKBStatus('all')">
+                            <label class="form-check-label" for="headAmenityCkb">&nbsp;</label>
+                            <span></span>
+                        </div>
+                    </div>
+                    <div class="divDisplayTableCell head text-center" style="width:60%;">Amenities</div>
+                </div>
+            </div>
+            <perfect-scrollbar class="position-relative" [style.max-height.px]="250" [scrollIndicators]="true">
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow" *ngFor="let amenityItem of aminityList; let i = index;">
+                        <div class="divDisplayTableCell brdLft text-center" style="width:25%;">{{i + 1}}</div>
+                        <div class="divDisplayTableCell text-center" style="width:15%;">
+                            <div class="chiller_cb">
+                                <input type="checkbox" name="amenityckb{{i}}" id="amenityckb{{i}}"
+                                    [(ngModel)]="amenityItem.checked" (change)="selectAmenityCKBStatus(amenityItem)">
+                                <label class="form-check-label" for="amenityckb{{i}}">&nbsp;</label>
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="divDisplayTableCell text-left" style="width:60%;">{{amenityItem.aminityName}}</div>
+                    </div>
+                </div>
+            </perfect-scrollbar>
+            <div class="col text-center table-footer">
+                <button class="btn btn-normal" (click)="mapAmenityOnHide()">Ok</button>
+            </div>
+        </div>
+    </ng-template>
+
+
+    <ng-template #popRatePlanTemplate>
+
+        <div class="table-responsive" style="width:450px;">
+            <div class="divDisplayTable">
+                <div class="divDisplayTableRow" id="tableHeaderRow">
+                    <div class="divDisplayTableCell head brdLft text-center" style="width:25%;">Rate Code</div>
+                    <div class="divDisplayTableCell head text-center" style="width:15%;">
+                        <div class="chiller_cb">
+                            <input type="checkbox" name="body" id="headRatePlanCkb" [(ngModel)]="allRatePlanMapCkbox"
+                                (change)="selectRatePlanCKBStatus('all')">
+                            <label class="form-check-label" for="headRatePlanCkb">&nbsp;</label>
+                            <span></span>
+                        </div>
+                    </div>
+                    <div class="divDisplayTableCell head text-center" style="width:60%;">Rate Plan</div>
+                </div>
+            </div>
+            <perfect-scrollbar class="position-relative" [style.max-height.px]="250" [scrollIndicators]="true">
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow" *ngFor="let ratePlanItem of ratePlanList; let i = index;">
+                        <div class="divDisplayTableCell brdLft text-center" style="width:25%;">
+                            {{ratePlanItem.ratePlanCode}}</div>
+                        <div class="divDisplayTableCell text-center" style="width:15%;">
+                            <div class="chiller_cb">
+                                <input type="checkbox" name="rateplanckb_{{i}}" id="rateplanckb_{{i}}"
+                                    [(ngModel)]="ratePlanItem.checked" (change)="selectRatePlanCKBStatus(ratePlanItem)">
+                                <label class="form-check-label" for="rateplanckb_{{i}}">&nbsp;</label>
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="divDisplayTableCell text-left" style="width:60%;">{{ratePlanItem.ratePlanName}}
+                        </div>
+                    </div>
+                </div>
+            </perfect-scrollbar>
+            <div class="col text-center table-footer">
+                <button class="btn btn-normal" (click)="mapRateOnHide()">Ok</button>
+            </div>
+        </div>
+
+    </ng-template>
+
+    <div class="row" id="footerButtonContainer" style="margin-top:20px;">
+        <div class="col">
+            <span class="badge badge-sky" style="vertical-align:text-top;cursor:pointer;"><i class="fa fa-plus"></i></span>
+            <div style="margin-left:6px;display: inline-block;cursor:pointer;" (click)="toggleNewRoomType();">Add Room Type</div>
+        </div>
+
+        <div class="col">
+            <button class="btn btn-normal pull-right" type="submit">Reset</button>
+            <button class="btn btn-normal pull-right" type="submit">Save</button>
+        </div>
+    </div>
+</div>

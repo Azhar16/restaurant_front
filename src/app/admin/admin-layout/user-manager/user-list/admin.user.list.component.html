@@ -1,0 +1,103 @@
+<div class="container-fluid" style="padding:10px 0px; ">
+    <h5>User List</h5>
+
+    <div class="row">
+
+        <div class="col-12 col-flexible">
+            <alert *ngIf="alertMessageDetails.response" [type]="alertMessageDetails.type" [dismissible]="true" class="text-center">
+                {{alertMessageDetails.message}}
+            </alert>
+        </div>
+
+        <div class="col">
+            <div class="table-responsive">
+
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow" id="tableHeaderRow">
+                        <div class="divDisplayTableCell head brdLft text-center" style="width:10%;">Sl. No.</div>
+                        <div class="divDisplayTableCell head text-center" style="width:35%;">User Name</div>
+                        <div class="divDisplayTableCell head text-center" style="width:35%;">Department</div>
+                        <div class="divDisplayTableCell head text-center" style="width:20%;">Actions</div>
+                    </div>
+                </div>
+
+                <perfect-scrollbar class="position-relative" [style.max-height.px]="scrollBarContainerHeight" [scrollIndicators]="true">
+
+                    <div class="divDisplayTable">
+                        <div class="divDisplayTableRow" *ngFor="let userItem of userList; let i = index;">
+                            <div class="divDisplayTableCell brdLft text-center" style="width:10%;">{{i+1}}</div>
+
+                            <div class="divDisplayTableCell text-center" style="width:35%;padding-left: 10px;">
+                                <span [hidden]="userItem.editable">
+                                    {{userItem.empName}}
+                                </span>
+                            </div>
+
+                            <div class="divDisplayTableCell text-center" style="width:35%;padding-left: 10px;">
+                                <span [hidden]="userItem.editable">
+                                    {{userItem.department}}
+                                </span>
+                            </div>
+
+
+                            <div class="divDisplayTableCell text-center" style="width:20%;">
+                                <div class="d-inline-block point-cursor" (click)="editUser(editUserModal, userItem)">
+                                    <img src="./assets/images/edit.png" alt="edit">
+                                </div>
+                                <div class="d-inline-block point-cursor" style="margin-left: 10px;" (click)="permitUser(permitUserModal, userItem)">
+                                    <img src="./assets/images/access_key.png" alt="permission">
+                                </div>
+                                <div class="d-inline-block point-cursor" style="margin-left: 10px;" (click)="openConfirmModal(i)">
+                                    <img src="./assets/images/delete.png" alt="delete">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </perfect-scrollbar>
+
+            </div>
+        </div>
+    </div>
+
+    <ng-template #editUserModal>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="dialog-static-name" class="modal-title pull-left">Edit User</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <app-admin-user-basic-details *ngIf="userView == 'user_basic_details'" [userDetails]="userDetails" (userDetailViewChange)="openWorkDetailsView($event)"></app-admin-user-basic-details>
+                    <app-admin-user-work-details *ngIf="userView == 'user_work_details'" [departmentList]="departmentList" [userDetails]="userDetails" (userDetailViewChange)="openBasicDetailsView($event)"></app-admin-user-work-details>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #permitUserModal>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="dialog-static-name" class="modal-title pull-left">Permission</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <app-admin-user-permission [selectedUser]="selectedUser" [userMappedModuleList]="userMappedModuleList" (submitMappedPermission)="submitPermission($event)"></app-admin-user-permission>
+        </div>
+    </ng-template>
+
+    <div class="row" id="footerButtonContainer" style="margin-top:20px;">
+        <div class="col point-cursor">
+            <span class="badge badge-sky" style="vertical-align:text-top;"><i class="fa fa-plus"></i></span>
+            <div style="margin-left:6px;display: inline-block;" routerLink="../createuser">Add New User</div>
+        </div>
+
+        <div class="col">
+            <!-- <button class="btn btn-normal pull-right" type="submit">Save</button> -->
+            <!-- <button class="btn btn-normal pull-right" type="submit">Reset</button> -->
+        </div>
+    </div>
+</div>

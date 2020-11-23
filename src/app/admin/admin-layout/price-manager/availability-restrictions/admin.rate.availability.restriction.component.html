@@ -1,0 +1,283 @@
+<div class="container-fluid" style="padding:10px 0px; ">
+    <!-- <h5></h5> -->
+    <div class="row booking-row border-layout">
+        <div class="col-12 col-flexible">
+            <alert *ngIf="alertMessageDetails.response" [type]="alertMessageDetails.type" [dismissible]="true"
+                class="text-center">
+                {{alertMessageDetails.message}}
+            </alert>
+            <div class="form-container">
+                <header>Availability & Restrictions</header>
+
+                <section>
+                    <div class="form-group form-row">
+
+                        <div class="col-3 col-lg-6 col-xl-3">
+                            <label for="daterange">Select Date Range</label>
+                            <div class="form-row">
+                                <div class="col">
+                                    <div class="input-group date-cal">
+                                        <span (click)="dpsrt.show()"><i class="fa fa-calendar"></i></span>
+                                        <input bsDatepicker class="form-control" id="startDate" #dpsrt="bsDatepicker"
+                                            type="text" [bsConfig]="rateUpdateConfigStart"
+                                            [(ngModel)]="rateUpdateDatePickerStart"
+                                            (onHidden)="onRateUpdateDateChangeCalculateChart($event)">
+                                    </div>
+                                </div>
+                                <div class="col-1 text-center pt-1">to</div>
+                                <div class="col">
+                                    <div class="input-group date-cal">
+                                        <span (click)="dpend.show()"><i class="fa fa-calendar"></i></span>
+                                        <input bsDatepicker class="form-control" id="endDate" #dpend="bsDatepicker"
+                                            type="text" [bsConfig]="rateUpdateConfigEnd"
+                                            [maxDate]="calMaxDate"
+                                            [(ngModel)]="rateUpdateDatePickerEnd"
+                                            (onHidden)="onRateUpdateDateChangeCalculateChart($event)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-3 col-lg-2 col-xl-1">
+                            <div class="form-group">
+                                <label for="selectDays">Days</label>
+                                <input type="text" class="form-control" disabled [(ngModel)]="seletedCalDays">
+                            </div>
+                            <!-- <div class="form-row"> -->
+                            <!-- <div class="btn-group col-5" dropdown>
+                                    <button id="button-days" dropdownToggle type="button" class="btn dropdown-toggle"
+                                        aria-controls="dropdown-mode">
+                                        {{seletedCalDays}} <span class="caret"></span>
+                                    </button>
+                                    <ul id="dropdown-days" *dropdownMenu class="dropdown-menu" role="menu"
+                                        aria-labelledby="button-mode">
+                                        <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">3</a>
+                                        </li>
+                                        <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">5</a>
+                                        </li>
+                                        <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">7</a>
+                                        </li>
+                                    </ul>
+                                </div> -->
+                            <!-- </div> -->
+                        </div>
+
+                        <div class="col-2 col-lg-4 col-xl-2">
+                            <label for="propertyName">Select Rate Plan</label>
+                            <div>
+                                <div class="btn-group" dropdown>
+                                    <button id="button-rate" dropdownToggle type="button" class="btn dropdown-toggle"
+                                        aria-controls="dropdown-room">
+                                        <div style="width:85%;text-overflow: ellipsis;
+                                        overflow: hidden; float: left; text-align: left; white-space: nowrap;"
+                                            title="{{selectedRatePlan ? selectedRatePlan.ratePlanName : 'Select Rate Plan'}}">
+                                            {{selectedRatePlan ? selectedRatePlan.ratePlanName : 'Select Rate Plan'}}
+                                        </div>
+                                        <div class="caret pull-right"></div>
+                                    </button>
+                                    <ul id="dropdown-room" *dropdownMenu class="dropdown-menu" role="menu"
+                                        aria-labelledby="button-rate">
+                                        <li role="menuitem" *ngFor="let rateItem of ratePlanList"
+                                            (click)="getMappedRoom(rateItem)">
+                                            <a class="dropdown-item"
+                                                href="javascript:void(0);">{{rateItem.ratePlanName}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-2 col-lg-4 col-xl">
+                            <label for="propertyName">Select Room Name</label>
+                            <div>
+                                <!-- <div class="btn-group" dropdown [insideClick]="true" [autoClose]="true">
+                                    <button id="button-room" dropdownToggle type="button" class="btn dropdown-toggle"
+                                        aria-controls="dropdown-room">
+                                        <span [ngPlural]="selectedRoomCount">
+                                            <ng-template ngPluralCase="=0">No room selected</ng-template>
+                                            <ng-template ngPluralCase="=1">1 room selected</ng-template>
+                                            <ng-template ngPluralCase="other"> {{selectedRoomCount}} rooms selected
+                                            </ng-template>
+                                        </span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul id="dropdown-room" *dropdownMenu class="dropdown-menu" role="menu"
+                                        aria-labelledby="button-room">
+                                        <li role="menuitem" *ngFor="let roomTypeItem of mappedRoomList; let i = index;">
+                                            <label class="dropdown-item">
+                                                <div class="chiller_cb">
+                                                    <input type="checkbox" id="roomitem_{{roomTypeItem.roomCode}}"
+                                                        [(ngModel)]="roomTypeItem.checked"
+                                                        (change)="roomSelectionForUpdate(roomTypeItem)" />
+                                                    <label
+                                                        for="roomitem_{{roomTypeItem.roomCode}}">&nbsp;{{roomTypeItem.roomName}}</label>
+                                                    <span></span>
+                                                </div>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div> -->
+                            </div>
+                        </div>
+
+                        <div class="col col-lg-4 col-xl">
+                            <label for="propertyName">Options</label>
+                            <div class="form-row">
+                                <div class="col">
+                                    <div class="btn-group" dropdown>
+                                        <button id="button-option-type" dropdownToggle type="button"
+                                            class="btn dropdown-toggle" aria-controls="dropdown-room">
+                                            {{showSelectedOption}} <span class="caret"></span>
+                                        </button>
+                                        <ul id="dropdown-room" *dropdownMenu class="dropdown-menu" role="menu"
+                                            aria-labelledby="button-option-type">
+                                            <li role="menuitem" (click)="roomStatusOptionChange('avail')">
+                                                <a class="dropdown-item" href="javascript:void(0);">Avail</a>
+                                            </li>
+                                            <li role="menuitem" (click)="roomStatusOptionChange('mlos')">
+                                                <a class="dropdown-item" href="javascript:void(0);">MLOS</a>
+                                            </li>
+                                            <li role="menuitem" (click)="roomStatusOptionChange('cta')">
+                                                <a class="dropdown-item" href="javascript:void(0);">CTA</a>
+                                            </li>
+                                            <li role="menuitem" (click)="roomStatusOptionChange('ctd')">
+                                                <a class="dropdown-item" href="javascript:void(0);">CTD</a>
+                                            </li>
+                                            <li role="menuitem" (click)="roomStatusOptionChange('stopSell')">
+                                                <a class="dropdown-item" href="javascript:void(0);">Stop Sell</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-auto text-center">
+                                    <button class="btn btn-normal px-3"
+                                        (click)="showAvailRestrictionDetails()">Show</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- not needed for now <div class="col">
+                            <label for="propertyName">Currency</label>
+                            <input class="form-control" id="currency" type="text" value="INR">
+                        </div> -->
+
+                    </div>
+                </section>
+
+                <div class="table-responsive">
+
+                    <div class="divDisplayTable">
+                        <div class="divDisplayTableRow" id="tableHeaderRow">
+                            <div class="divDisplayTableCell brdLft head text-center position-relative"
+                                style="width:18%;border-bottom-width:0px;">
+                                <div class="text-center" style="bottom: -0.25rem; left: 0.8rem;">Quick Fill</div>
+                                <div class="text-center" style="font-size: 85%; bottom: -0.25rem; left: 0.8rem;">
+                                    ({{showSelectedOption}})</div>
+                            </div>
+                            <div class="divDisplayTableCell head text-center" [ngStyle]="{'width.%':dayCellPercentage}"
+                                *ngFor="let dateItem of rateUpdateDateList;">
+                                <div class="week-day">{{dateItem.dateVal | date: 'EEE'}}</div>
+                                <div>{{dateItem.dateVal | date: 'dd-MMM-yyyy'}}</div>
+                            </div>
+                        </div>
+
+                        <div class="divDisplayTableRow">
+                            <div class="divDisplayTableCell brdLft head text-left position-relative"
+                                style="width:18%;border-top-width:0px;">
+                                <input *ngIf="selectedOptions == 'mlos' || selectedOptions == 'avail'" type="text"
+                                    name="quickFill" id="quickFill_smatfill" [(ngModel)]="quickFillMasterInput"
+                                    class="edit-input-box short-width mr-1" />
+                                <div class="chiller_cb" style="width: 94%;"
+                                    *ngIf="selectedOptions != 'mlos' && selectedOptions != 'avail'">
+                                    <input type="checkbox" [(ngModel)]="quickFillMasterInput" name="quickFill_smatfill"
+                                        id="quickFill_smatfill" />
+                                    <label for="quickFill_smatfill">&nbsp;</label>
+                                    <span></span>
+                                </div>
+                                <img class="point-cursor position-absolute" (click)="fillDateVal()"
+                                    style="right: 5%;top: 12px;" src="./assets/images/smart-fill.png" alt="fill right">
+                            </div>
+                            <div class="divDisplayTableCell text-left position-relative"
+                                [ngStyle]="{'width.%':dayCellPercentage}"
+                                *ngFor="let dateItem of rateUpdateDateList;let i = index;">
+                                <input type="text" *ngIf="selectedOptions == 'mlos' || selectedOptions == 'avail'"
+                                    name="quickFill" id="quickFill_{{i}}" class="edit-input-box short-width mr-1"
+                                    [(ngModel)]="dateItem.fillVal" />
+                                <div class="chiller_cb" style="width: 94%;"
+                                    *ngIf="selectedOptions != 'mlos' && selectedOptions != 'avail'">
+                                    <input type="checkbox" name="quickFill_{{i}}" id="quickFill_{{i}}"
+                                        [(ngModel)]="dateItem.fillVal" />
+                                    <label for="quickFill_{{i}}">&nbsp;</label>
+                                    <span></span>
+                                </div>
+                                <img class="point-cursor position-absolute" style="right: 5%;top: 12px;"
+                                    src="./assets/images/blue-down-arrow.png" (click)="fillDateColumn(dateItem)"
+                                    alt="fill down">
+                            </div>
+                        </div>
+
+                        <ng-container *ngFor="let mappedRoomItem of mappedRoomList; let i = index">
+
+                            <div class="divDisplayTableRow" *ngIf="mappedRoomItem.checked && fullDataList[mappedRoomItem.roomID].length">
+                                <div class="divDisplayTableCell brdLft head text-left" style="width:18%;">
+                                    <input type="text" name="quickFill" id="quickFill_rooms"
+                                        style="width:calc(85% + 20px)" readonly class="edit-input-box text-left"
+                                        value="{{mappedRoomItem.roomName}}" />
+                                    <div class="text-center mt-2">MLOS</div>
+                                    <div class="text-center mt-2">CTA</div>
+                                    <div class="text-center mt-2">CTD</div>
+                                    <div class="text-center mt-2">Stop Sell</div>
+                                    <!-- <input type="text" style="width:calc(85% + 20px)" placeholder="MLOS" class="edit-input-box text-left mt-2"/>     -->
+                                </div>
+                                <div class="divDisplayTableCell text-center" [ngStyle]="{'width.%':dayCellPercentage}"
+                                    *ngFor="let dateItem of fullDataList[mappedRoomItem.roomID]; let j = index;">
+                                    <input type="text" name="avail_{{i}}_{{j}}" id="avail_{{i}}_{{j}}"
+                                        placeholder="AVAIL" class="edit-input-box" [(ngModel)]="dateItem.avail" />
+                                    <input type="text" name="mlos_{{i}}_{{j}}" id="mlos_{{i}}_{{j}}" placeholder="MLOS"
+                                        class="edit-input-box text-right mt-2" [(ngModel)]="dateItem.mlos" />
+                                    <div class="chiller_cb mt-2">
+                                        <input type="checkbox" name="cta_{{i}}_{{j}}" id="cta_{{i}}_{{j}}"
+                                            [(ngModel)]="dateItem.cta" />
+                                        <label for="cta_{{i}}_{{j}}">&nbsp;</label>
+                                        <span></span>
+                                    </div>
+                                    <div class="chiller_cb mt-2" style="width: 100%">
+                                        <input type="checkbox" name="ctd_{{i}}_{{j}}" id="ctd_{{i}}_{{j}}"
+                                            [(ngModel)]="dateItem.ctd" />
+                                        <label for="ctd_{{i}}_{{j}}">&nbsp;</label>
+                                        <span></span>
+                                    </div>
+                                    <div class="chiller_cb mt-2" style="width: 100%">
+                                        <input type="checkbox" name="stopsell_{{i}}_{{j}}" id="stopsell_{{i}}_{{j}}"
+                                            [(ngModel)]="dateItem.stopSell" />
+                                        <label for="stopsell_{{i}}_{{j}}">&nbsp;</label>
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row booking-row no-gutters">
+        <div class="col-12 col-flexible mt-1">
+            <section class="form-footer">
+                <div class="form-row">
+                    <!-- <div class="col">
+                            <span style="color:red;">*</span> <small>Fields are mandatory</small>
+                        </div> -->
+                    <div class="col">
+                        <button class="btn  btn-normal pull-right" (click)="updateAvailRestrictionData()"> Update </button>
+                        <button class="btn  btn-normal pull-right"> Reset </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+</div>

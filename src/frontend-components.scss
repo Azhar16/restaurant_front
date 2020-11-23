@@ -1,0 +1,46 @@
+
+@import "~./default-variables";
+
+/* schedular themes */
+@import url("themes/scheduler_8.css");
+@import url("themes/scheduler_green.css");
+@import url("themes/scheduler_traditional.css");
+@import url("themes/scheduler_transparent.css");
+@import url("themes/scheduler_white.css");
+
+@font-face {
+    font-family: "Roboto-Light";
+    src: url("./fonts/Roboto/Roboto-Light.ttf");
+}
+
+
+@font-face {
+    font-family: "Roboto-Regular";
+    src: url("./fonts/Roboto/Roboto-Regular.ttf");
+}
+
+
+@font-face {
+    font-family: "Roboto-Medium";
+    src: url("./fonts/Roboto/Roboto-Medium.ttf");
+}
+
+
+@font-face {
+    font-family: "Roboto-Bold";
+    src: url("./fonts/Roboto/Roboto-Bold.ttf");
+}
+
+//@extend-elements
+//original selectors
+//.span_pseudo, .chiller_cb span:before, .chiller_cb span:after
+%checkbox_extension {
+    content: "";
+    display: inline-block;
+    background: $white;
+    width: 0;
+    height: 0.2rem;
+    position: absolute;
+    //Instead of the line below you could use @include transform-origin($origin-x, $origin-y, $origin-z, $only3d)
+    transform-origin: 0 0;
+}

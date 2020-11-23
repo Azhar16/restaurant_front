@@ -1,0 +1,10 @@
+<div class="container">
+  <div class="jumbotron">
+    <h2>Oops! You reached a dead end.</h2>
+    <p>
+      Please check the address of the page you are trying to access. There seems to be something wrong.
+    </p>
+    <button class="btn btn-normal" *ngIf="isDisplayAdmin" (click)="pageReferer('admin')">Back To Admin</button>&nbsp;
+    <button class="btn btn-normal" (click)="pageReferer('dashboard')">Back To Dashboard</button>    
+  </div>
+</div>

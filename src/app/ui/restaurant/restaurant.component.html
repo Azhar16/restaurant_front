@@ -1,0 +1,147 @@
+<!--<div class="row under-construction restaurant-bg">
+    <div class="col">
+        <div id="top" class="starter_container ">
+            <div class="global-overlay" style="opacity: 1;transform: translateX(100%);">
+                <div class="overlay skew-part">
+                </div>
+            </div>
+            <div class="follow_container">
+                <div class="row align-items-center h-100">
+                    <div class="col-xs-1 col-sm-1 col-md-3">&nbsp;</div>
+                    <div class="col">
+                        <h5 class="top-title"> This Page is currently</h5>
+                        <h2 class="second-title">UNDER CONSTRUCTION</h2>
+                        <hr>
+                    </div>
+                    <div class="col-xs-1 col-sm-1 col-md-3">&nbsp;</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>-->
+
+<div [ngSwitch]="fdPageView" style="padding: 0px 10px;">
+  <div [style.display]="showCalender ? 'block' : 'none'">
+    <ng4-loading-spinner
+      [timeout]="1300000"
+      [loadingText]="'Please wait...'"
+    ></ng4-loading-spinner>
+    <div class="cust-container" style="padding: 0px; margin: 10px 0px;">
+      <div class="head-section">
+        <div class="row head-row">
+          <div class="col inner-col-right-reduce">
+            <h5>Business Summary</h5>
+          </div>
+        </div>
+
+        <div class="row body-row">
+          <div class="row col-12">
+            <div class="col-4">
+              <div class="card">
+                <div class="col-12">
+                  <div class="form-group">
+                    <label>Business Last Week </label>
+                    <label *ngIf="cDetails != undefined">
+                      : {{ cDetails.lastWeekCollection }}</label
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-8">
+              <div class="card">
+                <div class="row col-12">
+                  <div class="col-4">
+                    <div class="form-group">
+                      <label>Business This Week </label>
+                      <label *ngIf="cDetails != undefined">
+                        : {{ cDetails.thisWeekCollection }}</label
+                      >
+                    </div>
+                  </div>
+
+                  <div class="col-4">
+                    <div class="form-group">
+                      <label>Business Yesterday </label>
+                      <label *ngIf="cDetails != undefined">
+                        : {{ cDetails.yesterdayCollection }}</label
+                      >
+                    </div>
+                  </div>
+
+                  <div class="col-4">
+                    <div class="form-group">
+                      <label>Business Today </label>
+                      <label *ngIf="cDetails != undefined">
+                        : {{ cDetails.todayCollection }}</label
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="body-section no-padding cust-container" style="padding: 0px;">
+      <div class="row body-row mt-3" style="margin-top: 0 !important;">
+        <div id="calendar" style="height: 420px;"></div>
+      </div>
+    </div>
+  </div>
+  <app-restaurent-general
+    *ngSwitchCase="'restaurentGeneral'"
+  ></app-restaurent-general>
+  <app-restaurant-calendar-business
+    *ngSwitchCase="'restaurantCalendarBusiness'"
+  >
+  </app-restaurant-calendar-business>
+  <app-restaurant-close-counter
+    *ngSwitchCase="'restaurentCloseCounter'"
+  ></app-restaurant-close-counter>
+  <app-restaurant-guest-management
+    *ngSwitchCase="'restaurentGuestManagement'"
+  ></app-restaurant-guest-management>
+  <app-restaurant-guest-review-management
+    *ngSwitchCase="'restaurentGuestReviewManagement'"
+  ></app-restaurant-guest-review-management>
+  <app-restaurant-open-counter
+    *ngSwitchCase="'restaurentOpenCounter'"
+  ></app-restaurant-open-counter>
+  <app-restaurant-order-management
+    *ngSwitchCase="'restaurentOrderManagement'"
+  ></app-restaurant-order-management>
+  <app-restaurant-primary-category-food
+    *ngSwitchCase="'restaurantPrimaryCategoryFood'"
+  ></app-restaurant-primary-category-food>
+  <app-restaurant-purchase-management
+    *ngSwitchCase="'restaurentPurchaseManagement'"
+  ></app-restaurant-purchase-management>
+  <app-restaurant-recipe
+    *ngSwitchCase="'restaurentRecipe'"
+  ></app-restaurant-recipe>
+  <app-restaurant-report-management
+    *ngSwitchCase="'restaurentReportManagement'"
+  ></app-restaurant-report-management>
+  <app-restaurant-room-management
+    *ngSwitchCase="'restaurentRoomManagement'"
+  ></app-restaurant-room-management>
+  <app-restaurant-sales-management
+    *ngSwitchCase="'restaurentSalesManagement'"
+  ></app-restaurant-sales-management>
+  <app-restaurant-table-booking-management
+    *ngSwitchCase="'restaurentTableBookingManagement'"
+  ></app-restaurant-table-booking-management>
+  <app-restaurant-table-management
+    *ngSwitchCase="'restaurentTableManagement'"
+  ></app-restaurant-table-management>
+  <app-kitchen-order
+    *ngSwitchCase="'restaurantKitchenOrder'"
+  ></app-kitchen-order>
+  <app-restaurant-bill *ngSwitchCase="'restaurantbill'"></app-restaurant-bill>
+  <app-restaurant-tax *ngSwitchCase="'restaurantTax'"></app-restaurant-tax>
+  <app-revenuereports *ngSwitchCase="'revenuereports'"></app-revenuereports>
+  <app-orderreports *ngSwitchCase="'orderreports'"></app-orderreports>
+</div>

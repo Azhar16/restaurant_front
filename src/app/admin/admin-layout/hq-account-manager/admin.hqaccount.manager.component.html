@@ -1,0 +1,121 @@
+<div class="container-fluid" style="padding:10px 0px; ">
+    <h5>HQ Account</h5>
+
+    <div class="admin-cust-container">
+        <div class="head-section">
+            <div class="row body-row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="row no-gutters">
+                            <div class="col-8">
+                                <i class="fa fa-calendar"></i>
+                                <i class="fa fa-calendar" style="margin-left:5px;"></i>
+                                <span style="margin-left:10px;margin-right:10px;font-size:12px;">15-Jan-2019 &nbsp; 18-Jan-2019</span>
+                                <button type="button" class="btn btn-round-xs btn-xs">Current</button>
+                                <button type="button" class="btn btn-round-xs btn-xs active">3 days</button>
+                                <button type="button" class="btn btn-round-xs btn-xs">Week</button>
+                                <button type="button" class="btn btn-round-xs btn-xs">15 days</button>
+                                <button type="button" class="btn btn-round-xs btn-xs">Month</button>
+                            </div>
+                            <div class="col pull-right">
+                                <div class="btn-group" dropdown style="width:35%;float: right;">
+                                    <button id="button-currency" dropdownToggle type="button" class="btn dropdown-toggle" style="font-size: 12px;" aria-controls="dropdown-currency">
+                                        10 entries <span class="caret"></span>
+                                    </button>
+                                    <ul id="dropdown-currency" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-currency">
+                                        <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">5 entries</a></li>
+                                        <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">10 entries</a></li>
+                                        <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">15 entries</a></li>
+                                        <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">20 entries</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-1">
+
+        <div class="col-12 col-flexible">
+            <alert *ngIf="alertMessageDetails.response" [type]="alertMessageDetails.type" [dismissible]="true" class="text-center">
+                {{alertMessageDetails.message}}
+            </alert>
+        </div>
+
+        <div class="col">
+            <div class="table-responsive">
+
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow" id="tableHeaderRow">
+                        <div class="divDisplayTableCell head brdLft text-center" style="width:10%;">Sl. No.</div>
+                        <div class="divDisplayTableCell head text-center" style="width:10%;">Date</div>
+                        <div class="divDisplayTableCell head text-center" style="width:20%;">Description-References</div>
+                        <div class="divDisplayTableCell head text-center" style="width:10%;">Mode</div>
+                        <div class="divDisplayTableCell head text-center" style="width:15%;">Transfer By</div>
+                        <div class="divDisplayTableCell head text-center" style="width:10%;">Type</div>
+                        <div class="divDisplayTableCell head text-center" style="width:10%;">Amount</div>
+                        <div class="divDisplayTableCell head text-center" style="width:10%;">Current Balance</div>
+                    </div>
+                </div>
+
+                <perfect-scrollbar class="position-relative" [style.max-height.px]="scrollBarContainerHeight" [scrollIndicators]="true">
+
+                    <div class="divDisplayTable">
+                        <div class="divDisplayTableRow">
+
+                            <div class="divDisplayTableCell brdLft text-center" style="width:10%;">1</div>
+
+                            <div class="divDisplayTableCell text-center" style="width:10%;">
+                                25-Jan-2019
+                            </div>
+
+                            <div class="divDisplayTableCell text-center" style="width:20%;">
+                                Front Desk To HQ Account
+                            </div>
+
+                            <div class="divDisplayTableCell text-center" style="width:10%;">
+                                By Card
+                            </div>
+
+                            <div class="divDisplayTableCell text-center" style="width:15%;">
+                                Sankar Lal
+                            </div>
+
+                            <div class="divDisplayTableCell text-center" style="width:10%;">
+                                Credit
+                            </div>
+
+                            <div class="divDisplayTableCell text-center" style="width:10%;">
+                                8000
+                            </div>
+
+                            <div class="divDisplayTableCell text-center" style="width:10%;">
+                                8000
+                            </div>
+
+                        </div>
+                    </div>
+
+                </perfect-scrollbar>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="footerButtonContainer" style="margin-top:20px;">
+        <!-- <div class="col">
+            <div class="d-inline-block point-cursor" (click)="displayAddNoShowPolicy();">
+                <span class="badge badge-sky" style="vertical-align:text-top;"><i class="fa fa-plus"></i></span>
+                <div style="margin-left:6px;display: inline-block;">Add</div>
+            </div>
+        </div> -->
+
+        <div class="col">
+            <!-- <button class="btn btn-normal pull-right" type="submit">Save</button> -->
+            <!-- <button class="btn btn-normal pull-right" type="submit">Reset</button> -->
+        </div>
+    </div>
+</div>

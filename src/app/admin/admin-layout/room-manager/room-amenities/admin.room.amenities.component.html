@@ -1,0 +1,81 @@
+<div class="container-fluid" style="padding:10px 0px; ">
+    <h5 id="pageHeading">Hotel Amenities</h5>
+
+    <div class="row">
+
+        <div class="col-12 col-flexible">
+            <alert *ngIf="alertMessageDetails.response" [type]="alertMessageDetails.type" [dismissible]="true" class="text-center">
+                {{alertMessageDetails.message}}
+            </alert>
+        </div>
+
+        <div class="col">
+            <div class="table-responsive">
+
+                <div class="rTable">
+
+                    <div class="rTableRow">
+                        <div class="rTableHead" style="width:6%">Sl.No.</div>
+                        <div class="rTableHead text-center" style="width:26%">Name</div>
+                        <div class="rTableHead" style="width:50%">Description</div>
+                        <div class="rTableHead" style="width:18%">Actions</div>
+                    </div>
+
+                    <perfect-scrollbar *ngIf="type === 'component'" class="position-relative" [style.max-height.px]="scrollBarContainerHeight" [config]="config" [scrollIndicators]="true" (psXReachEnd)="onScrollEvent($event)" (psYReachEnd)="onScrollEvent($event)" (psXReachStart)="onScrollEvent($event)" (psYReachStart)="onScrollEvent($event)">
+
+                        <div class="rTableRow" *ngFor="let aminityData of aminityList; let i = index;">
+                            <div class="rTableCell text-center" style="width:6%">{{i+1}}</div>
+                            <div class="rTableCell" style="width:26%">
+                                <span [hidden]="aminityData.editable">{{aminityData.aminityName}}</span>
+                                <input [hidden]="!aminityData.editable" type="text" name="editAminityName" id="editAminityName_{{i}}" [(ngModel)]="aminityData.aminityName" class="edit-input-box" />
+                            </div>
+                            <div class="rTableCell" style="width:50%">
+                                <span [hidden]="aminityData.editable">
+                                    {{aminityData.aminityDesc}}
+                                </span>
+                                <input [hidden]="!aminityData.editable" type="text" name="editAminityDesc" id="editAminityDesc_{{i}}" [(ngModel)]="aminityData.aminityDesc" class="edit-input-box" />
+                            </div>
+                            <div class="rTableCell text-center" style="width:18%">
+                                <div class="d-inline-block" style="cursor:pointer;" (click)="aminityData.editable = !aminityData.editable">
+                                    <img *ngIf="!aminityData.editable" src="./assets/images/edit.png" alt="edit">
+                                    <i *ngIf="aminityData.editable" class="fa fa-save" alt="save" (click)="editAminity(i)"></i>
+                                </div>
+                                <div class="d-inline-block" style="margin-left: 10px;cursor:pointer;" (click)="openConfirmModal(i)">
+                                    <img src="./assets/images/delete.png" alt="delete">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rTableRow" *ngIf="showAddAminity">
+                            <div class="rTableCell" style="width:6%; height: 40px;">&nbsp;</div>
+                            <div class="rTableCell text-center" style="width:26%; height: 40px;">
+                                <input type="text" name="aminityName" id="aminityName" [(ngModel)]="newAminityName" style="width:90%" />
+                            </div>
+                            <div class="rTableCell text-center" style="width:50%; height: 40px;">
+                                <input name="aminityDesc" id="aminityDesc" style="width:90%" [(ngModel)]="newAminityDesc" />
+                            </div>
+                            <div class="rTableCell text-center" style="width:18%;height: 40px;">
+                                <div class="d-inline-block point-cursor" (click)="createAminity();">
+                                    <img src="./assets/images/save.png" alt="create amenity">
+                                </div>
+                            </div>
+                        </div>
+                    </perfect-scrollbar>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="footerButtonContainer" style="margin-top:20px;">
+        <div class="col point-cursor" (click)="addAminity();">
+            <span class="badge badge-sky" style="vertical-align:text-top;"><i class="fa fa-plus"></i></span>
+            <div style="margin-left:6px;display: inline-block;">Add Amenities</div>
+        </div>
+        <!-- <div class="col">
+            <button class="btn btn-normal pull-right" type="submit">Cancel</button>
+            <button class="btn btn-normal pull-right" type="submit">Confirm</button>
+        </div> -->
+    </div>
+
+</div>

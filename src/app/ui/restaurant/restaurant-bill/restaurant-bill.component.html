@@ -1,0 +1,357 @@
+<div class="cust-container" style="padding:0px;margin: 10px 0px">
+  <div class="head-section ">
+    <div class="row head-row">
+      <div class="col inner-col-right-reduce">
+        <h5>Restaurant Bill</h5>
+      </div>
+      <!-- <div class="col-6 inner-col-left-reduce">
+                <h5>Add Reservation</h5>
+            </div> -->
+    </div>
+    <table style="text-align: center;">
+      <table align="center" style="font-size:16px;font-weight:800">
+        <tr>
+          <td
+            style="text-align:left"
+            *ngIf="restaurantBillDetails != undefined"
+          >
+            {{ restaurantBillDetails.tableNo }}
+          </td>
+          <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+          <td style="text-align:right">Rs.:</td>
+          <td
+            style="text-align:right"
+            *ngIf="restaurantBillDetails != undefined"
+          >
+            {{ restaurantBillDetails.totalAmount }}
+          </td>
+          <td style="text-align:right">/-</td>
+        </tr>
+      </table>
+
+      <table align="center">
+        <thead>
+          <th
+            colspan="4"
+            align="center"
+            style="font-size:20px;font-weight:900;"
+          >
+            <u>Tax Invoice</u>
+          </th>
+        </thead>
+        <tbody>
+          <tr>
+            <td
+              colspan="4"
+              align="center"
+              style="font-size:16px;font-weight:900"
+              *ngIf="restaurantBillDetails != undefined"
+            >
+              {{ restaurantBillDetails.restaurantName }}
+            </td>
+          </tr>
+          <tr>
+            <td
+              colspan="4"
+              align="center"
+              style="font-size:16px;font-weight:900"
+              *ngIf="restaurantBillDetails != undefined"
+            >
+              {{ restaurantBillDetails.restAddress }}
+            </td>
+          </tr>
+          <tr>
+            <td
+              colspan="4"
+              align="center"
+              style="font-size:16px;font-weight:900"
+              *ngIf="restaurantBillDetails != undefined"
+            >
+              {{ restaurantBillDetails.restCity }} -
+              {{ restaurantBillDetails.restPinCode }}
+            </td>
+          </tr>
+          <tr>
+            <td
+              colspan="4"
+              align="center"
+              style="font-size:16px;font-weight:900"
+              *ngIf="restaurantBillDetails != undefined"
+            >
+              Dial-{{ restaurantBillDetails.restContactNo }}
+            </td>
+          </tr>
+          <tr>
+            <td
+              align="center"
+              style="font-size:13px;font-weight:900"
+              *ngIf="restaurantBillDetails != undefined"
+            >
+              GST No :
+            </td>
+            <td align="center" style="font-size:13px;font-weight:900">
+              1987HTFRG675
+            </td>
+            <td align="center" style="font-size:13px;font-weight:900">
+              SAC No:
+            </td>
+            <td
+              align="center"
+              style="font-size:13px;font-weight:900"
+              *ngIf="restaurantBillDetails != undefined"
+            >
+              0098767
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4">----------------------------------------------</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table align="center">
+        <tbody>
+          <tr>
+            <td>Table No:</td>
+            <td *ngIf="restaurantBillDetails != undefined">
+              {{ restaurantBillDetails.tableNo }}
+            </td>
+          </tr>
+          <tr>
+            <td>Inv-No:</td>
+            <td *ngIf="restaurantBillDetails != undefined">
+              {{ restaurantBillDetails.invoiceId }}
+            </td>
+          </tr>
+          <tr>
+            <td>Inv-Date:</td>
+            <td *ngIf="restaurantBillDetails != undefined">
+              {{ restaurantBillDetails.txnDate }}
+            </td>
+            <td>Time:</td>
+            <td>19:50:36</td>
+          </tr>
+          <tr>
+            <td colspan="4">----------------------------------------------</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!--  <table align="center">
+        <thead>
+          <tr>
+            <td>Sl No.</td>
+            <td>Item Description</td>
+            <td>Rate</td>
+            <td>Qty</td>
+            <td>Amt</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="text-align:right" colspan="5">
+              ---------------------------------------------------
+            </td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Balantines(L)</td>
+            <td>400</td>
+            <td>4</td>
+            <td>1600</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Calberg(L)</td>
+            <td>200</td>
+            <td>2</td>
+            <td>400</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Balantines(L)</td>
+            <td>100</td>
+            <td>2</td>
+            <td>200</td>
+          </tr>
+        </tbody>
+      </table> 
+      <table align="center">
+        <tbody>
+          <tr>
+            <td style="text-align:right" colspan="5">
+              ---------------------------------------------------
+            </td>
+          </tr>
+          <tr>
+            <td>Quantity:</td>
+            <td>7</td>
+            <td colspan="2" style="text-align:left">Gross :</td>
+            <td>2500</td>
+          </tr>
+          <tr>
+            <td style="text-align:right" colspan="5">
+              ----------------------------------------------------
+            </td>
+          </tr>
+          <tr>
+            <td>10.00%</td>
+            <td colspan="3">Less Discount on Gross</td>
+            <td>190</td>
+          </tr>
+          <tr>
+            <td style="text-align:right" colspan="5">
+              ---------------------------------------------------
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Drinks Bill:</td>
+            <td></td>
+            <td colspan="2" style="text-align:right">1790</td>
+          </tr>
+          <tr>
+            <td style="text-align:right" colspan="5">
+              ---------------------------------------------------
+            </td>
+          </tr>
+        </tbody>
+      </table> -->
+
+      <h3 style="text-align:center"><b># Food Section #</b></h3>
+      <table align="center">
+        <thead>
+          <tr>
+            <td style="text-align:right" colspan="5">
+              ---------------------------------------------------
+            </td>
+          </tr>
+          <tr>
+            <td>Sl No.</td>
+            <td>Item Description</td>
+            <td>Rate</td>
+            <td>Qty</td>
+            <td>Amt</td>
+          </tr>
+          <tr>
+            <td style="text-align:right" colspan="5">
+              ---------------------------------------------------
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of itemarr; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.itemName }}(L)</td>
+            <td>{{ item.itemFixedPrice }}</td>
+            <td>{{ item.noOfItem }}</td>
+            <td>{{ item.itemPrice }}</td>
+          </tr>
+          <!-- <tr>
+            <td>2</td>
+            <td>Calberg(L)</td>
+            <td>200</td>
+            <td>2</td>
+            <td>400</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Balantines(L)</td>
+            <td>100</td>
+            <td>2</td>
+            <td>200</td>
+          </tr> -->
+        </tbody>
+      </table>
+      <table align="center">
+        <tbody>
+          <tr>
+            <td style="text-align:right" colspan="5">
+              ---------------------------------------------------
+            </td>
+          </tr>
+          <tr>
+            <td>Quantity:</td>
+            <td *ngIf="totalQuantity != undefined">{{ totalQuantity }}</td>
+            <td colspan="2" style="text-align:left">Gross :</td>
+            <td *ngIf="restaurantBillDetails != undefined">
+              {{ restaurantBillDetails.totalAmount }}
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align:right" colspan="5">
+              ----------------------------------------------------
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4" style="font-size:13px;">
+              Add @2.50% CGST on Gross
+            </td>
+            <td>150</td>
+          </tr>
+          <tr>
+            <td colspan="4" style="font-size:13px;">
+              Add @2.50% CGST on Gross
+            </td>
+            <td>150</td>
+          </tr>
+          <tr>
+            <td style="text-align:right" colspan="5">
+              -----------------------------------------
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4" style="text-align:right">6% Total GST:</td>
+            <td style="text-align:right">300.25</td>
+          </tr>
+          <tr>
+            <td colspan="4" style="text-align:right">Round:</td>
+            <td style="text-align:right">0.25</td>
+          </tr>
+          <tr>
+            <td style="text-align:right" colspan="5">
+              ---------------------------------
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4" style="text-align:right">Food Bill:</td>
+            <td style="text-align:right">1570.00</td>
+          </tr>
+          <tr>
+            <td style="text-align:right" colspan="5">
+              -----------------------------------------
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3" style="text-align:center"><b>Net Bill:</b></td>
+            <td colspan="2" style="text-align:center"><b>3217.00</b></td>
+          </tr>
+          <tr>
+            <td style="text-align:right" colspan="5">
+              -------------------------------------------------
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align:center;font-size:11px" colspan="5">
+              Rupees Three Thousand Two Hundred Seventeen only
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align:center" colspan="5">
+              -----------------------------------------------------
+            </td>
+          </tr>
+          <br />
+          <tr>
+            <td style="text-align:center;font-size:16px" colspan="5">
+              <b>Thank You Visit Again</b>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </table>
+  </div>
+</div>

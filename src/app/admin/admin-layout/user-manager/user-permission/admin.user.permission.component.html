@@ -1,0 +1,72 @@
+<div class="modal-body">
+    <div class="container">
+
+        <div class="container-fluid" style="padding:10px 0px;">
+
+            <perfect-scrollbar class="position-relative" [style.max-height.px]="scrollBarContainerHeight"
+                [scrollIndicators]="true">
+                <div class="table-responsive">
+                    <div class="divDisplayTable">
+                        <div class="divDisplayTableRow">
+                            <div class="divDisplayTableCell head brdLft">
+                                <header><strong>Frontend Modules</strong></header>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="divDisplayTable" *ngIf="userModuleList != null">
+                        <ng-container *ngFor="let moduleItem of userModuleList">
+                            <div class="divDisplayTableRow" *ngIf="moduleItem.moduleName.toLowerCase() != 'admin'">
+                                <div class="divDisplayTableCell user-permission brdLft">
+                                    <div>
+                                        <div class="form-check form-check-inline">
+                                            <div class="chiller_cb">
+                                                <input type="checkbox" id="frontDeskModule_{{moduleItem.moduleID}}"
+                                                    [(ngModel)]="moduleItem['mapped']">
+                                                <label
+                                                    for="frontDeskModule_{{moduleItem.moduleID}}">{{moduleItem.moduleName}}</label>
+                                                <span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+
+                    <div class="divDisplayTable mt-3" *ngIf="adminModuleList != null">
+                        <div class="divDisplayTableRow">
+                            <div class="divDisplayTableCell head brdLft">
+                                <header><strong>Admin Modules</strong></header>
+                            </div>
+                        </div>
+                        <ng-container *ngFor="let adminModuleItem of adminModuleList">
+                            <div class="divDisplayTableRow">
+                                <div class="divDisplayTableCell user-permission brdLft">
+                                    <div>
+                                        <div class="form-check form-check-inline">
+                                            <div class="chiller_cb">
+                                                <input type="checkbox" id="adminModule_{{adminModuleItem.subModuleId}}"
+                                                    [(ngModel)]="adminModuleItem['mapped']">
+                                                <label
+                                                    for="adminModule_{{adminModuleItem.subModuleId}}">{{adminModuleItem.subModuleName}}</label>
+                                                <span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+
+                </div>
+            </perfect-scrollbar>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-normal pull-right" data-dismiss="modal">Cancel</button>
+    <button class="btn btn-normal" type="button" (click)="mappedListSubmit();">Save User</button>
+</div>

@@ -1,0 +1,251 @@
+<div class="container login-container h-100">
+  <div class="d-flex justify-content-center h-100">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="text-center">
+          <img
+            class="profile-img"
+            src="./assets/images/tejal-login-logo.png"
+            alt=""
+          />
+        </h2>
+      </div>
+      <div class="card-body">
+        <div
+          class="account-wall"
+          *ngIf="!existingLoginCrediantials; else logCheck"
+        >
+          <div class="login-title text-center">
+            <h5>Login to your Account</h5>
+          </div>
+          <div class="alert alert-danger" role="alert">{{ alertMsg }}</div>
+          <div id="my-tab-content" class="tab-content">
+            <div class="tab-pane active" id="login">
+              <form
+                class="form-signin form-horizontal"
+                (ngSubmit)="login($event)"
+              >
+                <div class="input-wrapper">
+                  <i class="fa fa-user"></i>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Username"
+                    id="username"
+                    required
+                    autofocus
+                  />
+                </div>
+                <div class="input-wrapper">
+                  <i class="fa fa-lock"></i>
+                  <input
+                    type="password"
+                    class="form-control"
+                    placeholder="Password"
+                    id="password"
+                    required
+                  />
+                </div>
+                <div style="margin: 0.5rem 0rem;">
+                  <div class="chiller_cb pull-left">
+                    <input
+                      type="checkbox"
+                      name="saveLoginCredentials"
+                      id="saveLoginCredentials"
+                      [(ngModel)]="saveLoginCredentials"
+                    />
+                    <label class="form-check-label" for="saveLoginCredentials"
+                      >Save Password</label
+                    >
+                    <span></span>
+                  </div>
+                  <span
+                    class="pull-right need-help collapsed point-cursor"
+                    data-toggle="collapse"
+                    data-target="#frgtPass"
+                  >
+                    Forgot Password?
+                  </span>
+                  <span class="clearfix mt-2"></span>
+                </div>
+                <div class="collapse" id="frgtPass">
+                  <div class="input-wrapper pull-left" style="width: 80%;">
+                    <i class="fa fa-envelope"></i>
+                    <input
+                      type="email"
+                      class="form-control"
+                      placeholder="Enter email id"
+                      id="frgtemail"
+                      #frgtemail
+                      (keyup)="onKey(frgtemail.value)"
+                    />
+                  </div>
+                  <div class="pull-right">
+                    <button
+                      class="btn btn-sm btn-success btn-go"
+                      [class.blocked]="frgtBtnBlocked"
+                    >
+                      Go
+                    </button>
+                  </div>
+                </div>
+                <input
+                  type="submit"
+                  class="btn btn-lg btn-block login-btn mt-2"
+                  value="Login"
+                />
+              </form>
+              <div class="blocked" id="tabs" data-tabs="tabs">
+                <p class="text-center">
+                  Don't have an account?&nbsp;<a
+                    href="#register"
+                    data-toggle="tab"
+                    >Sign up</a
+                  >
+                </p>
+              </div>
+            </div>
+            <div class="tab-pane" id="register">
+              <form class="form-signin" action="" method="">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="User Name ..."
+                  required
+                  autofocus
+                />
+                <input
+                  type="email"
+                  class="form-control"
+                  placeholder="Emaill Address ..."
+                  required
+                />
+                <input
+                  type="password"
+                  class="form-control"
+                  placeholder="Password ..."
+                  required
+                />
+                <input
+                  type="submit"
+                  class="btn btn-lg btn-default btn-block"
+                  value="Sign Up"
+                />
+              </form>
+              <div id="tabs" data-tabs="tabs">
+                <p class="text-center">
+                  <a href="#login" data-toggle="tab">Have an Account?</a>
+                </p>
+              </div>
+            </div>
+            <div class="tab-pane" id="select">
+              <div id="tabs" data-tabs="tabs">
+                <div class="media account-select">
+                  <a href="#user1" data-toggle="tab">
+                    <div class="pull-left">
+                      <img
+                        class="select-img"
+                        src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
+                        alt=""
+                      />
+                    </div>
+                    <div class="media-body">
+                      <h4 class="select-name">User Name 1</h4>
+                    </div>
+                  </a>
+                </div>
+                <hr />
+                <div class="media account-select">
+                  <a href="#user2" data-toggle="tab">
+                    <div class="pull-left">
+                      <img
+                        class="select-img"
+                        src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
+                        alt=""
+                      />
+                    </div>
+                    <div class="media-body">
+                      <h4 class="select-name">User Name 2</h4>
+                    </div>
+                  </a>
+                </div>
+                <hr />
+                <p class="text-center">
+                  <a href="#login" data-toggle="tab">Back to Login</a>
+                </p>
+              </div>
+            </div>
+            <div class="tab-pane" id="user1">
+              <img
+                class="profile-img"
+                src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
+                alt=""
+              />
+              <h3 class="text-center">User Name 1</h3>
+              <form class="form-signin" action="" method="">
+                <input type="hidden" class="form-control" value="User Name" />
+                <input
+                  type="password"
+                  class="form-control"
+                  placeholder="Password"
+                  autofocus
+                  required
+                />
+                <input
+                  type="submit"
+                  class="btn btn-lg btn-default btn-block"
+                  value="Sign In"
+                />
+              </form>
+              <p class="text-center">
+                <a href="#login" data-toggle="tab">Back to Login</a>
+              </p>
+              <p class="text-center">
+                <a href="#select" data-toggle="tab">Select another Account</a>
+              </p>
+            </div>
+            <div class="tab-pane" id="user2">
+              <img
+                class="profile-img"
+                src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
+                alt=""
+              />
+              <h3 class="text-center">User Name 2</h3>
+              <form class="form-signin" action="" method="">
+                <input type="hidden" class="form-control" value="User Name" />
+                <input
+                  type="password"
+                  class="form-control"
+                  placeholder="Password"
+                  autofocus
+                  required
+                />
+                <input
+                  type="submit"
+                  class="btn btn-lg btn-default btn-block"
+                  value="Sign In"
+                />
+              </form>
+              <p class="text-center">
+                <a href="#login" data-toggle="tab">Back to Login</a>
+              </p>
+              <p class="text-center">
+                <a href="#select" data-toggle="tab">Select another Account</a>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #logCheck>
+          <div class="account-wall text-center" style="padding-top: 20px;">
+            <img src="./assets/images/login_spinner.gif" alt="" />
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+<ng4-loading-spinner
+  [timeout]="1300000"
+  [loadingText]="'Please wait...'"
+></ng4-loading-spinner>

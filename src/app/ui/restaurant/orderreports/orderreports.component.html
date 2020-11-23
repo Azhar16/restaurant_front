@@ -1,0 +1,825 @@
+<div class="cust-container" style="padding: 0px; margin: 10px 0px;">
+  <section class="rev-mng-filter-panel h-100">
+    <div class="row align-items-center h-100">
+        <div class="col">
+            <i class="fa fa-calendar"></i>&nbsp;&nbsp;{{ now | date : 'dd-MMMM-y | h:mm a' }}
+        </div>
+        <div class="col order-report-details" style="margin-right: 18%;display: none;">
+          <button style="border-radius: 20px;
+          font-size: 12px;
+          border-color: transparent;" (click)="backPage()">Back to list</button>
+        </div>
+        <div class="col-sm-7 col-lg-5 h-100 order-report" style="padding: .3rem 16px;">
+            <div class="form-row h-100 align-items-center">
+                <div class="col">
+                    <input type="text" class="pull-right form-control"
+                        [class.blocked]="orderList == null || orderList.length <= 0" placeholder="Search"
+                        [(ngModel)]="filterSearchData" (ngModelChange)="changeSearchFilter($event)" />
+                </div>
+                <div class="col">
+                    <div class="btn-group w-100" dropdown
+                        [class.blocked]="orderList == null || orderList.length <= 0">
+                        <button dropdownToggle type="button" class="btn btn-block btn-default dropdown-toggle"
+                            aria-controls="paginate-count-menu">
+                            {{pageItems}} entries<span class="caret"></span>
+                        </button>
+                        <ul id="paginate-count-menu" *dropdownMenu class="dropdown-menu" role="menu">
+                            <li (click)="numPages({page: 1, itemsPerPage: 5})">
+                                <a class="dropdown-item point-cursor">5 entries</a>
+                            </li>
+                            <li (click)="numPages({page: 1, itemsPerPage: 10})">
+                                <a class="dropdown-item point-cursor">10 entries</a>
+                            </li>
+                            <li (click)="numPages({page: 1, itemsPerPage: 15})">
+                                <a class="dropdown-item point-cursor">15 entries</a>
+                            </li>
+                            <li (click)="numPages({page: 1, itemsPerPage: 20})">
+                                <a class="dropdown-item point-cursor">20 entries</a>
+                            </li>
+                            <!-- <perfect-scrollbar class="position-relative" [style.max-height.px]="250"
+                                [scrollIndicators]="true">
+                                <li role="menuitem" *ngFor="let employeeItem of hotelEmployeeData"
+                                    (click)="bulkAssignedEmployee = employeeItem">
+                                    <a class="dropdown-item">{{employeeItem.empName}}</a>
+                                </li>
+                            </perfect-scrollbar> -->
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-auto point-cursor" (click)="printData()"
+                    [class.blocked]="orderList == null || orderList.length <= 0">
+                    <img src="./assets/images/print-ico.png" alt="print"> <span
+                        style="position: relative;top:2px;padding-left:4px;">Print</span>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-sm-7 col-lg-5 h-100 order-report-details" style="padding: .3rem 16px;display: none;">
+          <div class="form-row h-100 align-items-center">
+              <div class="col">
+                  <input type="text" class="pull-right form-control"
+                      [class.blocked]="orderDetailsList == null || orderDetailsList.length <= 0" placeholder="Search"
+                      [(ngModel)]="filterDetailsSearchData" (ngModelChange)="changeDetailsSearchFilter($event)" />
+              </div>
+              <div class="col">
+                  <div class="btn-group w-100" dropdown
+                      [class.blocked]="orderDetailsList == null || orderDetailsList.length <= 0">
+                      <button dropdownToggle type="button" class="btn btn-block btn-default dropdown-toggle"
+                          aria-controls="paginate-count-menu">
+                          {{pageDetailsItems}} entries<span class="caret"></span>
+                      </button>
+                      <ul id="paginate-count-menu" *dropdownMenu class="dropdown-menu" role="menu">
+                          <li (click)="numDetailsPages({page: 1, itemsPerPage: 5})">
+                              <a class="dropdown-item point-cursor">5 entries</a>
+                          </li>
+                          <li (click)="numDetailsPages({page: 1, itemsPerPage: 10})">
+                              <a class="dropdown-item point-cursor">10 entries</a>
+                          </li>
+                          <li (click)="numDetailsPages({page: 1, itemsPerPage: 15})">
+                              <a class="dropdown-item point-cursor">15 entries</a>
+                          </li>
+                          <li (click)="numDetailsPages({page: 1, itemsPerPage: 20})">
+                              <a class="dropdown-item point-cursor">20 entries</a>
+                          </li>
+                          <!-- <perfect-scrollbar class="position-relative" [style.max-height.px]="250"
+                              [scrollIndicators]="true">
+                              <li role="menuitem" *ngFor="let employeeItem of hotelEmployeeData"
+                                  (click)="bulkAssignedEmployee = employeeItem">
+                                  <a class="dropdown-item">{{employeeItem.empName}}</a>
+                              </li>
+                          </perfect-scrollbar> -->
+                      </ul>
+                  </div>
+              </div>
+              <div class="col-auto point-cursor" (click)="printDetailsData()"
+                  [class.blocked]="orderDetailsList == null || orderDetailsList.length <= 0">
+                  <img src="./assets/images/print-ico.png" alt="print"> <span
+                      style="position: relative;top:2px;padding-left:4px;">Print</span>
+              </div>
+          </div>
+
+      </div>
+    </div>
+</section>
+  <div class="head-section order-report">
+    <div class="row head-row">
+      <div
+        class="inner-col-right-reduce"
+        style="width: 50%; padding-left: 16px;"
+      >
+        <h5>Order Reports</h5>
+      </div>
+    </div>
+      <div class="row body-row">
+        <div class="col">
+          <div class="card" style="padding: 10px 20px;">
+            <div class="row">
+              <div class="col-md-3 col-sm-12">
+                <div class="form-group form-row">
+                  <label for="shiftTimings" class="col-6 col-form-label">
+                    Start Date:</label
+                  >
+                  <div class="col">
+                      <div class="input-group date-cal">
+                        <span>
+                          <i class="fa fa-calendar"></i>
+                        </span>
+                        <input
+                          bsDatepicker
+                          class="form-control"
+                          id="startDate"
+                          #dpsrt="bsDatepicker"
+                          type="text"
+                          [bsConfig]="bsConfigStart"
+                          placeholder="DD-MMM-YYYY"
+                          [(ngModel)]="revenueData.startDate"
+                        />
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-12">
+                <div class="form-group form-row">
+                  <label for="shiftTimings" class="col-6 col-form-label">
+                    End Date:</label
+                  >
+                  <div class="col">
+                      <div class="input-group date-cal">
+                        <span>
+                          <i class="fa fa-calendar"></i>
+                        </span>
+                        <input
+                          bsDatepicker
+                          class="form-control"
+                          id="endDate"
+                          #dpsrt="bsDatepicker"
+                          type="text"
+                          [bsConfig]="bsConfigStart"
+                          placeholder="DD-MMM-YYYY"
+                          [(ngModel)]="revenueData.endDate"
+                        />
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-12">
+                <div class="form-group form-row">
+                  <label for="shiftTimings" class="col-5 col-form-label">
+                    Res Name:</label
+                  >
+                  <div class="col">
+                    <select
+                      class="form-control"
+                      [(ngModel)]="revenueData.restaurantId"
+                    >
+                      <option value="">select Restaurant</option>
+                      <option
+                        *ngFor="let item of revenueRestaurantMaster"
+                        value="{{ item.restaurantId }}"
+                        >{{ item.restaurantName }}</option
+                      >
+                    </select>
+                  </div>
+                </div>
+              </div>
+              
+              
+              
+              <div class="col-md-3 col-sm-12">
+                <div class="form-group form-row" style="float: right;">
+                  <button
+                    class="btn btn-normal ml-0"
+                    type="button"
+                    mwlConfirmationPopover
+                    [popoverTitle]="popoverTitle2"
+                    [popoverMessage]="popoverMessage2"
+                    [confirmText]="confirmText1"
+                    [cancelText]="cancelText1"
+                    placement="left"
+                    (confirm)="revenueShow()"
+                    (cancel)="cancelClicked = true"
+                    confirmButtonType="coninfo"
+                    cancelButtonType="light"
+                  >
+                    <i
+                      class="fa fa-plus"
+                      aria-hidden="true"
+                      style="color: #fff;"
+                    ></i>
+                    Show
+                  </button>
+                  &nbsp;
+                  <button
+                    class="btn btn-normal ml-0"
+                    type="button"
+                    (click)="clearSearch()"
+                  >
+                    Clear
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="head-section order-report-details" style="display: none;">
+      <div class="row head-row">
+        <div
+          class="inner-col-right-reduce"
+          style="width: 50%; padding-left: 16px;"
+        >
+          <h5>Order Reports Details</h5>
+        </div>
+      </div>
+        <div class="row body-row">
+          <div class="col">
+            <div class="card" style="padding: 10px 20px;">
+              <div class="row">
+                <div class="col-md-3 col-sm-12">
+                  <div class="form-group form-row">
+                    <label for="shiftTimings" class="col-6 col-form-label">
+                      Start Date:</label
+                    >
+                    <div class="col">
+                        <div class="input-group date-cal">
+                          <span>
+                            <i class="fa fa-calendar"></i>
+                          </span>
+                          <input
+                            bsDatepicker
+                            class="form-control"
+                            id="startDate"
+                            #dpsrt="bsDatepicker"
+                            type="text"
+                            [bsConfig]="bsConfigStart"
+                            placeholder="DD-MMM-YYYY"
+                            [(ngModel)]="revenueData.startDate"
+                            disabled
+                          />
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-12">
+                  <div class="form-group form-row">
+                    <label for="shiftTimings" class="col-6 col-form-label">
+                      End Date:</label
+                    >
+                    <div class="col">
+                        <div class="input-group date-cal">
+                          <span>
+                            <i class="fa fa-calendar"></i>
+                          </span>
+                          <input
+                            bsDatepicker
+                            class="form-control"
+                            id="endDate"
+                            #dpsrt="bsDatepicker"
+                            type="text"
+                            [bsConfig]="bsConfigStart"
+                            placeholder="DD-MMM-YYYY"
+                            [(ngModel)]="revenueData.endDate"
+                            disabled
+                          />
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-12">
+                  <div class="form-group form-row">
+                    <label for="shiftTimings" class="col-5 col-form-label">
+                      Res Name:</label
+                    >
+                    <div class="col">
+                      <select
+                        class="form-control"
+                        [(ngModel)]="revenueData.restaurantId"
+                        disabled
+                      >
+                        <option value="">select Restaurant</option>
+                        <option
+                          *ngFor="let item of revenueRestaurantMaster"
+                          value="{{ item.restaurantId }}"
+                          >{{ item.restaurantName }}</option
+                        >
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                <div class="col-md-3 col-sm-12">
+                  <div class="form-group form-row" style="float: right;">
+                    <button
+                      class="btn btn-normal ml-0"
+                      type="button"
+                      disabled
+                      mwlConfirmationPopover
+                      [popoverTitle]="popoverTitle2"
+                      [popoverMessage]="popoverMessage2"
+                      [confirmText]="confirmText1"
+                      [cancelText]="cancelText1"
+                      placement="left"
+                      (confirm)="revenueShow()"
+                      (cancel)="cancelClicked = true"
+                      confirmButtonType="coninfo"
+                      cancelButtonType="light"
+                    >
+                      <i
+                        class="fa fa-plus"
+                        aria-hidden="true"
+                        style="color: #fff;"
+                      ></i>
+                      Show
+                    </button>
+                    &nbsp;
+                    <button
+                      class="btn btn-normal ml-0"
+                      type="button"
+                      disabled
+                      (click)="clearSearch()"
+                    >
+                      Clear
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <div class="body-section cust-container order-report" style="padding: 0;">
+    <div class="row body-row">
+      <div class="table-responsive" id="tableDiv">
+        <div class="divDisplayTable">
+          <div class="divDisplayTableRow" id="tableHeaderRow">
+            <div
+              class="divDisplayTableCell head text-center"
+              style="width: 5%;"
+            >
+              SL. NO.
+            </div>
+            <div
+            class="divDisplayTableCell head text-center"
+            style="width: 10%;"
+          >
+            Date
+          </div>
+            <div
+              class="divDisplayTableCell head text-center"
+              style="width: 10%;"
+            >
+              Restaurant Name
+            </div>
+            <div
+              class="divDisplayTableCell head text-center"
+              style="width: 10%;"
+            >
+              Total Order
+            </div>
+            <div
+              class="divDisplayTableCell head text-center"
+              style="width: 10%;"
+            >
+              Completed
+            </div>
+            <div
+              class="divDisplayTableCell head text-center"
+              style="width: 8%;"
+            >
+              Pending
+            </div>
+            <div
+              class="divDisplayTableCell head text-center"
+              style="width: 8%;"
+            >
+              Cancelled
+            </div>
+            <div
+              class="divDisplayTableCell head text-center"
+              style="width: 10%;"
+            >
+              Total Revenue
+            </div>
+            <div
+              class="divDisplayTableCell head text-center"
+              style="width: 7%;"
+            >
+              Taxes
+            </div>
+            <div
+              class="divDisplayTableCell head text-center"
+              style="width: 7%;"
+            >
+              Revenue
+            </div>
+            <div
+              class="divDisplayTableCell head text-center"
+              style="width: 15%;"
+            >
+              Details
+            </div>
+          </div>
+        </div>
+
+        <perfect-scrollbar
+          *ngIf="orderList != null && orderList.length > 0; else noDataBody"
+          class="scroll-container position-relative"
+          [style.max-height.px]="303"
+          [scrollIndicators]="true"
+        >
+          <div class="divDisplayTable mb-1">
+            <div
+              class="divDisplayTableRow"
+              *ngFor="let item of paginateBookingList; let i = index"
+            >
+              <div
+                class="divDisplayTableCell brdLft text-center"
+                style="width: 5%;"
+              >
+                {{ item.slNo }}
+              </div>
+              <div
+                class="divDisplayTableCell brdLft text-center"
+                style="width: 10%;"
+              >
+                {{ item.transDate }}
+              </div>
+              <div
+                class="divDisplayTableCell brdLft text-center"
+                style="width: 10%;"
+              >
+                {{ item.restaurantName }}
+              </div>
+              <div
+                class="divDisplayTableCell brdLft text-center"
+                style="width: 10%;"
+              >
+                {{ item.totalOrder }}
+              </div>
+              <div
+              class="divDisplayTableCell brdLft text-center"
+              style="width: 10%;"
+            >
+              {{ item.completedCount }}
+            </div>
+              <div
+                class="divDisplayTableCell brdLft text-center"
+                style="width: 8%;"
+              >
+                {{ item.pendingCount }}
+              </div>
+              <div
+              class="divDisplayTableCell brdLft text-center"
+              style="width: 8%;"
+            >
+              {{ item.percelOrder }}
+            </div>
+           <div
+                class="divDisplayTableCell brdLft text-center"
+                style="width: 10%;"
+              >
+                {{ item.totalRevenue }}
+              </div>
+              <div
+              class="divDisplayTableCell brdLft text-center"
+              style="width: 7%;"
+            >
+              {{ item.totalTax }}
+            </div>
+            <div
+            class="divDisplayTableCell brdLft text-center"
+            style="width: 7%;"
+          >
+            {{ item.revenue }}
+          </div>
+         
+              <div
+                class="divDisplayTableCell brdLft text-center"
+                style="width: 15%;"
+              >
+                <div
+                  class="d-inline-block point-cursor"
+                  *ngIf="i < revenueReportsListLength"
+                >
+                  <button
+                    style="padding: 0; cursor: pointer;"
+                    class="btn btn-default"
+                    mwlConfirmationPopover
+                    [popoverTitle]=""
+                    [popoverMessage]="popoverMessage"
+                    placement="bottom"
+                    [confirmText]="confirmText1"
+                    [cancelText]="cancelText1"
+                    (confirm)="reportDetails(item)"
+                    (cancel)="cancelClicked = true"
+                    confirmButtonType="coninfo"
+                    cancelButtonType="light"
+                  >
+                    <img
+                      src="./assets/images/unassign-ico.png"
+                      alt="create amenity"
+                    />
+                  </button>
+                </div>
+                <div
+                  class="d-inline-block point-cursor"
+                  *ngIf="i >= revenueReportsListLength"
+                >
+                  <button
+                    style="padding: 0; cursor: pointer;"
+                    class="btn btn-default"
+                    mwlConfirmationPopover
+                    [popoverTitle]=""
+                    [popoverMessage]="popoverMessage"
+                    placement="top"
+                    [confirmText]="confirmText1"
+                    [cancelText]="cancelText1"
+                    (confirm)="reportDetails(item)"
+                    (cancel)="cancelClicked = true"
+                    confirmButtonType="coninfo"
+                    cancelButtonType="light"
+                  >
+                    <img
+                      src="./assets/images/unassign-ico.png"
+                      alt="create amenity"
+                    />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </perfect-scrollbar>
+
+        <ng-template #noDataBody>
+          <div class="divDisplayTable">
+            <div
+              class="divDisplayTableRow"
+              *ngIf="orderList != null && orderList.length == 0"
+            >
+              <div class="divDisplayTableCell text-center" style="width: 100%;">
+                No Data Found
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <div class="row justify-content-center mt-3" *ngIf="orderList != null">
+      <div class="col-auto mx-auto text-center" *ngIf="orderList.length">
+          <pagination [totalItems]="orderList.length" [(ngModel)]="currentPage" [boundaryLinks]="true"
+              [maxSize]="5" [itemsPerPage]="pageItems" previousText="&lsaquo;" firstText="&laquo;"
+              lastText="&raquo;" nextText="&rsaquo;" (pageChanged)="pageChanged($event)"></pagination>
+      </div>
+  </div>
+  </div>
+
+  <div class="printSection" id="printSection" style="display: none;">
+    <table border="1" style="width: 100%; border-collapse: collapse">
+        <tr>
+            <!-- <td style="width:4%; text-align: center;">#</td> -->
+            <td style="width:5%; text-align: center;">SL. NO.</td>
+            <td style="width:10%; text-align: center;">Date</td>
+            <td style="width:12%; text-align: center;">Restaurant Name</td>
+            <td style="width:10%; text-align: center;">Total Order</td>
+            <td style="width:13%; text-align: center;">Completed</td>
+            <td style="width:10%; text-align: center;">Pending</td>
+            <td style="width:10%; text-align: center;">Cancelled</td>
+            <td style="width:10%; text-align: center;">Total Revenue</td>
+            <td style="width:10%; text-align: center;">Taxes</td>
+            <td style="width:10%; text-align: center;">Revenue</td>
+
+
+        </tr>
+        <tr *ngFor="let item of orderList; let i = index;">
+            <!-- <td style="width:4%; text-align: center;">{{i+1}}</td> -->
+            <td style="width:5%; text-align: center;">{{i+1}}</td>
+            <td style="width:10%; text-align: center;">
+              {{ item.transDate }}
+            </td>
+            <td style="width:10%; text-align: center;">{{ item.restaurantName }}</td>
+            <td style="width:10%; text-align: center;">{{ item.totalOrder }}</td>
+            <td style="width:13%; text-align: center;">{{ item.completedCount }}</td>
+            <td style="width:10%; text-align: center;">{{ item.pendingCount }}</td>
+            <td style="width:10%; text-align: center;">{{ item.percelOrder }}</td>
+            <td style="width:10%; text-align: center;">{{ item.totalRevenue }}</td>
+            <td style="width:10%; text-align: center;">{{ item.totalTax }}</td>
+            <td style="width:10%; text-align: center;">{{ item.revenue }}</td>
+           
+        </tr>
+    </table>
+  </div>
+
+  <div class="body-section cust-container order-report-details" style="padding: 0;display: none;">
+    <div class="row body-row">
+      <div class="table-responsive" id="tableDiv">
+        <div class="divDisplayTable">
+          <div class="divDisplayTableRow" id="tableHeaderRow">
+            <div
+              class="divDisplayTableCell head text-center"
+              style="width: 5%;"
+            >
+              SL. NO.
+            </div>
+            <div
+            class="divDisplayTableCell head text-center"
+            style="width: 10%;"
+          >
+            Date
+          </div>
+            <div
+              class="divDisplayTableCell head text-center"
+              style="width: 10%;"
+            >
+              Restaurant Name
+            </div>
+            <div
+              class="divDisplayTableCell head text-center"
+              style="width: 10%;"
+            >
+              Order Number
+            </div>
+            <div
+              class="divDisplayTableCell head text-center"
+              style="width: 10%;"
+            >
+              Invoice Order
+            </div>
+            <div
+              class="divDisplayTableCell head text-center"
+              style="width: 10%;"
+            >
+              Order Type
+            </div>
+            <div
+              class="divDisplayTableCell head text-center"
+              style="width: 10%;"
+            >
+              Status
+            </div>
+            <div
+              class="divDisplayTableCell head text-center"
+              style="width: 15%;"
+            >
+              Comments
+            </div>
+            <div
+              class="divDisplayTableCell head text-center"
+              style="width: 10%;"
+            >
+              Total Revenue
+            </div>
+            <div
+              class="divDisplayTableCell head text-center"
+              style="width: 10%;"
+            >
+              Waiter Name
+            </div>
+          </div>
+        </div>
+
+        <perfect-scrollbar
+          *ngIf="orderDetailsList != null && orderDetailsList.length > 0; else noDataBody"
+          class="scroll-container position-relative"
+          [style.max-height.px]="303"
+          [scrollIndicators]="true"
+        >
+          <div class="divDisplayTable mb-1">
+            <div
+              class="divDisplayTableRow"
+              *ngFor="let item of paginateDetailsBookingList; let i = index"
+            >
+              <div
+                class="divDisplayTableCell brdLft text-center"
+                style="width: 5%;"
+              >
+                {{ item.slNo }}
+              </div>
+              <div
+                class="divDisplayTableCell brdLft text-center"
+                style="width: 10%;"
+              >
+                {{ item.transDate }}
+              </div>
+              <div
+                class="divDisplayTableCell brdLft text-center"
+                style="width: 10%;"
+              >
+                {{ item.restaurantName }}
+              </div>
+              <div
+                class="divDisplayTableCell brdLft text-center"
+                style="width: 10%;"
+              >
+                
+              </div>
+              <div
+              class="divDisplayTableCell brdLft text-center"
+              style="width: 10%;"
+            >
+              {{ item.invoiceNo }}
+            </div>
+              <div
+                class="divDisplayTableCell brdLft text-center"
+                style="width: 10%;"
+              >
+                {{ item.orderTypeName }}
+              </div>
+             
+           <div
+                class="divDisplayTableCell brdLft text-center"
+                style="width: 10%;"
+              >
+                {{ item.invCmpltStatus }}
+              </div>
+              <div
+              class="divDisplayTableCell brdLft text-center"
+              style="width: 15%;"
+            >
+              
+            </div>
+              <div
+              class="divDisplayTableCell brdLft text-center"
+              style="width: 10%;"
+            >
+              {{ item.totalRevenue }}
+            </div>
+          <div
+            class="divDisplayTableCell brdLft text-center"
+            style="width: 10%;"
+          >
+            {{ item.waiterName }}
+          </div>     
+            </div>
+          </div>
+        </perfect-scrollbar>
+
+        <ng-template #noDataBody>
+          <div class="divDisplayTable">
+            <div
+              class="divDisplayTableRow"
+              *ngIf="orderDetailsList != null && orderDetailsList.length == 0"
+            >
+              <div class="divDisplayTableCell text-center" style="width: 100%;">
+                No Data Found
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <div class="row justify-content-center mt-3" *ngIf="orderDetailsList != null">
+      <div class="col-auto mx-auto text-center" *ngIf="orderDetailsList.length">
+          <pagination [totalItems]="orderDetailsList.length" [(ngModel)]="currentDetailsPage" [boundaryLinks]="true"
+              [maxSize]="5" [itemsPerPage]="pageDetailsItems" previousText="&lsaquo;" firstText="&laquo;"
+              lastText="&raquo;" nextText="&rsaquo;" (pageChanged)="pageDetailsChanged($event)"></pagination>
+      </div>
+  </div>
+  </div>
+
+  <div class="printDetailsSection" id="printDetailsSection" style="display: none;">
+    <table border="1" style="width: 100%; border-collapse: collapse">
+        <tr>
+            <!-- <td style="width:4%; text-align: center;">#</td> -->
+            <td style="width:5%; text-align: center;">SL. NO.</td>
+            <td style="width:10%; text-align: center;">Date</td>
+            <td style="width:10%; text-align: center;">Restaurant Name</td>
+            <td style="width:10%; text-align: center;">Order Number</td>
+            <td style="width:10%; text-align: center;">Invoice Number</td>
+            <td style="width:10%; text-align: center;">Order Type</td>
+            <td style="width:10%; text-align: center;">Status</td>
+            <td style="width:15%; text-align: center;">Comments</td>
+            <td style="width:10%; text-align: center;">Total Revenue</td>
+            <td style="width:10%; text-align: center;">Waiter Name</td>
+
+
+        </tr>
+        <tr *ngFor="let item of orderDetailsList; let i = index;">
+            <!-- <td style="width:4%; text-align: center;">{{i+1}}</td> -->
+            <td style="width:5%; text-align: center;">{{i+1}}</td>
+            <td style="width:10%; text-align: center;">
+              {{ item.transDate }}
+            </td>
+            <td style="width:10%; text-align: center;">{{ item.restaurantName }}</td>
+            <td style="width:10%; text-align: center;"></td>
+            <td style="width:10%; text-align: center;">{{ item.invoiceNo }}</td>
+            <td style="width:10%; text-align: center;">{{ item.orderTypeName }}</td>
+            <td style="width:10%; text-align: center;">{{ item.invCmpltStatus }}</td>
+            <td style="width:15%; text-align: center;"></td>
+            <td style="width:10%; text-align: center;">{{ item.totalRevenue }}</td>
+            <td style="width:10%; text-align: center;">{{ item.waiterName }}</td>
+           
+        </tr>
+    </table>
+  </div>
+
+
+
+<ng4-loading-spinner
+  [timeout]="1300000"
+  [loadingText]="'Please wait...'"
+></ng4-loading-spinner>

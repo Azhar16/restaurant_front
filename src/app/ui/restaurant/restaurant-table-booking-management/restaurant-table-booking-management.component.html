@@ -1,0 +1,541 @@
+<div class="cust-container" style="padding: 0px; margin: 10px 0px;">
+    <section class="rev-mng-filter-panel h-100">
+      <div class="row align-items-center h-100">
+          <div class="col">
+              <i class="fa fa-calendar"></i>&nbsp;&nbsp;{{ now | date : 'dd-MMMM-y | h:mm a' }}
+          </div>
+          <div class="col-sm-7 col-lg-5 h-100" style="padding: .3rem 16px;">
+              <div class="form-row h-100 align-items-center">
+                  <div class="col">
+                      <input type="text" class="pull-right form-control"
+                          [class.blocked]="bookingList == null || bookingList.length <= 0" placeholder="Search"
+                          [(ngModel)]="filterSearchData" (ngModelChange)="changeSearchFilter($event)" />
+                  </div>
+                  <div class="col">
+                      <div class="btn-group w-100" dropdown
+                          [class.blocked]="bookingList == null || bookingList.length <= 0">
+                          <button dropdownToggle type="button" class="btn btn-block btn-default dropdown-toggle"
+                              aria-controls="paginate-count-menu">
+                              {{pageItems}} entries<span class="caret"></span>
+                          </button>
+                          <ul id="paginate-count-menu" *dropdownMenu class="dropdown-menu" role="menu">
+                              <li (click)="numPages({page: 1, itemsPerPage: 5})">
+                                  <a class="dropdown-item point-cursor">5 entries</a>
+                              </li>
+                              <li (click)="numPages({page: 1, itemsPerPage: 10})">
+                                  <a class="dropdown-item point-cursor">10 entries</a>
+                              </li>
+                              <li (click)="numPages({page: 1, itemsPerPage: 15})">
+                                  <a class="dropdown-item point-cursor">15 entries</a>
+                              </li>
+                              <li (click)="numPages({page: 1, itemsPerPage: 20})">
+                                  <a class="dropdown-item point-cursor">20 entries</a>
+                              </li>
+                              <!-- <perfect-scrollbar class="position-relative" [style.max-height.px]="250"
+                                  [scrollIndicators]="true">
+                                  <li role="menuitem" *ngFor="let employeeItem of hotelEmployeeData"
+                                      (click)="bulkAssignedEmployee = employeeItem">
+                                      <a class="dropdown-item">{{employeeItem.empName}}</a>
+                                  </li>
+                              </perfect-scrollbar> -->
+                          </ul>
+                      </div>
+                  </div>
+                  <div class="col-auto point-cursor" (click)="printData()"
+                      [class.blocked]="bookingList == null || bookingList.length <= 0">
+                      <img src="./assets/images/print-ico.png" alt="print"> <span
+                          style="position: relative;top:2px;padding-left:4px;">Print</span>
+                  </div>
+              </div>
+  
+          </div>
+      </div>
+  </section>
+    <div class="head-section">
+      <div class="row head-row">
+        <div
+          class="inner-col-right-reduce"
+          style="width: 50%; padding-left: 16px;"
+        >
+          <h5>Booking Management</h5>
+        </div>
+      </div>
+
+    <div class="row body-row">
+      <div class="col">
+        <div class="card" style="padding: 10px 20px;">
+          <div class="row">
+            <div class="col-md-2 col-sm-12">
+              <div class="form-group form-row">
+                <div class="input-group date-cal">
+                  <span>
+                    <i class="fa fa-calendar"></i>
+                  </span>
+                  <input
+                    bsDatepicker
+                    class="form-control"
+                    id="open_date"
+                    #dpend="bsDatepicker"
+                    type="text"
+                    [bsConfig]="bsConfigEnd"
+                    placeholder="Start Date"
+                    [(ngModel)]="bookingData.bookingStartDate"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-12">
+              <div class="form-group form-row">
+                <div class="input-group date-cal">
+                  <span>
+                    <i class="fa fa-calendar"></i>
+                  </span>
+                  <input
+                    bsDatepicker
+                    class="form-control"
+                    id="open_date"
+                    #dpend="bsDatepicker"
+                    type="text"
+                    [bsConfig]="bsConfigEnd"
+                    placeholder="End Date"
+                    [(ngModel)]="bookingData.bookingEndDate"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <div class="form-group form-row">
+                <div class="col">
+                  <div
+                    class="btn-group"
+                    dropdown
+                    style="width: 45%; margin-right: 4%;"
+                  >
+                    <select
+                      class="form-control"
+                      id="restaurant"
+                      [(ngModel)]="bookingData.restaurantId"
+                    >
+                      <option value="">select Restaurant</option>
+                      <option
+                        *ngFor="let restaurantType of bookingRestaurantMaster"
+                        value="{{ restaurantType.restaurantId }}"
+                        >{{ restaurantType.restaurantName }}</option
+                      >
+                    </select>
+                  </div>
+                  <div
+                    class="btn-group"
+                    dropdown
+                    style="width: 45%; margin-right: 2%;"
+                  >
+                    <ng-multiselect-dropdown
+                      [placeholder]="'Select Table'"
+                      [data]="dropdownList"
+                      [(ngModel)]="selectedItems"
+                      [settings]="dropdownSettings"
+                      (onSelect)="onItemSelect($event)"
+                      (onSelectAll)="onSelectAll($event)"
+                      [required]="requiredField"
+                      name="countrySelect"
+                      style="width: 100%; background: #fff;"
+                    >
+                    </ng-multiselect-dropdown>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4 col-sm-12">
+              <div class="form-group form-row">
+                <div class="col">
+                  <div
+                    class="btn-group"
+                    dropdown
+                    style="width: 45%; margin-right: 2%;"
+                  >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="recipe_price"
+                      placeholder="Enter Guest Name"
+                      [(ngModel)]="bookingData.guestName"
+                    />
+                  </div>
+                  <div
+                    class="btn-group"
+                    dropdown
+                    style="width: 45%; margin-right: 2%;"
+                  >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="recipe_price"
+                      placeholder="Enter Guest Number"
+                      [(ngModel)]="bookingData.guestPhoneNo"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8 col-sm-12">
+              <div class="form-group form-row">
+                <div class="col" style="margin-left: -0.6%;">
+                  <div
+                    class="btn-group"
+                    dropdown
+                    style="width: 24%; margin-right: 2%;"
+                  >
+                    <select
+                      class="form-control"
+                      [(ngModel)]="bookingData.bookingStartTime"
+                    >
+                      <option value="">Select time</option>
+                      <option
+                        *ngFor="
+                          let item of [
+                            '01',
+                            '02',
+                            '03',
+                            '04',
+                            '05',
+                            '06',
+                            '07',
+                            '08',
+                            '09',
+                            '10',
+                            '11',
+                            '12'
+                          ]
+                        "
+                        value="{{ item }}"
+                        >{{ item }}</option
+                      >
+                    </select>
+                  </div>
+                  <div
+                    class="btn-group"
+                    dropdown
+                    style="width: 23%; margin-right: 0.5%;"
+                  >
+                    <select
+                      class="form-control"
+                      [(ngModel)]="bookingData.bookingStartTime1"
+                    >
+                      <option value="">Select</option>
+                      <option value="AM">AM</option>
+                      <option value="PM">PM</option>
+                    </select>
+                  </div>
+                  <div
+                    class="btn-group"
+                    dropdown
+                    style="width: 2%; margin-right: 0.5%;"
+                  >
+                    To
+                  </div>
+                  <div
+                    class="btn-group"
+                    dropdown
+                    style="width: 22%; margin-right: 2%;"
+                  >
+                    <select
+                      class="form-control"
+                      [(ngModel)]="bookingData.bookingEndTime"
+                    >
+                      <option value="">Select time</option>
+                      <option
+                        *ngFor="
+                          let item of [
+                            '01',
+                            '02',
+                            '03',
+                            '04',
+                            '05',
+                            '06',
+                            '07',
+                            '08',
+                            '09',
+                            '10',
+                            '11',
+                            '12'
+                          ]
+                        "
+                        value="{{ item }}"
+                        >{{ item }}</option
+                      >
+                    </select>
+                  </div>
+                  <div
+                    class="btn-group"
+                    dropdown
+                    style="width: 22%; margin-right: 2%;"
+                  >
+                    <select
+                      class="form-control"
+                      [(ngModel)]="bookingData.bookingEndTime1"
+                    >
+                      <option value="">Select</option>
+                      <option value="AM">AM</option>
+                      <option value="PM">PM</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4 col-sm-12">
+              <div
+                class="form-group form-row"
+                style="float: right; margin-right: 6%;"
+              >
+                <button
+                  class="btn btn-normal ml-0"
+                  type="button"
+                  mwlConfirmationPopover
+                  [popoverTitle]="popoverTitle1"
+                  [popoverMessage]="popoverMessage1"
+                  [confirmText]="confirmText"
+                  [cancelText]="cancelText"
+                  placement="left"
+                  (confirm)="bookingAdd()"
+                  (cancel)="cancelClicked = true"
+                  confirmButtonType="coninfo"
+                  cancelButtonType="light"
+                >
+                  <i
+                    class="fa fa-plus"
+                    aria-hidden="true"
+                    style="color: #fff;"
+                  ></i>
+                  Add
+                </button>
+                &nbsp;
+                <button
+                  class="btn btn-normal ml-0"
+                  type="button"
+                  (click)="clearSearch()"
+                >
+                  Clear
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="body-section cust-container" style="padding: 0;">
+  <div class="row body-row">
+    <div class="table-responsive" id="tableDiv">
+      <div class="divDisplayTable">
+        <div class="divDisplayTableRow" id="tableHeaderRow">
+          <div class="divDisplayTableCell head text-center" style="width: 10%;">
+            SL. NO.
+          </div>
+          <div class="divDisplayTableCell head text-center" style="width: 10%;">
+            Start Date
+          </div>
+          <div class="divDisplayTableCell head text-center" style="width: 10%;">
+            End Date
+          </div>
+          <div class="divDisplayTableCell head text-center" style="width: 15%;">
+            Restaurant Name
+          </div>
+          <div class="divDisplayTableCell head text-center" style="width: 10%;">
+            Timings
+          </div>
+          <div class="divDisplayTableCell head text-center" style="width: 10%;">
+            Table Number
+          </div>
+          <div class="divDisplayTableCell head text-center" style="width: 15%;">
+            Guest Name
+          </div>
+          <div class="divDisplayTableCell head text-center" style="width: 10%;">
+            Guest Number
+          </div>
+          <div class="divDisplayTableCell head text-center" style="width: 10%;">
+            Action
+          </div>
+        </div>
+      </div>
+
+      <perfect-scrollbar
+        *ngIf="bookingList != null && bookingList.length > 0; else noDataBody"
+        class="scroll-container position-relative"
+        [style.max-height.px]="264"
+        [scrollIndicators]="true"
+      >
+        <div class="divDisplayTable mb-1">
+          <div
+            class="divDisplayTableRow"
+            *ngFor="let item of paginateBookingList; let i = index"
+          >
+            <div
+              class="divDisplayTableCell brdLft text-center"
+              style="width: 10%;"
+            >
+              {{ item.slNo }}
+            </div>
+            <div
+              class="divDisplayTableCell brdLft text-center"
+              style="width: 10%;"
+            >
+              {{ item.bookingStartDate }}
+            </div>
+            <div
+              class="divDisplayTableCell brdLft text-center"
+              style="width: 10%;"
+            >
+              {{ item.bookingEndDate }}
+            </div>
+            <div
+              class="divDisplayTableCell brdLft text-center"
+              style="width: 15%;"
+            >
+              {{ item.restaurantName }}
+            </div>
+            <div
+              class="divDisplayTableCell brdLft text-center"
+              style="width: 10%;"
+            >
+              {{ item.bookingStartTiming }}{{ item.bookingStartTime1 }} -
+              {{ item.bookingEndTiming }}{{ item.bookingEndTime1 }}
+            </div>
+            <div
+              class="divDisplayTableCell brdLft text-center"
+              style="width: 10%;"
+            >
+              {{ item.tableNumber }}
+            </div>
+            <div
+              class="divDisplayTableCell brdLft text-center"
+              style="width: 15%;"
+            >
+              {{ item.guestName }}
+            </div>
+            <div
+              class="divDisplayTableCell brdLft text-center"
+              style="width: 10%;"
+            >
+              {{ item.guestNumber }}
+            </div>
+            <div
+              class="divDisplayTableCell brdLft text-left"
+              style="width: 10%;"
+            >
+              <div
+                class="d-inline-block point-cursor"
+                *ngIf="i < bookingListLength"
+              >
+                <button
+                  style="padding: 0; cursor: pointer;"
+                  class="btn btn-default"
+                  mwlConfirmationPopover
+                  [popoverTitle]=""
+                  [popoverMessage]="popoverMessage"
+                  [confirmText]="confirmText"
+                  [cancelText]="cancelText"
+                  placement="bottom"
+                  (confirm)="deleteBooking(item.bookingAllocationId)"
+                  (cancel)="cancelClicked = true"
+                  confirmButtonType="coninfo"
+                  cancelButtonType="light"
+                >
+                  <img src="./assets/images/delete.png" alt="create amenity" />
+                </button>
+              </div>
+              <div
+                class="d-inline-block point-cursor"
+                *ngIf="i >= bookingListLength"
+              >
+                <button
+                  style="padding: 0; cursor: pointer;"
+                  class="btn btn-default"
+                  mwlConfirmationPopover
+                  [popoverTitle]=""
+                  [popoverMessage]="popoverMessage"
+                  [confirmText]="confirmText"
+                  [cancelText]="cancelText"
+                  placement="top"
+                  (confirm)="deleteBooking(item.bookingAllocationId)"
+                  (cancel)="cancelClicked = true"
+                  confirmButtonType="coninfo"
+                  cancelButtonType="light"
+                >
+                  <img src="./assets/images/delete.png" alt="create amenity" />
+                </button>
+              </div>
+              &nbsp;
+              <div class="d-inline-block point-cursor">
+                <img
+                  src="./assets/images/save.png"
+                  alt="create amenity"
+                  (click)="editBooking(item)"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </perfect-scrollbar>
+
+      <ng-template #noDataBody>
+        <div class="divDisplayTable">
+          <div
+            class="divDisplayTableRow"
+            *ngIf="bookingList != null && bookingList.length == 0"
+          >
+            <div class="divDisplayTableCell text-center" style="width: 100%;">
+              No Data Found
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-3" *ngIf="bookingList != null">
+    <div class="col-auto mx-auto text-center" *ngIf="bookingList.length">
+        <pagination [totalItems]="bookingList.length" [(ngModel)]="currentPage" [boundaryLinks]="true"
+            [maxSize]="5" [itemsPerPage]="pageItems" previousText="&lsaquo;" firstText="&laquo;"
+            lastText="&raquo;" nextText="&rsaquo;" (pageChanged)="pageChanged($event)"></pagination>
+    </div>
+</div>
+</div>
+<div class="printSection" id="printSection" style="display: none;">
+  <table border="1" style="width: 100%; border-collapse: collapse">
+      <tr>
+          <!-- <td style="width:4%; text-align: center;">#</td> -->
+          <td style="width:10%; text-align: center;">SL. NO.</td>
+          <td style="width:10%; text-align: center;">Start Date</td>
+          <td style="width:10%; text-align: center;">End Date</td>
+          <td style="width:15%; text-align: center;">Restaurant Name</td>
+          <td style="width:15%; text-align: center;">Timings</td>
+          <td style="width:10%; text-align: center;">Table Number</td>
+          <td style="width:15%; text-align: center;">Guest Name</td>
+          <td style="width:10%; text-align: center;">Guest Number/td>
+      </tr>
+      <tr *ngFor="let item of bookingList; let i = index;">
+          <!-- <td style="width:4%; text-align: center;">{{i+1}}</td> -->
+          <td style="width:10%; text-align: center;">{{i+1}}</td>
+          <td style="width:10%; text-align: center;">{{ item.bookingStartDate }}</td>
+          <td style="width:10%; text-align: center;">
+            {{ item.bookingEndDate }}
+          </td>
+          <td style="width:15%; text-align: center;">{{ item.restaurantName  }}</td>
+          <td style="width:15%; text-align: center;">{{ item.bookingStartTiming }}{{ item.bookingStartTime1 }} -
+            {{ item.bookingEndTiming }}{{ item.bookingEndTime1 }}</td>
+          <td style="width:10%; text-align: center;">{{ item.tableNumber }}</td>
+          <td style="width:15%; text-align: center;">{{ item.guestName }}</td>
+          <td style="width:10%; text-align: center;">{{ item.guestNumber }}</td>
+         
+      </tr>
+  </table>
+</div>
+<ng4-loading-spinner
+  [timeout]="1300000"
+  [loadingText]="'Please wait...'"
+></ng4-loading-spinner>

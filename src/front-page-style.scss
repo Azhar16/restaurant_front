@@ -1,0 +1,134 @@
+$color_1: #7c90fb;
+$color_2: black;
+$color_3: #d9314a;
+$font_family_1: "Roboto-Medium";
+$background_color_1: #dce2ff;
+$background_color_2: #f7f9ff;
+$background_color_3: #fff;
+
+.cust-container {
+    padding: 0.5rem 0rem;
+    margin: 0.5rem 1rem;
+
+    .head-section {
+        background-color: $background_color_1;
+        padding: 0.5rem 0px;
+        border-collapse: collapse;
+
+        .head-row {
+            margin: auto;
+
+            h5 {
+                font-size: 1rem;
+                font-family: $font_family_1;
+            }
+        }
+
+        .body-row {
+            margin: auto;
+
+            .card {
+                background-color: $background_color_2;
+                padding: 0.5rem;
+                border-collapse: collapse;
+                border-radius: 6px;
+
+                .rate-indicator {
+                    color: $color_1;
+                }
+
+                .btn-group {
+                    button.btn-default {
+                        border: 1px solid #bbb;
+                        outline: none;
+                        background-color: $background_color_3;
+                        color: $color_2;
+                        text-align: left;
+                        position: relative;
+
+                        &:hover {
+                            background-color: $background_color_3;
+                            color: $color_2;
+                        }
+
+                        &:focus {
+                            outline: none;
+                            box-shadow: none;
+                        }
+                    }
+
+                    button.btn-default.dropdown-toggle {
+                        &:after {
+                            position: absolute;
+                            right: 4%;
+                            top: 42%;
+                        }
+                    }
+                }
+            }
+        }
+
+        .error-indicator {
+            color: $color_3;
+        }
+
+        .inner-col-left-reduce {
+            padding-left: 7.5px;
+        }
+
+        .inner-col-right-reduce {
+            padding-right: 7.5px;
+        }
+    }
+
+    .body-section {
+        padding: 0.5rem 0px;
+        border-collapse: collapse;
+
+        &.no-padding {
+            padding: 0px;
+        }
+
+        .body-row {
+            margin: auto;
+
+            .rTable.table-list {
+                .rTableRow {
+                    .rTableCell {
+                        height: 35px;
+                        line-height: 35px;
+
+                        input[type="checkbox"] {
+                            height: 16px;
+                            line-height: 16px;
+                        }
+
+                        input[type="text"] {
+                            height: 30px;
+                            line-height: 30px;
+                            vertical-align: super;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /*.counter {
+        &.open-counter {
+            .row {
+                .col {
+                    .form-check-inline {
+                        .radio {
+                            .checkround {
+                                &:after {
+                                    left: 0.11rem;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }*/
+}

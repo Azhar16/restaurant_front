@@ -1,0 +1,368 @@
+<div style="margin-top: 1%;">
+  <button
+    type="button"
+    class="btn btn-primary"
+    mwlConfirmationPopover
+    [popoverTitle]="popoverTitle2"
+    [popoverMessage]="popoverMessage2"
+    [confirmText]="confirmText1"
+    [cancelText]="cancelText1"
+    placement="right"
+    (confirm)="addtable()"
+    (cancel)="cancelClicked = true"
+    confirmButtonType="coninfo"
+    cancelButtonType="light"
+    style="background: #dce2ff; border-color: #dce2ff; color: #212529;"
+  >
+    <i class="fa fa-plus" aria-hidden="true" style="color: #2125298c;"></i>
+    Add Table
+  </button>
+</div>
+<div
+  class="cust-container"
+  style="padding: 0px 10px; margin: 10px 0px; background-color: #dce2ff;"
+>
+  <div class="head-section">
+    <div class="row head-row">
+      <div class="inner-col-right-reduce" style="width: 50%;">
+        <h5 style="margin-bottom: 0;">Table Management</h5>
+      </div>
+      <div style="width: 50%; text-align: right;">
+        <h5 style="margin-bottom: 0;">{{ now | date: "h:mm a" }}</h5>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div
+  class="btnclk"
+  mwlConfirmationPopover
+  [popoverTitle]="popoverTitle1"
+  [popoverMessage]="popoverMessage1"
+  [confirmText]="confirmText3"
+  [cancelText]="cancelText3"
+  placement="auto right"
+  (confirm)="roomPage()"
+  (cancel)="parcelPage()"
+  confirmButtonType="success"
+  cancelButtonType="danger"
+></div> -->
+<ul class="custom-menu">
+  <li data-action="order"><i class="fa fa-truck"></i> Order</li>
+  <li data-action="delete"><i class="fa fa-trash"></i> Delete</li>
+  <li data-action="room"><i class="fa fa-bed" aria-hidden="true"></i> Room</li>
+  <li data-action="parcel">
+    <i class="fa fa-shopping-bag" aria-hidden="true"></i> Parcel
+  </li>
+</ul>
+<ul class="custom-menu-table">
+  <li data-action="order"><i class="fa fa-truck"></i> Order</li>
+  <li data-action="delete"><i class="fa fa-trash"></i> Delete</li>
+  <li data-action="room"><i class="fa fa-bed" aria-hidden="true"></i> Room</li>
+  <li data-action="parcel">
+    <i class="fa fa-shopping-bag" aria-hidden="true"></i> Parcel
+  </li>
+</ul>
+<!-- <ul class="custom-menu-reserve">
+  <li data-action="order">Order</li>
+  <li data-action="cancel">cancel</li>
+</ul> -->
+<div
+  class="container"
+  id="table-pagenew"
+  (contextmenu)="tableContextMenu($event, 'table')"
+>
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="tab-wrap-hd">
+        <li>
+          <span style="color: #ffeab3;" *ngIf="tableDetails != undefined">{{
+            tableDetails.totalReservedTable
+          }}</span
+          >Reserved
+        </li>
+        <li>
+          <span style="color: #95d69f;" *ngIf="tableDetails != undefined">{{
+            tableDetails.totalRunningTable
+          }}</span
+          >Running Tables
+        </li>
+        <li>
+          <span style="color: #eb4245;" *ngIf="tableDetails != undefined">{{
+            tableDetails.totalAvailableTable
+          }}</span
+          >Available Tables
+        </li>
+        <li>
+          <span style="color: #e98ce6;" *ngIf="tableDetails != undefined">{{
+            tableDetails.totalTable
+          }}</span
+          >Total Tables
+        </li>
+        <!-- <li>
+          <span style="color: #ff91a2;" *ngIf="tableDetails != undefined">{{
+            tableDetails.totalFutureBkngCount
+          }}</span
+          >Future Booking Count
+        </li> -->
+      </ul>
+      <div class="form-row">
+        <perfect-scrollbar
+          *ngIf="tableList != null && tableList.length > 0; else noDataBody"
+          class="scroll-container position-relative"
+          [style.max-height.px]="400"
+          [scrollIndicators]="true"
+        >
+          <!-- <table style="width:100%" class="table-arrange">
+          <tr>
+            <td *ngFor="let item of tableList; let i = index">-->
+          <div
+            class="stab-wrap"
+            style="width: 12.5%; float: left;"
+            *ngFor="let item of tableList; let i = index"
+          >
+            <!-- <img
+            *ngIf="item.status == 'A'"
+            src="./assets/images/tab7.png"
+            alt="tableno1"
+            class="img-responsive"
+            mwlConfirmationPopover
+            [popoverTitle]="popoverTitle1"
+            [popoverMessage]="popoverMessage1"
+            [confirmText]="confirmText"
+            [cancelText]="cancelText"
+            placement="auto right"
+            (confirm)="orderpage(item)"
+            (cancel)="deleteTable(item.tableId)"
+            confirmButtonType="success"
+            cancelButtonType="danger"
+          />
+            <img
+            *ngIf="item.status == 'C'"
+            src="./assets/images/tab5.png"
+            alt="tableno3"
+            class="img-responsive"
+            mwlConfirmationPopover
+            [popoverTitle]="popoverTitle1"
+            [popoverMessage]="popoverMessage1"
+            [confirmText]="confirmText"
+            [cancelText]="cancelText2"
+            placement="auto right"
+            (confirm)="orderpage(item)"
+            (cancel)="cancelClicked = true"
+            confirmButtonType="success"
+            cancelButtonType="danger"
+          />
+          <img
+            *ngIf="item.status == 'R'"
+            src="./assets/images/tab4.png"
+            alt="tableno4"
+            class="img-responsive"
+            mwlConfirmationPopover
+            [popoverTitle]="popoverTitle1"
+            [popoverMessage]="popoverMessage1"
+            [confirmText]="confirmText"
+            [cancelText]="cancelText2"
+            placement="auto right"
+            (confirm)="orderpage(item)"
+            (cancel)="cancelClicked = true"
+            confirmButtonType="success"
+            cancelButtonType="danger"
+          />
+         -->
+            <img
+              *ngIf="item.status == 'A' && item.futureBookingDtl == null"
+              src="./assets/images/tab7.png"
+              alt="tableno1"
+              class="img-responsive"
+              (contextmenu)="order($event, 'order', item)"
+              (click)="orderpage(item)"
+            />
+            <img
+            *ngIf="item.status == 'A' && item.futureBookingDtl != null && item.futureBookingDtl.length > 0"
+            src="./assets/images/tab3.png"
+            alt="tableno1"
+            title="{{item.bookingDetail}}"
+            class="img-responsive"
+            (contextmenu)="order($event, 'order', item)"
+            (click)="orderpage(item)"
+          />
+            <img
+              *ngIf="item.status == 'C'"
+              src="./assets/images/tab5.png"
+              alt="tableno3"
+              class="img-responsive"
+              (contextmenu)="order($event, 'current', item)"
+              (click)="orderpage(item)"
+            />
+            <img
+              *ngIf="item.status == 'R'"
+              src="./assets/images/tab4.png"
+              alt="tableno4"
+              class="img-responsive"
+              (contextmenu)="order($event, 'reserved', item)"
+              (click)="orderpage(item)"
+            />
+            <span
+              *ngIf="item.status == 'R'"
+              (contextmenu)="order($event, 'reserved', item)"
+              (click)="orderpage(item)"
+            >
+              {{ item.status }} ({{ item.tableNo }})</span
+            >
+            <span
+              *ngIf="item.status == 'C'"
+              (contextmenu)="order($event, 'current', item)"
+              (click)="orderpage(item)"
+            >
+              {{ item.status }} ({{ item.tableNo }})</span
+            >
+            <span
+            *ngIf="item.status == 'A'  && item.futureBookingDtl == null"
+            (contextmenu)="order($event, 'order', item)"
+            (click)="orderpage(item)"
+          >
+            {{ item.status }} ({{ item.tableNo }})</span
+          >
+          <span
+            *ngIf="item.status == 'A'  && item.futureBookingDtl != null && item.futureBookingDtl.length > 0"
+            (contextmenu)="order($event, 'order', item)"
+            (click)="orderpage(item)"
+            title="{{item.bookingDetail}}"
+          >
+          {{ item.status }} ({{ item.tableNo }})</span
+          >
+            
+          </div>
+        </perfect-scrollbar>
+
+        <ng-template #noDataBody>
+          <div class="divDisplayTable">
+            <div
+              class="divDisplayTableRow"
+              *ngIf="tableList != null && tableList.length == 0"
+            >
+              <div class="divDisplayTableCell text-center" style="width: 100%;">
+                No Data Found
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <!--  <div
+          class="stab-wrap"
+          *ngIf="item.status == 'C'"
+          *ngFor="let item of tableList; let i = index"
+          (click)="orderpage(item)"
+        >
+          <img
+            src="./assets/images/tab5.png"
+            alt="tableno3"
+            class="img-responsive"
+          /><span style="color:#ed1c24;"> {{ item.tableNumber }}</span>
+        </div>
+        <div
+          class="stab-wrap"
+          *ngIf="item.status == 'R'"
+          *ngFor="let item of tableList; let i = index"
+          (click)="orderpage(item)"
+        >
+          <img
+            src="./assets/images/tab4.png"
+            alt="tableno4"
+            class="img-responsive"
+          /><span style="color:#738798;"> {{ item.tableNumber }}</span>
+        </div>-->
+        <!--</td>-->
+        <!-- <td>
+    	<div class="stab-wrap" *ngIf="item.status == 'C'"><img src="./assets/images/tab5.png" alt="tableno3" class="img-responsive"><span style="color:#ed1c24;"> {{item.tableNumber}}</span></div> 
+    </td>
+    <td>
+    	<div class="stab-wrap" *ngIf="item.status == 'R'"><img src="./assets/images/tab4.png" alt="tableno4" class="img-responsive"><span style="color:#738798;"> {{item.tableNumber}}</span></div> 
+    </td> -->
+        <!--<td>
+    	<div class="stab-wrap"><img src="./assets/images/tab5.png" alt="tableno5" class="img-responsive"><span style="color:#ed1c24;"> $</span></div> 
+    </td>
+    <td>
+    	<div class="stab-wrap"><img src="./assets/images/tab7.png" alt="tableno6" class="img-responsive"><span> 6</span></div> 
+    </td>
+    <td>
+    	<div class="stab-wrap"><img src="./assets/images/tab7.png" alt="tableno7" class="img-responsive"><span> 7</span></div> 
+    </td>
+  </tr>
+  <tr>
+    <td>
+    	<div class="stab-wrap"><img src="./assets/images/tab7.png" alt="tableno1" class="img-responsive"><span> H</span></div> 
+    </td>
+    <td>
+    	<div class="stab-wrap"><img src="./assets/images/tab7.png" alt="tableno2" class="img-responsive"><span> p</span></div> 
+    </td>
+    <td>
+    	<div class="stab-wrap"><img src="./assets/images/tab5.png" alt="tableno3" class="img-responsive"><span> $</span></div> 
+    </td>
+    <td>
+    	<div class="stab-wrap"><img src="./assets/images/tab4.png" alt="tableno4" class="img-responsive"><span> 4</span></div> 
+    </td>
+    <td>
+    	<div class="stab-wrap"><img src="./assets/images/tab5.png" alt="tableno5" class="img-responsive"><span style="color:#ed1c24;"> $</span></div> 
+    </td>
+    <td>
+    	<div class="stab-wrap"><img src="./assets/images/tab7.png" alt="tableno6" class="img-responsive"><span> 6</span></div> 
+    </td>
+    <td>
+    	<div class="stab-wrap"><img src="./assets/images/tab7.png" alt="tableno7" class="img-responsive"><span> 7</span></div> 
+    </td>-->
+        <!-- </tr> -->
+        <!--<tr>
+    <td>
+    	<div class="stab-wrap"><img src="./assets/images/tab7.png" alt="tableno1" class="img-responsive"><span> H</span></div> 
+    </td>
+    <td>
+    	<div class="stab-wrap"><img src="./assets/images/tab7.png" alt="tableno2" class="img-responsive"><span> p</span></div> 
+    </td>
+    <td>
+    	<div class="stab-wrap"><img src="./assets/images/tab5.png" alt="tableno3" class="img-responsive"><span> $</span></div> 
+    </td>
+    <td>
+    	<div class="stab-wrap"><img src="./assets/images/tab4.png" alt="tableno4" class="img-responsive"><span> 4</span></div> 
+    </td>
+    <td>
+    	<div class="stab-wrap"><img src="./assets/images/tab5.png" alt="tableno5" class="img-responsive"><span> $</span></div> 
+    </td>
+    <td>
+    	<div class="stab-wrap"><img src="./assets/images/tab7.png" alt="tableno6" class="img-responsive"><span> 6</span></div> 
+    </td>
+    <td>
+    	<div class="stab-wrap"><img src="./assets/images/tab7.png" alt="tableno7" class="img-responsive"><span> 7</span></div> 
+    </td>
+  </tr>
+  <tr>
+    <td>
+    	<div class="stab-wrap"><img src="./assets/images/tab7.png" alt="tableno1" class="img-responsive"><span> H</span></div> 
+    </td>
+    <td>
+    	<div class="stab-wrap"><img src="./assets/images/tab7.png" alt="tableno2" class="img-responsive"><span> p</span></div> 
+    </td>
+    <td>
+    	<div class="stab-wrap"><img src="./assets/images/tab5.png" alt="tableno3" class="img-responsive"><span> $</span></div> 
+    </td>
+    <td>
+    	<div class="stab-wrap"><img src="./assets/images/tab4.png" alt="tableno4" class="img-responsive"><span> 4</span></div> 
+    </td>
+    <td>
+    	<div class="stab-wrap"><img src="./assets/images/tab5.png" alt="tableno5" class="img-responsive"><span> $</span></div> 
+    </td>
+    <td>
+    	<div class="stab-wrap"><img src="./assets/images/tab7.png" alt="tableno6" class="img-responsive"><span> 6</span></div> 
+    </td>
+    <td>
+    	<div class="stab-wrap"><img src="./assets/images/tab7.png" alt="tableno7" class="img-responsive"><span> 7</span></div> 
+    </td>
+  </tr>-->
+        <!--</table>-->
+      </div>
+    </div>
+  </div>
+</div>
+<ng4-loading-spinner
+  [timeout]="1300000"
+  [loadingText]="'Please wait...'"
+></ng4-loading-spinner>

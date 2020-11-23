@@ -1,0 +1,160 @@
+<nav id="sidebar" (clickElsewhere)="closeSideSidebar()">
+  <perfect-scrollbar class="position-relative" [scrollIndicators]="true">
+    <ul class="list-unstyled components">
+      <li>
+        <a
+          href="javascript:void(0)"
+          (click)="showRestaurantDetails('restaurant_calendar_business')"
+        >
+          <img src="./assets/images/restaurant-info.png" alt="" /> &nbsp;
+          Calender Business View
+        </a>
+      </li>
+      <li>
+        <a
+          href="javascript:void(0)"
+          (click)="showRestaurantDetails('restaurant_tax')"
+        >
+          <img src="./assets/images/report.png" alt="" /> &nbsp; Tax Management
+        </a>
+      </li>
+      <li>
+        <a
+          href="javascript:void(0)"
+          (click)="showRestaurantDetails('restaurant_general')"
+        >
+          <img src="./assets/images/restaurant-info.png" alt="" /> &nbsp;
+          Restaurent Info
+        </a>
+      </li>
+      <li>
+        <a
+          href="javascript:void(0)"
+          (click)="showRestaurantDetails('restaurant_primary_category_food')"
+        >
+          <img src="./assets/images/category.png" alt="" /> &nbsp; Categories
+        </a>
+      </li>
+      <hr class="rounded" />
+      <li>
+        <a
+          href="javascript:void(0)"
+          (click)="showRestaurantDetails('restaurant_recipe')"
+        >
+          <img src="./assets/images/recipe.png" alt="" /> &nbsp; Recipes
+        </a>
+      </li>
+      <li>
+        <a
+          href="javascript:void(0)"
+          (click)="showRestaurantDetails('restaurant_table_management')"
+        >
+          <img src="./assets/images/tables.png" alt="" /> &nbsp; Tables
+        </a>
+      </li>
+      <li>
+        <a
+          href="javascript:void(0)"
+          (click)="showRestaurantDetails('restaurant_purchase_management')"
+        >
+          <img src="./assets/images/purchase.png" alt="" /> &nbsp; Purchases
+        </a>
+      </li>
+      <!-- <li>
+        <a
+          href="javascript:void(0)"
+          (click)="showRestaurantDetails('restaurant_sales_management')"
+        >
+          <img src="./assets/images/sales.png" alt="" /> &nbsp; Sales
+        </a>
+      </li> -->
+      <hr class="rounded" />
+      <li>
+        <a
+          href="javascript:void(0)"
+          (click)="showRestaurantDetails('restaurant_table_booking_management')"
+        >
+          <img src="./assets/images/booking.png" alt="" /> &nbsp; Bookings
+        </a>
+      </li>
+      <li>
+        <a
+          href="javascript:void(0)"
+          (click)="showRestaurantDetails('restaurant_guest_management')"
+        >
+          <img src="./assets/images/guest-info.png" alt="" /> &nbsp; Guest Info
+        </a>
+      </li>
+      <li>
+        <a
+          href="javascript:void(0)"
+          (click)="showRestaurantDetails('restaurant_open_counter')"
+        >
+          <img src="./assets/images/open-counter.png" alt="" /> &nbsp; Open
+          Counter
+        </a>
+      </li>
+      <li>
+        <a
+          href="javascript:void(0)"
+          (click)="showRestaurantDetails('restaurant_close_counter')"
+        >
+          <img src="./assets/images/closed-counter.png" alt="" /> &nbsp; Close
+          Counter
+        </a>
+      </li>
+      <hr class="rounded" />
+      <li>
+        <a
+          href="javascript:void(0)"
+          (click)="showRestaurantDetails('restaurant_guest_review_management')"
+        >
+          <img src="./assets/images/guest-review.png" alt="" /> &nbsp; Guest
+          Reviews
+        </a>
+      </li>
+      <!-- <li>
+        <a
+          href="javascript:void(0)"
+          (click)="showRestaurantDetails('restaurant_room_management')"
+        >
+          <img src="./assets/images/room-order.png" alt="" /> &nbsp; Room
+          Order</a
+        >
+      </li> -->
+      <li>
+        <a
+          href="javascript:void(0)"
+          (click)="showRestaurantDetails('restaurant_order_management')"
+        >
+          <img src="./assets/images/food-order.png" alt="" /> &nbsp; Room Order
+        </a>
+      </li>
+      <li>
+        <a
+          href="javascript:void(0)"
+          (click)="showRestaurantDetails('restaurant_kitchen_order')"
+        >
+          <img src="./assets/images/food-order.png" alt="" /> &nbsp; Ktchen
+          Order
+        </a>
+      </li>
+      <!-- <li>
+        <a
+          href="javascript:void(0)"
+          (click)="showRestaurantDetails('restaurant_report_management')"
+        >
+          
+        </a>
+      </li> -->
+      <li>
+        <a href="#revenuereport" data-toggle="collapse" aria-expanded="false"><img src="./assets/images/report.png" alt="" /> &nbsp; Reports</a>
+        <ul class="collapse list-unstyled" id="revenuereport">
+            <li><a href="javascript:void(0)" (click)="showRestaurantDetails('revenue_reports')">Revenue Report</a></li>
+            <li><a href="javascript:void(0)" (click)="showRestaurantDetails('order_reports')">Order Report</a></li>
+           
+        </ul>
+    </li>
+    </ul>
+  </perfect-scrollbar>
+</nav>

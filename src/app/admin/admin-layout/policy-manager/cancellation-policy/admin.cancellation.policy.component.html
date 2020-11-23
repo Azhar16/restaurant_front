@@ -1,0 +1,160 @@
+<div class="container-fluid" style="padding:10px 0px; ">
+    <h5>Cancellation Policy</h5>
+
+    <div class="row">
+
+        <div class="col-12 col-flexible">
+            <alert *ngIf="alertMessageDetails.response" [type]="alertMessageDetails.type" [dismissible]="true" class="text-center">
+                {{alertMessageDetails.message}}
+            </alert>
+        </div>
+
+        <div class="col">
+            <div class="table-responsive" style="font-size:14px;">
+
+                <div class="rTable">
+
+                    <div class="rTableRow">
+                        <div class="rTableHead" style="width:7%;">Sl. No.</div>
+                        <div class="rTableHead text-center" style="width:23%;">Policy Title</div>
+                        <div class="rTableHead" style="width:15%;">Before check in</div>
+                        <div class="rTableHead head text-center" style="width:45%;">Charge</div>
+                        <div class="rTableHead" style="width:10%;">Actions</div>
+                    </div>
+
+                    <ng-container *ngFor="let canPolicyItem of cancellationPolicyList; let i = index;">
+
+                        <div class="rTableRow">
+                            <div class="rTableCell text-center" style="width:7%">{{i+1}}</div>
+                            <div class="rTableCell text-center" style="width:23%">
+                                <input type="text" class="edit-input-box" name="cancellationPolicy" id="cancellationPolicy" style="width:90%" [(ngModel)]="canPolicyItem.policyCode" />
+                            </div>
+                            <div class="rTableCell" style="width:15%">
+                                <div class="form-check-inline">
+                                    <input type="text" class="edit-input-box text-center mr-2" name="dayHourValue" id="dayHourValue" style="width:40%;" [(ngModel)]="canPolicyItem.offsetUnitMultiplier" />
+                                    <div class="input_wrapper" style="height:28px;">
+                                            <input type="checkbox" class="switch_4" [(ngModel)]="canPolicyItem.offsetTimeUnit" style="width:65px;">
+                                            <span class="is_checked" style="left:6px;">Days</span>
+                                            <span class="is_unchecked" style="right:0px;">Hrs</span>
+                                        </div>
+                                    <!-- <label class="radio mr-2 mb-0" for="inlineRadio1">Day(s)
+                                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" [checked]="canPolicyItem.offsetTimeUnit == 'Day'" value="option1">
+                                        <span class="checkround"></span>
+                                    </label>
+                                    <label class="radio mb-0" for="inlineRadio2">Hour(s)
+                                        <input type="radio" name="inlineRadioOptions" id="inlineRadio2" [checked]="canPolicyItem.offsetTimeUnit == 'Hour'" value="option2">
+                                        <span class="checkround"></span>
+                                    </label> -->
+                                </div>
+                            </div>
+                            <div class="rTableCell text-center" style="width:45%">
+                                <div class="form-check form-check-inline">
+                                    <input type="text" class="edit-input-box" name="dayHourValue" id="dayHourValue" [(ngModel)]="canPolicyItem.penalityAmount" style="width:15%; margin-right: 3%;" />
+                                    <label class="radio" for="percentBooking_{{i}}" style="margin-right: 2%;">%booking
+                                        <input type="radio" name="charge_{{i}}" id="percentBooking_{{i}}" value="PB" [checked]="canPolicyItem.penaltyType == 'PB'" (input)="canPolicyItem.penaltyType = 'PB'">
+                                        <span class="checkround"></span>
+                                    </label>
+                                    <label class="radio" for="amt_{{i}}" style="margin-right: 2%;">Amt
+                                        <input type="radio" name="charge_{{i}}" id="amt_{{i}}" value="AM" [checked]="canPolicyItem.penaltyType == 'AM'" (input)="canPolicyItem.penaltyType = 'AM'">
+                                        <span class="checkround"></span>
+                                    </label>
+                                    <label class="radio" for="room_night_{{i}}">Room Night(s)
+                                        <input type="radio" name="charge_{{i}}" id="room_night_{{i}}" value="RN" [checked]="canPolicyItem.penaltyType == 'RN'" (input)="canPolicyItem.penaltyType = 'RN'">
+                                        <span class="checkround"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="rTableCell text-center" style="width:10%">
+                                <div class="d-inline-block" style="cursor:pointer;" (click)="editCancellationPolicy(canPolicyItem)">
+                                    <img src="./assets/images/save.png" alt="edit">
+                                    <!-- <i *ngIf="aminityData.editable" class="fa fa-save" alt="save" (click)="editAminity(i)"></i> -->
+                                </div>
+                                <div class="d-inline-block" style="margin-left: 10px;cursor:pointer;" (click)="openConfirmModal(i)">
+                                    <img src="./assets/images/delete.png" alt="delete">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rTableRow">
+                            <div class="rTableCell" style="width:7%;height:60px;">&nbsp;</div>
+                            <div class="rTableCell" style="width:38%;height:60px;">
+                                <strong>Custom Text:</strong>
+                                <div><small><i>(If you leave this field blank default text will apply)</i></small></div>
+                            </div>
+                            <div class="rTableCell text-center" style="width:55%;height:60px;">
+                                <textarea name="customTextArea" id="customTextArea" rows="2" class="edit-textarea" style="width:90%;" [(ngModel)]="canPolicyItem.policyDesc"></textarea>
+                            </div>                            
+                        </div>
+
+                    </ng-container>
+
+                    <div *ngIf="showAddCancellationRow">
+                        <div class="rTableRow">
+                            <div class="rTableCell text-center" style="width:7%">&nbsp;</div>
+                            <div class="rTableCell text-center" style="width:23%">
+                                <input type="text" class="edit-input-box" name="addCcancellationPolicy" id="addCcancellationPolicy" [(ngModel)]="addCanPolicyItem.policyCode" style="width:90%"/>
+                            </div>
+                            <div class="rTableCell" style="width:15%">
+                                <div class="form-check-inline">
+                                    <input type="text" class="edit-input-box text-center mr-2" name="dayHourValue" id="dayHourValue" style="width:40%;" [(ngModel)]="addCanPolicyItem.offsetUnitMultiplier" />
+                                    <div class="input_wrapper" style="height:28px;">
+                                        <input type="checkbox" class="switch_4" [(ngModel)]="addCanPolicyItem.offsetTimeUnit" style="width:65px;">
+                                        <span class="is_checked" style="left:6px;">Days</span>
+                                        <span class="is_unchecked" style="right:0px;">Hrs</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="rTableCell text-center" style="width:45%">
+                                <div class="form-check form-check-inline">
+                                    <input type="text" class="edit-input-box" name="dayHourValue" id="dayHourValue" [(ngModel)]="addCanPolicyItem.penalityAmount" style="width:15%; margin-right: 3%;" />
+                                    <label class="radio" for="addTypeCharge1" style="margin-right: 2%;">%booking
+                                        <input type="radio" name="addTypeCharge" id="addTypeCharge1" value="PB" [checked]="addCanPolicyItem.penaltyType == 'PB'" (input)="addCanPolicyItem.penaltyType = 'PB'">
+                                        <span class="checkround"></span>
+                                    </label>
+                                    <label class="radio" for="addTypeCharge2" style="margin-right: 2%;">Amt
+                                        <input type="radio" name="addTypeCharge" id="addTypeCharge2" value="AM" [checked]="addCanPolicyItem.penaltyType == 'AM'" (input)="addCanPolicyItem.penaltyType = 'AM'">
+                                        <span class="checkround"></span>
+                                    </label>
+                                    <label class="radio" for="addTypeCharge3">Room Night(s)
+                                        <input type="radio" name="addTypeCharge" id="addTypeCharge3" value="RN" [checked]="addCanPolicyItem.penaltyType == 'RN'" (input)="addCanPolicyItem.penaltyType = 'RN'">
+                                        <span class="checkround"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="rTableCell text-center" style="width:10%">
+                                <div class="d-inline-block" style="cursor:pointer;" (click)="saveCancellationPolicy();">
+                                    <img src="./assets/images/save.png" alt="save">                                
+                                </div>                           
+                            </div>
+                        </div>
+                        <div class="rTableRow">
+                            <div class="rTableCell" style="width:7%;height:60px;">&nbsp;</div>
+                            <div class="rTableCell" style="width:38%;height:60px;">
+                                <strong>Custom Text:</strong>
+                                <div><small><i>(If you leave this field blank default text will apply)</i></small></div>
+                            </div>
+                            <div class="rTableCell text-center" style="width:55%;height:60px;">
+                                <textarea name="customTextArea" id="customTextArea" rows="2" class="edit-textarea" style="width:90%;" [(ngModel)]="addCanPolicyItem.policyDesc"></textarea>
+                            </div>                            
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="footerButtonContainer" style="margin-top:20px;">
+        <div class="col point-cursor" (click)="displayAddCancellationPolicy();">
+            <span class="badge badge-sky" style="vertical-align:text-top;"><i class="fa fa-plus"></i></span>
+            <div style="margin-left:6px;display: inline-block;">Add</div>
+        </div>
+
+        <div class="col">
+            <!-- <button class="btn btn-normal pull-right" type="submit">Save</button> -->
+            <!-- <button class="btn btn-normal pull-right" type="submit">Reset</button> -->
+        </div>
+    </div>
+</div>

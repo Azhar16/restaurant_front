@@ -1,0 +1,1003 @@
+<div class="cust-container" style="padding: 0px; margin: 10px 0px;">
+
+  <section class="rev-mng-filter-panel h-100">
+    <div class="row align-items-center h-100">
+        <div class="col">
+            <i class="fa fa-calendar"></i>&nbsp;&nbsp;{{ now | date : 'dd-MMMM-y | h:mm a' }}
+        </div>
+        <div class="col-sm-7 col-lg-5 h-100" style="padding: .3rem 16px;">
+            <div class="form-row h-100 align-items-center">
+                <div class="col" [style.display]="isVisiblePrint ? 'block' : 'none'">
+                    <input type="text" class="pull-right form-control"
+                        [class.blocked]="kitchenOrderList == null || kitchenOrderList.length <= 0" placeholder="Search"
+                        [(ngModel)]="filterSearchData" (ngModelChange)="changeSearchFilter($event)" />
+                </div>
+                <div class="col" [style.display]="isVisibleTile ? 'block' : 'none'">
+                  <input type="text" class="pull-right form-control tileserchcls"
+                      [class.blocked]="kitchenOrderTileList == null || kitchenOrderTileList.length <= 0" placeholder="Search"
+                      [(ngModel)]="filterSearchData" (ngModelChange)="changeSearchTileFilter($event)" />
+              </div>
+              <div class="col" [style.display]="isVisibleGeneral ? 'block' : 'none'">
+                <input type="text" class="pull-right form-control"
+                    [class.blocked]="kitchenOrderTileList == null || kitchenOrderTileList.length <= 0" placeholder="Search"
+                    />
+            </div>
+                
+                <div class="col" [style.display]="isVisibleTile ? 'none' : 'block'">
+                    <div class="btn-group w-100" dropdown
+                        [class.blocked]="kitchenOrderList == null || kitchenOrderList.length <= 0">
+                        <button dropdownToggle type="button" class="btn btn-block btn-default dropdown-toggle"
+                            aria-controls="paginate-count-menu">
+                            {{pageItems}} entries<span class="caret"></span>
+                        </button>
+                        <ul id="paginate-count-menu" *dropdownMenu class="dropdown-menu" role="menu">
+                            <li (click)="numPages({page: 1, itemsPerPage: 5})">
+                                <a class="dropdown-item point-cursor">5 entries</a>
+                            </li>
+                            <li (click)="numPages({page: 1, itemsPerPage: 10})">
+                                <a class="dropdown-item point-cursor">10 entries</a>
+                            </li>
+                            <li (click)="numPages({page: 1, itemsPerPage: 15})">
+                                <a class="dropdown-item point-cursor">15 entries</a>
+                            </li>
+                            <li (click)="numPages({page: 1, itemsPerPage: 20})">
+                                <a class="dropdown-item point-cursor">20 entries</a>
+                            </li>
+                            <!-- <perfect-scrollbar class="position-relative" [style.max-height.px]="250"
+                                [scrollIndicators]="true">
+                                <li role="menuitem" *ngFor="let employeeItem of hotelEmployeeData"
+                                    (click)="bulkAssignedEmployee = employeeItem">
+                                    <a class="dropdown-item">{{employeeItem.empName}}</a>
+                                </li>
+                            </perfect-scrollbar> -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+  <div class="head-section">
+    <div class="row head-row">
+      <div
+        class="inner-col-right-reduce"
+        style="width: 50%; padding-left: 16px;"
+      >
+        <h5>Kitchen Order Ticket Management</h5>
+      </div>
+      
+    </div>
+
+  <div class="row body-row">
+    <div class="col">
+      <div class="card" style="padding: 10px 20px;">
+        <div class="row">
+          <div class="col-md-3 col-sm-12">
+            <div class="form-group form-row">
+              <label for="shiftTimings" class="col-4 col-form-label">
+                Restaurant:</label
+              >
+              <div class="col">
+                <select
+                  class="form-control"
+                  id="restaurant"
+                  [(ngModel)]="kitchenOrder.restaurant"
+                >
+                  <option value="">select Restaurant</option>
+                  <option
+                    *ngFor="let restaurantType of restaurantTypeMaster"
+                    value="{{ restaurantType.restaurantId }}"
+                    >{{ restaurantType.restaurantName }}</option
+                  >
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2 col-sm-12">
+            <div class="form-group form-row">
+              <label for="shiftTimings" class="col-4 col-form-label">
+                View:</label
+              >
+              <div class="col">
+                <select
+                  class="form-control"
+                  id="view"
+                  [(ngModel)]="kitchenOrder.view"
+                  (change)="kitchenView($event)"
+                >
+                  <option value="">select view</option>
+                  <option value="gridView">Tile Layout</option>
+                  <option value="listView">Grid Layout</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="col-md-2 col-sm-12"
+            [style.display]="isVisiblePrint ? 'block' : 'none'"
+          >
+            <div class="form-group form-row">
+              <label for="shiftTimings" class="col-4 col-form-label">
+                Period:</label
+              >
+              <div class="col">
+                <select
+                  class="form-control"
+                  id="period"
+                  [(ngModel)]="kitchenOrder.period"
+                >
+                  <option value="">select period</option>
+                  <option value="today">To day</option>
+                  <option value="yesterday">Yesterday</option>
+                  <option value="thisweek">This week</option>
+                  <option value="thismonth">This month</option>
+                  <option value="lastmonth">Last month</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2 col-sm-12">
+            <div class="form-group form-row">
+              <label for="shiftTimings" class="col-5 col-form-label">
+                Status:</label
+              >
+              <div class="col">
+                <select
+                  class="form-control"
+                  id="status"
+                  [(ngModel)]="kitchenOrder.status"
+                >
+                  <option value="">select status</option>
+                  <option value="P">Prepared</option>
+                  <option value="U">Unprepared</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 col-sm-12">
+            <div class="form-group form-row">
+              <button
+                class="btn btn-normal ml-0"
+                type="button"
+                [style.display]="isVisiblePrint ? 'block' : 'none'"
+                mwlConfirmationPopover
+                [popoverTitle]="popoverTitle2"
+                [popoverMessage]="popoverMessage2"
+                [confirmText]="confirmText1"
+                [cancelText]="cancelText1"
+                placement="left"
+                (confirm)="kotPrint()"
+                (cancel)="cancelClicked = true"
+                confirmButtonType="coninfo"
+                cancelButtonType="light"
+              >
+                Print</button
+              >&nbsp;
+              <button
+                class="btn btn-normal ml-0"
+                type="button"
+                mwlConfirmationPopover
+                [popoverTitle]="popoverTitle2"
+                [popoverMessage]="popoverMessage2"
+                [confirmText]="confirmText1"
+                [cancelText]="cancelText1"
+                placement="left"
+                (confirm)="kitchenOrderrSave()"
+                (cancel)="cancelClicked = true"
+                confirmButtonType="coninfo"
+                cancelButtonType="light"
+              >
+                Fetch
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div
+class="body-section cust-container"
+[style.display]="isVisiblePrint ? 'block' : 'none'"
+>
+<div class="row body-row">
+  <div class="table-responsive" id="tableDiv">
+    <div class="divDisplayTable">
+      <div class="divDisplayTableRow" id="tableHeaderRow">
+        <div class="divDisplayTableCell head text-center" style="width: 5%;">
+          SL. NO.
+        </div>
+        <div class="divDisplayTableCell head text-center" style="width: 5%;">
+          <!-- <div class="ui checkbox center aligned">
+            <input
+              type="checkbox"
+              id="selectAll"
+              (change)="selectionAll($event)"
+            />
+          </div> -->
+          <div class="chiller_cb">
+            <input type="checkbox" name="masterBookingListCkb" id="masterBookingListCkb"
+                [(ngModel)]="allBookingCkbox" (change)="selectBookingItemCKBStatus('all')">
+            <label class="form-check-label"
+                [class.blocked]="kitchenOrderList == null || kitchenOrderList.length <= 0"
+                for="masterBookingListCkb">&nbsp;</label>
+            <span></span>
+        </div>
+        </div>
+        <div class="divDisplayTableCell head text-center" style="width: 10%;">
+          Period
+        </div>
+        <div class="divDisplayTableCell head text-center" style="width: 10%;">
+          Source Name
+        </div>
+        <div class="divDisplayTableCell head text-center" style="width: 10%;">
+          Attentdent Name
+        </div>
+        <div class="divDisplayTableCell head text-center" style="width: 10%;">
+          Table Number
+        </div>
+        <div class="divDisplayTableCell head text-center" style="width: 10%;">
+          Order Number
+        </div>
+        <div class="divDisplayTableCell head text-center" style="width: 10%;">
+          Comment
+        </div>
+        <div class="divDisplayTableCell head text-center" style="width: 10%;">
+          Ticket Number
+        </div>
+        <div class="divDisplayTableCell head text-center" style="width: 10%;">
+          Action
+        </div>
+        <div class="divDisplayTableCell head text-center" style="width: 10%;">
+          Status
+        </div>
+      </div>
+    </div>
+
+    <perfect-scrollbar
+      *ngIf="
+        kitchenOrderList != null && kitchenOrderList.length > 0;
+        else noDataBody
+      "
+      class="scroll-container position-relative"
+      [style.max-height.px]="303"
+      [scrollIndicators]="true"
+    >
+      <div class="divDisplayTable mb-1">
+        <div
+          class="divDisplayTableRow"
+          *ngFor="let item of paginateBookingList; let i = index"
+        >
+          <div
+            class="divDisplayTableCell brdLft text-center"
+            style="width: 5%;"
+          >
+            {{ item.slNo }}
+          </div>
+          <div
+            class="divDisplayTableCell brdLft text-center"
+            style="width: 5%;"
+          >
+          <div class="chiller_cb">
+            <input type="checkbox" name="case[]"
+                id="bookingckb{{item.kotMapId}}" [(ngModel)]="item.checked"
+                (change)="selectBookingItemCKBStatus(item)">
+            <label class="form-check-label" for="bookingckb{{item.kotMapId}}">&nbsp;</label>
+            <span></span>
+        </div>
+          </div>
+          <div
+            class="divDisplayTableCell brdLft text-center"
+            style="width: 10%;"
+          >
+            {{ item.period }}
+          </div>
+          <div
+            class="divDisplayTableCell brdLft text-center"
+            style="width: 10%;"
+          >
+            {{ item.sourceName }}
+          </div>
+          <div
+            class="divDisplayTableCell brdLft text-center"
+            style="width: 10%;"
+          >
+            {{ item.attendentName }}
+          </div>
+          <div
+            class="divDisplayTableCell brdLft text-center"
+            style="width: 10%;"
+          >
+            {{ item.tableNo }}
+          </div>
+          <div
+            class="divDisplayTableCell brdLft text-center"
+            style="width: 10%;"
+          >
+            {{ item.orderNo }}
+          </div>
+          <div
+            class="divDisplayTableCell brdLft text-center"
+            style="width: 10%;"
+          >
+            {{ item.comment }}
+          </div>
+          <div
+            class="divDisplayTableCell brdLft text-center"
+            style="width: 10%;"
+          >
+            {{ item.ticketNo }}
+          </div>
+          <div
+            class="divDisplayTableCell brdLft text-center"
+            style="width: 10%;"
+          >
+            <div
+              class="d-inline-block point-cursor"
+              (click)="viewKitchen(item)"
+            >
+              <img
+                src="./assets/images/search-ico.png"
+                alt="create amenity"
+              />
+            </div>
+            <div
+              class="d-inline-block point-cursor"
+              *ngIf="i < kitchenOrderListlength"
+            >
+              <button
+                style="padding: 0; margin-left: 4px; cursor: pointer;"
+                class="btn btn-default"
+                mwlConfirmationPopover
+                [popoverTitle]=""
+                [popoverMessage]="popoverMessage"
+                placement="bottom"
+                (confirm)="deleteTicket(item.kotMapId, 'ticket')"
+                (cancel)="cancelClicked = true"
+                confirmButtonType="coninfo"
+                cancelButtonType="light"
+              >
+                <img src="./assets/images/delete.png" alt="create amenity" />
+              </button>
+            </div>
+            <div
+              class="d-inline-block point-cursor"
+              *ngIf="i >= kitchenOrderListlength"
+            >
+              <button
+                style="padding: 0; margin-left: 4px; cursor: pointer;"
+                class="btn btn-default"
+                mwlConfirmationPopover
+                [popoverTitle]=""
+                [popoverMessage]="popoverMessage"
+                placement="top"
+                (confirm)="deleteTicket(item.kotMapId, 'ticket')"
+                (cancel)="cancelClicked = true"
+                confirmButtonType="coninfo"
+                cancelButtonType="light"
+              >
+                <img src="./assets/images/delete.png" alt="create amenity" />
+              </button>
+            </div>
+          </div>
+          <div
+            class="divDisplayTableCell brdLft text-left"
+            style="width: 10%;"
+            *ngIf="i < kitchenOrderListlength"
+          >
+            <div
+              class="d-inline-block point-cursor"
+              *ngIf="item.status == 'U'"
+              mwlConfirmationPopover
+              [popoverTitle]="popoverTitle2"
+              [popoverMessage]="popoverMessage2"
+              [confirmText]="confirmText1"
+              [cancelText]="cancelText1"
+              placement="bottom"
+              (confirm)="kotStatus(item, 'P', item.status)"
+              (cancel)="cancelClicked = true"
+              confirmButtonType="coninfo"
+              cancelButtonType="light"
+            >
+              <img
+                src="./assets/images/iconfinder_DeleteRed.png"
+                alt="create amenity"
+              />
+            </div>
+            <div
+              class="d-inline-block point-cursor"
+              *ngIf="item.status == 'P'"
+              mwlConfirmationPopover
+              [popoverTitle]="popoverTitle2"
+              [popoverMessage]="popoverMessage2"
+              [confirmText]="confirmText1"
+              [cancelText]="cancelText1"
+              placement="bottom"
+              (confirm)="kotStatus(item, 'U', item.status)"
+              (cancel)="cancelClicked = true"
+              confirmButtonType="coninfo"
+              cancelButtonType="light"
+            >
+              <img
+                src="./assets/images/iconfinder_tick_16_22643.png"
+                alt="create amenity"
+              />
+            </div>
+          </div>
+          <div
+            class="divDisplayTableCell brdLft text-left"
+            style="width: 10%;"
+            *ngIf="i >= kitchenOrderListlength"
+          >
+            <div
+              class="d-inline-block point-cursor"
+              *ngIf="item.status == 'U'"
+              mwlConfirmationPopover
+              [popoverTitle]="popoverTitle2"
+              [popoverMessage]="popoverMessage2"
+              [confirmText]="confirmText1"
+              [cancelText]="cancelText1"
+              placement="top"
+              (confirm)="kotStatus(item, 'P', item.status)"
+              (cancel)="cancelClicked = true"
+              confirmButtonType="coninfo"
+              cancelButtonType="light"
+            >
+              <img
+                src="./assets/images/iconfinder_DeleteRed.png"
+                alt="create amenity"
+              />
+            </div>
+            <div
+              class="d-inline-block point-cursor"
+              *ngIf="item.status == 'P'"
+              mwlConfirmationPopover
+              [popoverTitle]="popoverTitle2"
+              [popoverMessage]="popoverMessage2"
+              [confirmText]="confirmText1"
+              [cancelText]="cancelText1"
+              placement="top"
+              (confirm)="kotStatus(item, 'U', item.status)"
+              (cancel)="cancelClicked = true"
+              confirmButtonType="coninfo"
+              cancelButtonType="light"
+            >
+              <img
+                src="./assets/images/iconfinder_tick_16_22643.png"
+                alt="create amenity"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </perfect-scrollbar>
+
+    <ng-template #noDataBody>
+      <div class="divDisplayTable">
+        <div
+          class="divDisplayTableRow"
+          *ngIf="kitchenOrderList != null && kitchenOrderList.length == 0"
+        >
+          <div class="divDisplayTableCell text-center" style="width: 100%;">
+            No Data Found
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>
+<div class="row justify-content-center mt-3" *ngIf="kitchenOrderList != null">
+  <div class="col-auto mx-auto text-center" *ngIf="kitchenOrderList.length">
+      <pagination [totalItems]="kitchenOrderList.length" [(ngModel)]="currentPage" [boundaryLinks]="true"
+          [maxSize]="5" [itemsPerPage]="pageItems" previousText="&lsaquo;" firstText="&laquo;"
+          lastText="&raquo;" nextText="&rsaquo;" (pageChanged)="pageChanged($event)"></pagination>
+  </div>
+</div>
+</div>
+
+<div
+id="myMessageModal"
+class="modal fade"
+tabindex="-1"
+role="dialog"
+aria-labelledby="myModalLabel"
+aria-hidden="true"
+>
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4
+        class="modal-title mt-0"
+        id="myModalLabel"
+        *ngIf="ticketData != undefined"
+      >
+        <img src="./assets/images/search-ico.png" alt="create amenity" />
+        KOT Details - Ticket Number : {{ ticketData }}
+      </h4>
+      <button
+        type="button"
+        class="close"
+        data-dismiss="modal"
+        aria-hidden="true"
+      >
+        ×
+      </button>
+    </div>
+    <form>
+      <div class="modal-body">
+        <div class="row">
+          <div class="body-section no-padding">
+            <div class="body-row mt-3">
+              <div
+                class="table-responsive"
+                id="tableDiv"
+                style="width: 732px; position: relative; left: 5%;"
+              >
+                <table
+                  class="table table-responsive divDisplayTable"
+                  id="tableid"
+                  border="1"
+                  style="width: 100%; border-collapse: collapse;"
+                >
+                  <thead>
+                    <tr class="divDisplayTableRow" id="tableHeaderRow">
+                      <th class="divDisplayTableCell head brdLft text-center">
+                        SL. NO.
+                      </th>
+                      <th class="divDisplayTableCell head text-center">
+                        Description
+                      </th>
+                      <th class="divDisplayTableCell head text-center">
+                        Type
+                      </th>
+                      <th class="divDisplayTableCell head text-center">
+                        Qty
+                      </th>
+                      <th class="divDisplayTableCell head text-center">
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    *ngIf="
+                      itemarr != null && itemarr.length > 0;
+                      else noDataBody
+                    "
+                  >
+                    <tr
+                      class="divDisplayTableRow"
+                      *ngFor="let item of itemarr; let i = index"
+                    >
+                      <td
+                        class="divDisplayTableCell brdLft text-center"
+                        style="text-align: center;"
+                      >
+                        <span>{{ i + 1 }}</span>
+                      </td>
+                      <td
+                        class="divDisplayTableCell brdLft text-center"
+                        style="text-align: center;"
+                      >
+                        {{ item.descripition }}
+                      </td>
+                      <td
+                        class="divDisplayTableCell brdLft text-center"
+                        style="text-align: center;"
+                      >
+                        {{ item.itemType }}
+                      </td>
+                      <td
+                        class="divDisplayTableCell brdLft text-center"
+                        style="text-align: center;"
+                      >
+                        {{ item.noOfItem }}
+                      </td>
+                      <td
+                        class="divDisplayTableCell brdLft text-center"
+                        style="text-align: center;"
+                      >
+                        <div class="d-inline-block point-cursor">
+                          <button
+                            class="btn btn-default"
+                            mwlConfirmationPopover
+                            [popoverTitle]="popoverTitle"
+                            [popoverMessage]="popoverMessage"
+                            placement="left"
+                            (confirm)="deleteTicket(item.itemOrderId, 'item')"
+                            (cancel)="cancelClicked = true"
+                            confirmButtonType="coninfo"
+                            cancelButtonType="light"
+                          >
+                            <img
+                              src="./assets/images/delete.png"
+                              alt="create amenity"
+                            />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <ng-template #noDataBody></ng-template>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="text-align: center;">
+        <button
+          type="button"
+          class="btn btn-primary"
+          style="margin: auto; display: block; background: #6787bf;"
+          data-dismiss="modal"
+        >
+          Close
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+
+<div class="body-section no-padding" style="display: none;">
+<div class="row body-row mt-3" id="print-table">
+  <div class="table-responsive" id="tableDiv">
+    <table
+      class="table table-responsive divDisplayTable"
+      id="tableid"
+      border="1"
+      style="width: 100%; border-collapse: collapse;"
+    >
+      <thead>
+        <tr class="divDisplayTableRow" id="tableHeaderRow">
+          <th class="divDisplayTableCell head brdLft text-center">SL. NO.</th>
+          <th class="divDisplayTableCell head text-center">Period</th>
+          <th class="divDisplayTableCell head text-center">Source Name</th>
+          <th class="divDisplayTableCell head text-center">
+            Attentdent Name
+          </th>
+          <th class="divDisplayTableCell head text-center">Table Number</th>
+          <th class="divDisplayTableCell head text-center">Order Number</th>
+          <th class="divDisplayTableCell head text-center">Ticket Number</th>
+          <th class="divDisplayTableCell head text-center">Status</th>
+        </tr>
+      </thead>
+      <tbody
+        *ngIf="
+          kitchenOrderPrint != null && kitchenOrderPrint.length > 0;
+          else noDataBody
+        "
+      >
+        <tr
+          class="divDisplayTableRow"
+          *ngFor="let item of kitchenOrderPrint; let i = index"
+        >
+          <td
+            class="divDisplayTableCell brdLft text-center"
+            style="text-align: center;"
+          >
+            <span>{{ i + 1 }}</span>
+          </td>
+          <td
+            class="divDisplayTableCell brdLft text-center"
+            style="text-align: center;"
+          >
+            {{ item.period }}
+          </td>
+          <td
+            class="divDisplayTableCell brdLft text-center"
+            style="text-align: center;"
+          >
+            {{ item.sourceName }}
+          </td>
+          <td
+            class="divDisplayTableCell brdLft text-center"
+            style="text-align: center;"
+          >
+            {{ item.attendentName }}
+          </td>
+          <td
+            class="divDisplayTableCell brdLft text-center"
+            style="text-align: center;"
+          >
+            {{ item.tableNo }}
+          </td>
+          <td
+            class="divDisplayTableCell brdLft text-center"
+            style="text-align: center;"
+          >
+            {{ item.orderNo }}
+          </td>
+          <td
+            class="divDisplayTableCell brdLft text-center"
+            style="text-align: center;"
+          >
+            {{ item.ticketNo }}
+          </td>
+          <td
+            class="divDisplayTableCell brdLft text-center"
+            style="text-align: center;"
+          >
+            <div
+              class="d-inline-block point-cursor"
+              *ngIf="item.status == 'U'"
+            >
+              <img
+                src="./assets/images/iconfinder_DeleteRed.png"
+                alt="create amenity"
+              />
+            </div>
+            <div
+              class="d-inline-block point-cursor"
+              *ngIf="item.status == 'P'"
+            >
+              <img
+                src="./assets/images/iconfinder_tick_16_22643.png"
+                alt="create amenity"
+              />
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<ng-template #noDataBody></ng-template>
+</div>
+
+<!-- <div class="container" id="table-pagenew">
+<div class="row">
+  <div class="col-md-12"> -->
+<div
+class="container-fluid"
+id="container-fluid-id"
+[style.display]="isVisibleTile ? 'block' : 'none'"
+>
+<div class="row">
+  <div class="container-load" style="padding: 0;">
+    <div class="bill-area-bg">
+      <div class="sec-top">
+        <div>
+          <perfect-scrollbar
+            *ngIf="
+              kitchenOrderTileList != null && kitchenOrderTileList.length > 0;
+              else noDataBody
+            "
+            class="scroll-container position-relative"
+            [style.max-height.px]="415"
+            [scrollIndicators]="true"
+          >
+            <div
+              class="sec4"
+              *ngFor="let item of kitchenOrderTileList; let i = index"
+            >
+              <div id="tileprint{{ item.ticketNo }}" class="sec-cls">
+                <div class="cardhead d-flex">
+                  <p>{{ item.ticketNo }}</p>
+                  <p>{{ item.tableNo }}</p>
+                </div>
+
+                <div class="cardhead2 d-flex p-2">
+                  <ul class="leftsidecontent">
+                    <li>
+                      Order Type
+                      <span class="prime-color">{{ item.orderType }}</span>
+                    </li>
+                    <li>
+                      Raised By
+                      <span class="prime-color">{{ item.raisedBy }}</span>
+                    </li>
+                  </ul>
+
+                  <div class="rightsidecontent">
+                    <p>{{ item.timeInfo }}</p>
+                  </div>
+                </div>
+
+                <div class="main-area mt-2">
+                  <div class="ordercls">
+                    <perfect-scrollbar
+                      class="scroll-container position-relative"
+                      [style.max-height.px]="200"
+                      [scrollIndicators]="true"
+                    >
+                      <div
+                        class="categoty-div"
+                        *ngFor="
+                          let category of item.categoryItemDtls | keyvalue
+                        "
+                      >
+                        <div class="mainarea2"></div>
+                        <div class="mainarea1">
+                          <div class="mainarea1header">
+                            <h3 style="font-size: 20px;">
+                              {{ category.key }}
+                            </h3>
+                          </div>
+                        </div>
+                        <!-- <ul
+                class="mainarealist"
+                *ngFor="let oitem of item.orderItemDtls"
+              >
+                <span>2</span>
+                <li>{{ oitem.descripition }}</li>
+              </ul> -->
+
+                        <div
+                          class="mainarealist row"
+                          *ngFor="let oitem of category.value"
+                        >
+                          <div
+                            class="col-md-2 prime-color"
+                            style="margin-left: 15px;"
+                          >
+                            {{ oitem.itemQty }}
+                          </div>
+                          <div class="col-md-6">
+                            {{ oitem.itemDescription }}
+                          </div>
+                        </div>
+                      </div>
+                    </perfect-scrollbar>
+                  </div>
+
+                  <div class="mainareafoot">
+                    <a
+                      class="btn btn-outline-primary"
+                      id="btn1"
+                      style="border-radius: 15px;"
+                      *ngIf="item.orderStatus == 'U'"
+                      mwlConfirmationPopover
+                      [popoverTitle]="popoverTitle2"
+                      [popoverMessage]="popoverMessage2"
+                      [confirmText]="confirmText1"
+                      [cancelText]="cancelText1"
+                      placement="top"
+                      (confirm)="kotStatus(item, 'P', item.orderStatus)"
+                      (cancel)="cancelClicked = true"
+                      confirmButtonType="coninfo"
+                      cancelButtonType="light"
+                      >Prepared</a
+                    >
+                    <a
+                      class="btn btn-outline-primary"
+                      id="btn3"
+                      style="border-radius: 15px;"
+                      *ngIf="item.orderStatus == 'P'"
+                      mwlConfirmationPopover
+                      [popoverTitle]="popoverTitle2"
+                      [popoverMessage]="popoverMessage2"
+                      [confirmText]="confirmText1"
+                      [cancelText]="cancelText1"
+                      placement="top"
+                      (confirm)="kotStatus(item, 'U', item.orderStatus)"
+                      (cancel)="cancelClicked = true"
+                      confirmButtonType="coninfo"
+                      cancelButtonType="light"
+                      >Re-Process</a
+                    >
+                    <a
+                      class="btn btn-outline-primary"
+                      id="btn2"
+                      *ngIf="item.orderStatus == 'U'"
+                      style="border-radius: 15px;"
+                      mwlConfirmationPopover
+                      [popoverTitle]="popoverTitle2"
+                      [popoverMessage]="popoverMessage2"
+                      [confirmText]="confirmText1"
+                      [cancelText]="cancelText1"
+                      placement="left"
+                      (confirm)="tilePrint(item.orderItemDtls)"
+                      (cancel)="cancelClicked = true"
+                      confirmButtonType="coninfo"
+                      cancelButtonType="light"
+                      ><i class="fas fa-print"></i
+                    ></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </perfect-scrollbar>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="form-row"></div>
+<!-- </div>
+</div>
+</div> -->
+</div>
+
+<div class="item-data-table" style="display: none;">
+<div
+  class="table-responsive"
+  id="itemprinttable"
+  style="width: 732px; position: relative; left: 5%;"
+>
+  <!-- <h4
+    class="modal-title mt-0"
+    id="myModalLabel"
+    *ngIf="ticketData != undefined"
+  >
+    KOT Details - Ticket Number : {{ ticketData }}
+  </h4> -->
+  <table
+    class="table table-responsive divDisplayTable"
+    id="tableid"
+    border="1"
+    style="width: 100%; border-collapse: collapse;"
+  >
+    <thead>
+      <tr class="divDisplayTableRow" id="tableHeaderRow">
+        <th class="divDisplayTableCell head brdLft text-center">
+          SL. NO.
+        </th>
+        <th class="divDisplayTableCell head text-center">
+          Description
+        </th>
+        <th class="divDisplayTableCell head text-center">
+          Type
+        </th>
+        <th class="divDisplayTableCell head text-center">
+          Qty
+        </th>
+        <th class="divDisplayTableCell head text-center">
+          Category
+        </th>
+      </tr>
+    </thead>
+    <tbody
+      *ngIf="itemsavearr != null && itemsavearr.length > 0; else noDataBody"
+    >
+      <tr
+        class="divDisplayTableRow"
+        *ngFor="let item of itemsavearr; let i = index"
+      >
+        <td
+          class="divDisplayTableCell brdLft text-center"
+          style="text-align: center;"
+        >
+          <span>{{ i + 1 }}</span>
+        </td>
+        <td
+          class="divDisplayTableCell brdLft text-center"
+          style="text-align: center;"
+        >
+          {{ item.itemDescription }}
+        </td>
+        <td
+          class="divDisplayTableCell brdLft text-center"
+          style="text-align: center;"
+        >
+          {{ item.itemType }}
+        </td>
+        <td
+          class="divDisplayTableCell brdLft text-center"
+          style="text-align: center;"
+        >
+          {{ item.itemQty }}
+        </td>
+        <td
+          class="divDisplayTableCell brdLft text-center"
+          style="text-align: center;"
+        >
+          {{ item.categoryName }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+<ng4-loading-spinner
+[timeout]="1300000"
+[loadingText]="'Please wait...'"
+></ng4-loading-spinner>

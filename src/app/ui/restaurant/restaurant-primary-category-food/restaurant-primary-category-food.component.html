@@ -1,0 +1,373 @@
+<style type="text/css">
+  .category-div {
+    margin: 26px 0;
+  }
+  .main-cate h3 {
+    color: #222121;
+    font-size: 17px;
+    margin: 16px 0 5px;
+    font-family: "Myriad Pro Semibold";
+  }
+  .main-cate h4 {
+    color: #747171;
+    font-size: 15px;
+    margin: 0;
+  }
+  #serviceBox {
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 75px;
+    height: 850px;
+    border: 1px solid black;
+  }
+  .on-the-left {
+    margin-left: 1%;
+  }
+  .on-the-center {
+    margin-left: 25%;
+  }
+  .serviceBox {
+    margin-left: 2.3%;
+    margin-top: 2%;
+
+    float: left;
+    width: 22%;
+    height: 70px;
+    background-color: #dce2ff;
+    border: 1px solid #bdbdbd;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+  }
+  .serviceInnerBox {
+    top: 3%;
+    /* display: flex; */
+    left: 1%;
+    right: 3%;
+    bottom: 2%;
+    /* float: left; */
+    width: 98%;
+    height: 64px;
+    position: relative;
+    background-color: white;
+    border: 1px solid #bdbdbd;
+  }
+  .row-cls {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    position: relative;
+  }
+</style>
+<div class="cust-container" style="padding: 0px; margin: 10px 0px;">
+  <div class="head-section">
+    <div class="row head-row">
+      <div
+        class="inner-col-right-reduce"
+        style="width: 50%; padding-left: 16px;"
+      >
+        <h5>Category Management</h5>
+      </div>
+      <div style="width: 50%; text-align: right; padding-right: 21px;">
+        <h5>{{ now | date: "h:mm a" }}</h5>
+      </div>
+    </div>
+
+    <div class="row body-row">
+      <div class="col">
+        <div class="card" style="padding: 10px 20px;">
+          <div class="row">
+            <div class="col-sm-4 col-md-3">
+              <div class="form-group form-row">
+                <div class="input-group date-cal">
+                  <label *ngIf="categoryCount != undefined"
+                    >No of Categories: {{ categoryCount.searchCount }}</label
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-2 col-md-2">
+              <div class="form-group form-row">
+                <select
+                  class="form-control"
+                  [(ngModel)]="categoryFoodType.categotytype"
+                >
+                  <option value="">Select Category Type</option>
+                  <option
+                    *ngFor="let category of categoryMstList"
+                    value="{{ category.categoryTypeId }}"
+                    >{{ category.categoryTypeName }}</option
+                  >
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-4 col-md-3">
+              <div class="form-group form-row">
+                <div class="input-group date-cal">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="category"
+                    placeholder="Enter text here and click"
+                    [(ngModel)]="categoryFoodType.categoryDescription"
+                  />
+                  <!-- <span style="color:red" *ngIf="!categoryFoodType.categoryDescription">             required</span> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <button
+                  class="btn btn-normal ml-0"
+                  type="button"
+                  mwlConfirmationPopover
+                  [popoverTitle]="popoverTitle2"
+                  [popoverMessage]="popoverMessage2"
+                  [confirmText]="confirmText1"
+                  [cancelText]="cancelText1"
+                  placement="right"
+                  (confirm)="addCategoryFoodType()"
+                  (cancel)="cancelClicked = true"
+                  confirmButtonType="coninfo"
+                  cancelButtonType="light"
+                >
+                  <i
+                    class="fa fa-plus"
+                    aria-hidden="true"
+                    style="color: #fff;"
+                  ></i>
+                  Save</button
+                >&nbsp;
+
+                <button
+                  class="btn btn-normal ml-0"
+                  type="button"
+                  (click)="clearSearch()"
+                >
+                  Clear
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div class="cust-container" style="padding: 0px; margin: 10px 0px;">
+  <div class="head-section" style="border-radius: 20px;">
+    <div class="row body-row">
+      <perfect-scrollbar
+        *ngIf="categoryList != null && categoryList.length > 0; else noDataBody"
+        class="scroll-container position-relative"
+        [style.max-height.px]="400"
+        [scrollIndicators]="true"
+      >
+        <div class="col">
+          <div class="serviceBox" *ngFor="let item of categoryList">
+            <div class="serviceInnerBox">
+              <div class="row-cls" style="left: 92%;">
+                <img src="./assets/images/crown.png" alt="create amenity" />
+              </div>
+
+              <div class="row-cls">
+                <div class="on-the-left">
+                  <img src="./assets/images/crown.png" alt="create amenity" />
+                </div>
+                <div class="on-the-center">{{ item.categoryDescription }}</div>
+              </div>
+              <div class="row-cls" style="left: 91%; bottom: 6%;">
+                <button
+                  style="padding: 0; cursor: pointer;"
+                  class="btn btn-default"
+                  mwlConfirmationPopover
+                  [popoverTitle]="popoverTitle"
+                  [popoverMessage]="popoverMessage"
+                  placement="left"
+                  (confirm)="deleteCategories(item.categoryId)"
+                  (cancel)="cancelClicked = true"
+                  confirmButtonType="coninfo"
+                  cancelButtonType="light"
+                >
+                  <img src="./assets/images/delete.png" alt="create amenity" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </perfect-scrollbar>
+
+      <ng-template #noDataBody>
+        <div class="divDisplayTable">
+          <div
+            class="divDisplayTableRow"
+            *ngIf="categoryList != null && categoryList.length == 0"
+          >
+            <div class="divDisplayTableCell text-center" style="width: 100%;">
+              No Data Found
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div> -->
+<!--Accordion wrapper-->
+<div class="accordion md-accordion accordion-4" id="accordionEx2" role="tablist" aria-multiselectable="true">
+  <perfect-scrollbar
+  class="scroll-container position-relative"
+  [style.max-height.px]="465"
+  [scrollIndicators]="true"
+>
+  <!-- Accordion card -->
+  <div class="card" *ngFor="let categoryitm of categoryAcordinList; let i = index" style="border-radius: 0;">
+
+    <!-- Card header -->
+    
+    <div  class="card-header z-depth-1 teal lighten-4" role="tab" id="heading{{i}}" style="background: #dce2ff;border-bottom:0">
+      <a  data-toggle="collapse" data-parent="#accordionEx2" href="#collapse{{i}}" aria-expanded="true"
+        attr.aria-controls="collapse{{ i }}">
+        <h4 class="mb-0 black-text text-left font-weight-bold text-uppercase" style="font-size: 1rem;color: #212529;">
+          {{categoryitm.type}}
+        </h4>
+      </a>
+    </div>
+      <!-- Card body -->
+
+      <div class="carddiv">
+    <div  id="collapse{{i}}" class="collapse show" role="tabpanel" attr.aria-labelledby="heading{{ i }}"
+    data-parent="#accordionEx2" style="background: #f7f9ff;padding: 10px 0px;border-radius: 6px;">
+    
+      <perfect-scrollbar
+        *ngIf="categoryitm.category != null && categoryitm.category.length > 0; else noDataBody"
+        class="scroll-container position-relative"
+        [style.max-height.px]="115"
+        [scrollIndicators]="true"
+      >
+        <div class="col">
+          <div class="serviceBox" *ngFor="let item of categoryitm.category">
+            <div class="serviceInnerBox">
+              <div class="row-cls" style="left: 92%;">
+                <img src="./assets/images/crown.png" alt="create amenity" />
+              </div>
+
+              <div class="row-cls">
+                <div class="on-the-left">
+                  <img src="./assets/images/crown.png" alt="create amenity" />
+                </div>
+                <div class="on-the-center">{{ item.categoryDescription }}</div>
+              </div>
+              <div class="row-cls" style="left: 91%; bottom: 6%;">
+                <button
+                  style="padding: 0; cursor: pointer;"
+                  class="btn btn-default"
+                  mwlConfirmationPopover
+                  [popoverTitle]="popoverTitle"
+                  [popoverMessage]="popoverMessage"
+                  placement="left"
+                  (confirm)="deleteCategories(item.categoryId)"
+                  (cancel)="cancelClicked = true"
+                  confirmButtonType="coninfo"
+                  cancelButtonType="light"
+                >
+                  <img src="./assets/images/delete.png" alt="create amenity" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </perfect-scrollbar>
+
+      <ng-template #noDataBody>
+        <div class="divDisplayTable">
+          <div
+            class="divDisplayTableRow"
+            *ngIf="categoryitm.category != null && categoryitm.category.length == 0"
+          >
+            <div class="divDisplayTableCell text-center" style="width: 100%;">
+              No Data Found
+            </div>
+          </div>
+        </div>
+      </ng-template>
+      </div>
+   
+
+  <!-- <div *ngIf="i > 0"  class="card-header z-depth-1 teal lighten-4" role="tab" id="heading{{i}}" style="background: #f7f9ff;">
+      <a data-toggle="collapse" class="collapsed" data-parent="#accordionEx2" href="#collapse{{i}}" aria-expanded="false"
+        attr.aria-controls="collapse{{ i }}" >
+        <h4 class="mb-0 black-text text-center font-weight-bold text-uppercase">
+          {{categoryitm.type}}
+        </h4>
+      </a>
+    </div>
+  
+    
+   
+    <div *ngIf="i > 0" id="collapse{{i}}" class="collapse" role="tabpanel" attr.aria-labelledby="heading{{ i }}"
+      data-parent="#accordionEx2" style="background: #dce2ff;">
+      
+        <perfect-scrollbar
+          *ngIf="categoryitm.category != null && categoryitm.category.length > 0; else noDataBody"
+          class="scroll-container position-relative"
+          [style.max-height.px]="220"
+          [scrollIndicators]="true"
+        >
+          <div class="col">
+            <div class="serviceBox" *ngFor="let item of categoryitm.category">
+              <div class="serviceInnerBox">
+                <div class="row-cls" style="left: 92%;">
+                  <img src="./assets/images/crown.png" alt="create amenity" />
+                </div>
+  
+                <div class="row-cls">
+                  <div class="on-the-left">
+                    <img src="./assets/images/crown.png" alt="create amenity" />
+                  </div>
+                  <div class="on-the-center">{{ item.categoryDescription }}</div>
+                </div>
+                <div class="row-cls" style="left: 91%; bottom: 6%;">
+                  <button
+                    style="padding: 0; cursor: pointer;"
+                    class="btn btn-default"
+                    mwlConfirmationPopover
+                    [popoverTitle]="popoverTitle"
+                    [popoverMessage]="popoverMessage"
+                    placement="left"
+                    (confirm)="deleteCategories(item.categoryId)"
+                    (cancel)="cancelClicked = true"
+                    confirmButtonType="coninfo"
+                    cancelButtonType="light"
+                  >
+                    <img src="./assets/images/delete.png" alt="create amenity" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </perfect-scrollbar>
+  
+        <ng-template #noDataBody>
+          <div class="divDisplayTable">
+            <div
+              class="divDisplayTableRow"
+              *ngIf="categoryitm.category != null && categoryitm.category.length == 0"
+            >
+              <div class="divDisplayTableCell text-center" style="width: 100%;">
+                No Data Found
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      
+    </div> -->
+   </div>
+  </div>
+  <!-- Accordion card -->
+  </perfect-scrollbar>
+  
+</div>
+<!--/.Accordion wrapper-->
+<ng4-loading-spinner
+  [timeout]="1300000"
+  [loadingText]="'Please wait...'"
+></ng4-loading-spinner>

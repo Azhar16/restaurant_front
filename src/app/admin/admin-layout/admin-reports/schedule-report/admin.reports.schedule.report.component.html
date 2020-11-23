@@ -1,0 +1,570 @@
+<div class="container-fluid" style="padding:10px 0px; ">
+    <h5>Schedule Report</h5>
+
+    <div class="row">
+
+        <div class="col-12 col-flexible">
+            <alert *ngIf="alertMessageDetails.response" [type]="alertMessageDetails.type" [dismissible]="true" class="text-center">
+                {{alertMessageDetails.message}}
+            </alert>
+        </div>
+
+        <div class="col">
+            <div class="table-responsive">
+
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow" id="tableHeaderRow">
+                        <div class="divDisplayTableCell head brdLft text-center" style="width:8%;">Sl. No.</div>
+                        <div class="divDisplayTableCell head text-center" style="width:15%;">Report Type</div>
+                        <div class="divDisplayTableCell head text-center" style="width:10%;">Start Date</div>
+                        <div class="divDisplayTableCell head text-center" style="width:10%;">End Date</div>
+                        <div class="divDisplayTableCell head text-center" style="width:8%;">Days</div>
+                        <div class="divDisplayTableCell head text-center" style="width:12%;">Recurrence</div>
+                        <div class="divDisplayTableCell head text-center" style="width:18%;">Email ID</div>
+                        <div class="divDisplayTableCell head text-center" style="width:8%;">Status</div>
+                        <div class="divDisplayTableCell head text-center" style="width:10%;">Actions</div>
+                    </div>
+                </div>
+
+                <perfect-scrollbar class="position-relative" [style.max-height.px]="scrollBarContainerHeight" [scrollIndicators]="true">
+                    <ng-container *ngIf="scheduleReportList != null && scheduleReportList.length > 0; else noDataBody">
+                        <div class="divDisplayTable">
+                            <div class="divDisplayTableRow" *ngFor="let scheduleReportItem of scheduleReportList; let i = index;">
+                                <div class="divDisplayTableCell brdLft text-center" style="width:8%;">{{i+1}}</div>
+
+                                <div class="divDisplayTableCell text-center" style="width:15%;">
+                                    <span [hidden]="scheduleReportItem.editable">
+                                        {{scheduleReportItem.reportType}}
+                                    </span>
+                                    <input [hidden]="!scheduleReportItem.editable" type="text" name="editReportType_{{i}}" id="editReportType_{{i}}" [(ngModel)]="scheduleReportItem.departmentName" class="edit-input-box" />
+                                </div>
+
+                                <div class="divDisplayTableCell text-center" style="width:10%;">
+                                    <span [hidden]="scheduleReportItem.editable">
+                                        {{scheduleReportItem.startDate}}
+                                    </span>
+                                    <input [hidden]="!scheduleReportItem.editable" type="text" name="editStartDate_{{i}}" id="editStartDate_{{i}}" [(ngModel)]="scheduleReportItem.startDate" class="edit-input-box" />
+                                </div>
+
+                                <div class="divDisplayTableCell text-center" style="width:10%;">
+                                    <span [hidden]="scheduleReportItem.editable">
+                                        {{scheduleReportItem.endDate}}
+                                    </span>
+                                    <input [hidden]="!scheduleReportItem.editable" type="text" name="editEndDate_{{i}}" id="editEndDate_{{i}}" [(ngModel)]="scheduleReportItem.endDate" class="edit-input-box" />
+                                </div>
+
+                                <div class="divDisplayTableCell text-center" style="width:8%;">
+                                    <span [hidden]="scheduleReportItem.editable">
+                                        {{scheduleReportItem.days}}
+                                    </span>
+                                    <input [hidden]="!scheduleReportItem.editable" type="text" name="editDays_{{i}}" id="editDays_{{i}}" [(ngModel)]="scheduleReportItem.days" class="edit-input-box" />
+                                </div>
+
+                                <div class="divDisplayTableCell text-center" style="width:12%;">
+                                    <span [hidden]="scheduleReportItem.editable">
+                                        {{scheduleReportItem.recurrence}}
+                                    </span>
+                                    <input [hidden]="!scheduleReportItem.editable" type="text" name="editRecurrence_{{i}}" id="editRecurrence_{{i}}" [(ngModel)]="scheduleReportItem.recurrence" class="edit-input-box" />
+                                </div>
+
+                                <div class="divDisplayTableCell text-center" style="width:18%;">
+                                    <span [hidden]="scheduleReportItem.editable">
+                                        {{scheduleReportItem.recepiantEmail}}
+                                    </span>
+                                    <input [hidden]="!scheduleReportItem.editable" type="text" name="editRecepiantEmail_{{i}}" id="editRecepiantEmail_{{i}}" [(ngModel)]="scheduleReportItem.recepiantEmail" class="edit-input-box" />
+                                </div>
+
+                                <div class="divDisplayTableCell position-relative text-center" style="width:8%;">
+                                    <div *ngIf="!scheduleReportItem.editable" class="d-inline-block" style="width:60%;">
+                                        <div class="d-inline-block" *ngIf="scheduleReportItem.status == true">
+                                            <img src="./assets/images/iconfinder_tick_16_22643.png" alt="true">
+                                        </div>
+                                        <div class="d-inline-block" *ngIf="scheduleReportItem.status == false">
+                                            <img src="./assets/images/iconfinder_DeleteRed.png" alt="true">
+                                        </div>
+                                    </div>
+
+                                    <div *ngIf="scheduleReportItem.editable" class="d-inline-block">
+                                        <div class="input_wrapper">
+                                            <input type="checkbox" class="switch_4" [(ngModel)]="scheduleReportItem.status">
+                                            <span class="is_checked">Y</span>
+                                            <span class="is_unchecked">N</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="divDisplayTableCell text-center" style="width:10%;">
+                                    <div class="d-inline-block point-cursor" (click)="scheduleReportItem.editable = !scheduleReportItem.editable">
+                                        <img *ngIf="!scheduleReportItem.editable" src="./assets/images/edit.png" alt="edit">
+                                        <i *ngIf="scheduleReportItem.editable" style="color:#6787BF;" class="fa fa-save" alt="save" (click)="editDepartment(i)"></i>
+                                    </div>
+                                    <div class="d-inline-block point-cursor" style="margin-left: 10px;" (click)="openConfirmModal(i)">
+                                        <img src="./assets/images/delete.png" alt="delete">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <!-- <div class="divDisplayTable" *ngIf="showNewScheduleReportRow">
+                        <div class="divDisplayTableRow">
+                            <div class="divDisplayTableCell brdLft" style="width:10%;">&nbsp;</div>
+                            <div class="divDisplayTableCell text-center" style="width:25%;">
+                                <input type="text" name="addDepartmentName" id="addDepartmentName" [(ngModel)]="newDepartmentObject.departmentName" class="edit-input-box" />
+                            </div>
+                            <div class="divDisplayTableCell text-center position-relative" style="width:30%;">
+                                <input type="text" name="addDepartDesc" id="addDepartDesc" [(ngModel)]="newDepartmentObject.departDesc" class="edit-input-box" />
+                            </div>
+                            <div class="divDisplayTableCell text-center" style="width:15%;" (click)="createNewDepartment()">
+                                <div class="d-inline-block point-cursor"><img src="./assets/images/save.png" alt="Add New Department"></div>
+                            </div>
+                        </div>
+                    </div> -->
+
+                </perfect-scrollbar>
+
+                <ng-template #noDataBody>
+                    <div class="divDisplayTable">
+                        <div class="divDisplayTableRow" *ngIf="departmentList != null && departmentList.length == 0">
+                            <div class="divDisplayTableCell brdLft text-center" style="width:100%">
+                                No Data Found
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row" id="footerButtonContainer" style="margin-top:20px;">
+        <div class="col">
+            <div class="d-inline-block point-cursor" (click)="configureNewReport(configureReportsModal);">
+                <span class="badge badge-sky" style="vertical-align:text-top;"><i class="fa fa-plus"></i></span>
+                <div style="margin-left:6px;display: inline-block;">Configure New Report</div>
+            </div>
+        </div>
+
+        <div class="col">
+            <!-- <button class="btn btn-normal pull-right" type="submit">Save</button> -->
+            <!-- <button class="btn btn-normal pull-right" type="submit">Reset</button> -->
+        </div>
+    </div>
+
+    <ng-template #configureReportsModal>
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 id="dialog-static-name" class="modal-title pull-left">Report Generation</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form class="my-auto">
+                    <div style="border-width: 0px 1px; border-style: solid; border-color: #DCE2FF;">
+                        <div class="" style="background-color: #DCE2FF; padding: .2rem .8rem;">
+                            <header>
+                                Configure Reports
+                            </header>
+                        </div>
+                    </div>
+                    <div style="border-width: 0px 1px 1px 1px; border-style: solid; border-color: #d3d3d3;">
+                        <div style="padding: .8rem;">
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group row">
+                                        <label for="userName" class="col col-form-label">Select Report</label>
+                                        <div class="col">
+                                            <input type="text" class="form-control" id="userName" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group row">
+                                        <label for="inputEmailID" class="col col-form-label">Recepient Email ID</label>
+                                        <div class="col">
+                                            <input type="password" class="form-control" id="inputEmailID" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group row">
+                                        <label for="userName" class="col col-form-label">Start Time</label>
+                                        <div class="col">
+                                            <input type="text" class="form-control" id="startTime" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group row">
+                                        <label for="endTime" class="col col-form-label">End Time</label>
+                                        <div class="col">
+                                            <input type="text" class="form-control" id="endTime" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div class="row">
+                                <div class="col" style="border-right: 1px solid #DCE2FF;">
+
+                                    <div class="form-row">
+                                        <div class="form-group col">
+                                            <label for="inputEmail4">Recurrence Type</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row" style="margin-bottom:0.5rem;">
+                                        <div class="form-group col offset-md-1 offset-sm-1">
+                                            <div class="form-check form-check-inline" style="margin-right:10px;">
+                                                <label class="radio" for="inlineRadio1">Daily
+                                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" [checked]="recurrenceTypeView == 'daily'" value="recurrence" (change)="onRecurrenceChange('daily')">
+                                                    <span class="checkround"></span>
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline" style="margin-right:10px;">
+                                                <label class="radio" for="inlineRadio2">Weekly
+                                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" [checked]="recurrenceTypeView == 'weekly'" value="weekly" (change)="onRecurrenceChange('weekly')">
+                                                    <span class="checkround"></span>
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline" style="margin-right:10px;">
+                                                <label class="radio" for="inlineRadio3">Monthly
+                                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio3" [checked]="recurrenceTypeView == 'monthly'" value="monthly" (change)="onRecurrenceChange('monthly')">
+                                                    <span class="checkround"></span>
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="radio" for="inlineRadio4">Yearly
+                                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio4" [checked]="recurrenceTypeView == 'yearly'" value="yearly" (change)="onRecurrenceChange('yearly')">
+                                                    <span class="checkround"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div [ngSwitch]="recurrenceTypeView">
+                                        <div class="form-row no-gutters" *ngSwitchCase="'daily'">
+                                            <div class="form-group col-2 offset-md-1 offset-sm-1" style="padding-top:.3rem;">
+                                                <div class="form-check form-check-inline">
+                                                    <label class="radio" for="dailyEvery">Every
+                                                        <input type="radio" name="dailyRadioGroup" id="dailyEvery" value="option1">
+                                                        <span class="checkround"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-2" style="padding-left:10px;">
+                                                <input type="text" class="form-control" id="dailyEveryDays" placeholder="">
+                                            </div>
+                                            <div class="form-group col-2" style="padding-left:10px;">
+                                                <label for="dailyEveryDays" class="col col-form-label" style="padding-left: 0px; padding-right: 0px;">Day(s)</label>
+                                            </div>
+
+                                            <div class="form-group col" style="padding-top:.3rem;">
+                                                <div class="form-check form-check-inline">
+                                                    <label class="radio" for="dailyWeekday">Every weekday
+                                                        <input type="radio" name="dailyRadioGroup" id="dailyWeekday" value="option1">
+                                                        <span class="checkround"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row no-gutters" *ngSwitchCase="'weekly'">
+                                            <div class="form-group col offset-md-1 offset-sm-1">
+
+                                                <div class="form-group row">
+                                                    <label for="recurevery" class="col-3 col-form-label">Recur every</label>
+                                                    <div class="col-2">
+                                                        <input type="text" style="margin-top:3px;" class="form-control" id="recurevery" placeholder="">
+                                                    </div>
+                                                    <label for="weekson" class="col col-form-label">week(s) on:</label>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <div class="col" style="margin-top:.4rem;">
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                                                            <label class="form-check-label" for="inlineCheckbox1">Mon</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                                                            <label class="form-check-label" for="inlineCheckbox2">Tue</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                                                            <label class="form-check-label" for="inlineCheckbox3">Wed</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="option4">
+                                                            <label class="form-check-label" for="inlineCheckbox4">Thu</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="option5">
+                                                            <label class="form-check-label" for="inlineCheckbox5">Fri</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox6" value="option6">
+                                                            <label class="form-check-label" for="inlineCheckbox6">Sat</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox7" value="option7">
+                                                            <label class="form-check-label" for="inlineCheckbox7">Sun</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div *ngSwitchCase="'monthly'">
+                                            <div class="form-row no-gutters">
+                                                <div class="form-group col-1 offset-md-1 offset-sm-1" style="padding-top:.3rem;">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="monthlyRadioGroup" id="monthlyDay" value="day">
+                                                        <label class="form-check-label" for="monthlyDay">Day</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-2">
+                                                    <input type="text" class="form-control" id="monthlyDayinput" placeholder="">
+                                                </div>
+                                                <div class="form-group col-2">
+                                                    <label for="monthlyEveryDays" class="col col-form-label">of every</label>
+                                                </div>
+                                                <div class="form-group col-2">
+                                                    <input type="text" class="form-control" id="monthlyEveryDayInput" placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="form-row no-gutters">
+                                                <div class="form-group col-1 offset-md-1 offset-sm-1" style="padding-top:.3rem;">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="monthlyRadioGroup" id="monthlyCustom" value="custom">
+                                                        <label class="form-check-label" for="monthlyCustom">The</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-2">
+                                                    <div class="btn-group" dropdown style="width:95%">
+                                                        <button id="button-dayvalue" dropdownToggle type="button" class="btn btn-dropdown dropdown-toggle" aria-controls="dropdown-dayvaluelist">
+                                                            second <span class="caret"></span>
+                                                        </button>
+                                                        <ul id="dropdown-dayvaluelist" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-dayvaluelist">
+                                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">first</a></li>
+                                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">second</a></li>
+                                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">third</a></li>
+                                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">fourth</a></li>
+                                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">fifth</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-2">
+                                                    <div class="btn-group" dropdown style="width:95%">
+                                                        <button id="button-weekdayvalue" dropdownToggle type="button" class="btn btn-dropdown dropdown-toggle" aria-controls="dropdown-weekdayvaluelist">
+                                                            Tuesday <span class="caret"></span>
+                                                        </button>
+                                                        <ul id="dropdown-weekdayvaluelist" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-weekdayvaluelist">
+                                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">Sunday</a></li>
+                                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">Monday</a></li>
+                                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">Tuesday</a></li>
+                                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">Thursday</a></li>
+                                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">Friday</a></li>
+                                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">Saturday</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col text-center">
+                                                    <label for="monthlyEveryMonths" class="col col-form-label">of every</label>
+                                                </div>
+                                                <div class="form-group col">
+                                                    <input type="text" class="form-control" id="monthlyEveryMonths" placeholder="">
+                                                </div>
+                                                <div class="form-group col">
+                                                    <label for="monthlyEveryMonths" class="col col-form-label">month(s)</label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div *ngSwitchCase="'yearly'">
+                                            <div class="form-row no-gutters">
+                                                <div class="form-group col-2 offset-md-1 offset-sm-1">
+                                                    <label for="yearEveryMonths" class="col-form-label">Recur every</label>
+                                                </div>
+                                                <div class="form-group col-2">
+                                                    <input type="text" class="form-control" style="margin-top:.2rem;" id="yearlyEveryYears" placeholder="">
+                                                </div>
+                                                <div class="form-group col">
+                                                    <label class="col-form-label">year(s)</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-row no-gutters">
+                                                <div class="form-group col-2 offset-md-1 offset-sm-1" style="padding-top:0.3rem">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="yearlyRadioGroup" id="yearlyMonth" value="custom">
+                                                        <label class="form-check-label" for="yearlyMonth">On</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-3">
+                                                    <div class="btn-group" dropdown style="width:95%">
+                                                        <button id="button-monthlist" dropdownToggle type="button" class="btn btn-dropdown dropdown-toggle" aria-controls="dropdown-monthlist">
+                                                            February <span class="caret"></span>
+                                                        </button>
+                                                        <ul id="dropdown-monthlist" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-monthlist">
+                                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">January</a></li>
+                                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">February</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-2">
+                                                    <input type="text" class="form-control" style="margin-top:.2rem;" id="yearlyMonthDate" placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="form-row no-gutters">
+                                                <div class="form-group col-2 offset-md-1 offset-sm-1" style="padding-top:0.3rem">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="yearlyRadioGroup" id="yearlyCustom" value="custom">
+                                                        <label class="form-check-label" for="yearlyCustom">On the</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-2">
+                                                    <div class="btn-group" dropdown style="width:95%">
+                                                        <button id="button-monthlist" dropdownToggle type="button" class="btn btn-dropdown dropdown-toggle" aria-controls="dropdown-monthlist">
+                                                            third <span class="caret"></span>
+                                                        </button>
+                                                        <ul id="dropdown-monthlist" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-monthlist">
+                                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">first</a></li>
+                                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">second</a></li>
+                                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">third</a></li>
+                                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">fourth</a></li>
+                                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">fifth</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-3">
+                                                    <div class="btn-group" dropdown style="width:95%">
+                                                        <button id="button-monthlist" dropdownToggle type="button" class="btn btn-dropdown dropdown-toggle" aria-controls="dropdown-monthlist">
+                                                            Saturday <span class="caret"></span>
+                                                        </button>
+                                                        <ul id="dropdown-monthlist" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-monthlist">
+                                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">Sunday</a></li>
+                                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">Monday</a></li>
+                                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">Tuesday</a></li>
+                                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">Thursday</a></li>
+                                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">Friday</a></li>
+                                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">Saturday</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col text-center">
+                                                    <label class="col-form-label">of</label>
+                                                </div>
+                                                <div class="form-group col-3">
+                                                    <div class="btn-group" dropdown style="width:95%">
+                                                        <button id="button-monthlist" dropdownToggle type="button" class="btn btn-dropdown dropdown-toggle" aria-controls="dropdown-monthlist">
+                                                            February <span class="caret"></span>
+                                                        </button>
+                                                        <ul id="dropdown-monthlist" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-monthlist">
+                                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">January</a></li>
+                                                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0);">February</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="col">
+                                    <div class="form-row">
+                                        <div class="form-group col">
+                                            <label for="inputEmail4">Recurrence Duration</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="recurrenceStart">Start</label>
+                                                <input type="text" class="form-control" id="recurrenceStart" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group row">
+                                                <div class="col" style="margin-bottom:5px;">
+                                                    <div class="form-group row">
+                                                        <div class="col">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                                                                <label class="form-check-label" for="exampleRadios1">
+                                                                    No end date
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-4" style="padding-top: 0.4rem;">
+                                                    <div class="form-group row">
+                                                        <div class="col">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" checked>
+                                                                <label class="form-check-label" for="exampleRadios2">
+                                                                    End after
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="form-group row">
+                                                        <div class="col-4 no-padding">
+                                                            <input type="text" class="form-control" id="ocurrences" placeholder="">
+                                                        </div>
+                                                        <label for="ocurrences" class="col-8 col-form-label">ocurrences</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-4" style="padding-top: 0.4rem;">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3" checked>
+                                                        <label class="form-check-label" for="exampleRadios3">
+                                                            End by
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <input type="text" class="form-control" id="endby" placeholder="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col">
+                        <button class="pull-right btn btn-normal">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+</div>

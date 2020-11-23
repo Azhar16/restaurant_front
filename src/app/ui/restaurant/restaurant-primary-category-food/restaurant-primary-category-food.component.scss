@@ -1,0 +1,21 @@
+::ng-deep .ps--active-x > .ps__rail-x {
+  display: none !important;
+}
+
+ a[aria-expanded="true"] {
+  color: #007bff !important;
+  background: #6d7fcc !important;
+  text-decoration: none;
+}
+
+a{
+  color: #6787bf ;
+  text-decoration: none;
+}
+.carddiv{
+  background-color: #dce2ff;
+  padding: 0.5rem;
+  border-collapse: collapse;
+  /* border-radius: 6px; */
+  padding: 5px 20px;
+}

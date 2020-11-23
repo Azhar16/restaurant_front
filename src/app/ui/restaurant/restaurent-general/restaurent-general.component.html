@@ -1,0 +1,1072 @@
+<div
+  class="cust-container"
+  style="padding: 0px 10px; margin: 10px 0px; background-color: #dce2ff;"
+>
+  <div class="head-section">
+    <div class="row head-row">
+      <div class="inner-col-right-reduce" style="width: 50%;">
+        <h5 style="margin-bottom: 0;">Restaurant Management</h5>
+      </div>
+      <div style="width: 50%; text-align: right;">
+        <h5 style="margin-bottom: 0;">{{ now | date: "h:mm a" }}</h5>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container mt-3">
+  <ul class="nav nav-tabs" style="background-color: #dce2ff; max-height: 45px;">
+    <li class="nav-link actve">
+      <a class="nav-link active" data-toggle="tab" href="#general">General</a>
+    </li>
+    <li class="nav-link">
+      <a class="nav-link" data-toggle="tab" href="#basic_setting"
+        >Basic Settings</a
+      >
+    </li>
+    <li class="nav-link">
+      <a class="nav-link" data-toggle="tab" href="#advance">Advance</a>
+    </li>
+  </ul>
+</div>
+
+<div class="tab-content">
+  <div id="basic_setting" class="container tab-pane fade">
+    <div class="col-12 col-flexible">
+      <div class="form-container">
+        <section class="form-body mt-3">
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+              <div class="form-group form-row">
+                <label for="finYear_start" class="col-3 col-form-label"
+                  >Start Fin Year</label
+                >
+                <div class="col">
+                  <div
+                    class="btn-group"
+                    dropdown
+                    style="width: 40%; margin-right: 2%;"
+                  >
+                    <div class="input-group date-cal">
+                      <span (click)="joiningdate.show()">
+                        <i class="fa fa-calendar"></i>
+                      </span>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="finYear_start"
+                        #joiningdate="bsDatepicker"
+                        bsDatepicker
+                        [bsConfig]="bsConfigFinYearStart"
+                        [(ngModel)]="basicData.finYearFrom"
+                      />
+                    </div>
+                  </div>
+                  <div class="btn-group" dropdown style="width: 4%;">
+                    <label>To</label>
+                  </div>
+                  <div
+                    class="btn-group"
+                    dropdown
+                    style="width: 40%; margin-right: 2%;"
+                  >
+                    <div class="input-group date-cal">
+                      <span (click)="joiningdate.show()">
+                        <i class="fa fa-calendar"></i>
+                      </span>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="finYear_end"
+                        #joiningdate="bsDatepicker"
+                        bsDatepicker
+                        [bsConfig]="bsConfigFinYearEnd"
+                        [(ngModel)]="basicData.finYearTo"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+              <div class="form-group form-row">
+                <label for="shiftTimings" class="col-3 col-form-label"
+                  >Shift Timings</label
+                >
+                <div class="col">
+                  <div
+                    class="btn-group"
+                    dropdown
+                    style="width: 12%; margin-right: 2%;"
+                  >
+                    <select
+                      class="form-control"
+                      [(ngModel)]="basicData.counterTimingFrom1"
+                    >
+                      <option value="">Select time</option>
+                      <option
+                        *ngFor="
+                          let item of [
+                            '00',
+                            '01',
+                            '02',
+                            '03',
+                            '04',
+                            '05',
+                            '06',
+                            '07',
+                            '08',
+                            '09',
+                            '10',
+                            '11',
+                            '12'
+                          ]
+                        "
+                        value="{{ item }}"
+                        >{{ item }}</option
+                      >
+                    </select>
+                  </div>
+
+                  <div
+                    class="btn-group"
+                    dropdown
+                    style="width: 12%; margin-right: 2%;"
+                  >
+                    <select
+                      class="form-control"
+                      [(ngModel)]="basicData.counterTimingFrom2"
+                    >
+                      <option value="">Select time</option>
+                      <option
+                        *ngFor="let item of miniuteData"
+                        value="{{ item }}"
+                        >{{ item }}</option
+                      >
+                    </select>
+                  </div>
+
+                  <div
+                    class="btn-group"
+                    dropdown
+                    style="width: 12%; margin-right: 2%;"
+                  >
+                    <select
+                      class="form-control"
+                      [(ngModel)]="basicData.counterTimingFrom3"
+                    >
+                      <option value="AM">AM</option>
+                      <option value="PM">PM</option>
+                    </select>
+                  </div>
+                  <div class="btn-group" dropdown style="width: 4%;">
+                    <label>To</label>
+                  </div>
+
+                  <div
+                    class="btn-group"
+                    dropdown
+                    style="width: 12%; margin-right: 2%;"
+                  >
+                    <select
+                      class="form-control"
+                      [(ngModel)]="basicData.counterTimingTo1"
+                    >
+                      <option value="">Select time</option>
+                      <option
+                        *ngFor="
+                          let item of [
+                            '00',
+                            '01',
+                            '02',
+                            '03',
+                            '04',
+                            '05',
+                            '06',
+                            '07',
+                            '08',
+                            '09',
+                            '10',
+                            '11',
+                            '12'
+                          ]
+                        "
+                        value="{{ item }}"
+                        >{{ item }}</option
+                      >
+                    </select>
+                  </div>
+
+                  <div
+                    class="btn-group"
+                    dropdown
+                    style="width: 12%; margin-right: 2%;"
+                  >
+                    <select
+                      class="form-control"
+                      [(ngModel)]="basicData.counterTimingTo2"
+                    >
+                      <option value="">Select time</option>
+                      <option
+                        *ngFor="let item of miniuteData"
+                        value="{{ item }}"
+                        >{{ item }}</option
+                      >
+                    </select>
+                  </div>
+
+                  <div class="btn-group" dropdown style="width: 12%;">
+                    <select
+                      class="form-control"
+                      [(ngModel)]="basicData.counterTimingTo3"
+                    >
+                      <option value="">Select time</option>
+                      <option value="AM">AM</option>
+                      <option value="PM">PM</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+              <div class="form-group form-row">
+                <label for="inputCity" class="col-3 col-form-label"
+                  >Currency</label
+                >
+                <div class="col">
+                  <div
+                    class="btn-group"
+                    dropdown
+                    dropdown
+                    style="width: 12%; margin-right: 2%;"
+                  >
+                    <select
+                      class="form-control"
+                      [(ngModel)]="basicData.currency"
+                    >
+                      <option value="">Select Crrency</option>
+                      <option
+                        *ngFor="let currencyType of CurrencyTypeMaster"
+                        [selected]="currencyType.Id == basicData.currency"
+                        value="{{ currencyType.Id }}"
+                        >{{ currencyType.Cur_desc }}</option
+                      >
+                    </select>
+                  </div>
+                  <div
+                    class="btn-group"
+                    dropdown
+                    dropdown
+                    style="width: 15%; margin-right: 2%;"
+                  >
+                    <label>Conversion Rate</label>
+                  </div>
+                  <div
+                    class="btn-group"
+                    dropdown
+                    style="width: 13%; margin-right: 2%;"
+                  >
+                    <select class="form-control">
+                      <option value="1">Manual</option>
+                      <option value="2">Automatic</option>
+                    </select>
+                  </div>
+                  <div
+                    class="btn-group"
+                    dropdown
+                    style="width: 12%; margin-right: 2%;"
+                  >
+                    <input type="text" class="form-control" />
+                  </div>
+                  <div
+                    class="btn-group"
+                    dropdown
+                    style="width: 14%; margin-right: 2%;"
+                  >
+                    <div class="input_wrapper" style="margin-top: 0.2rem;">
+                      <input type="checkbox" class="switch_4" />
+                      <span class="is_checked">%</span>
+                      <span class="is_unchecked">.00</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 col-sm-12">
+              <div class="form-group form-row">
+                <label for="inputPhone" class="col-3 col-form-label"
+                  >No Of Restaurent</label
+                >
+                <div class="col">
+                  <div
+                    class="btn-group"
+                    dropdown
+                    style="width: 12%; margin-right: 2%;"
+                  >
+                    <select
+                      class="form-control"
+                      id="restaurant"
+                      [(ngModel)]="basicData.noOfRestaurant"
+                    >
+                      <option>select Restaurant</option>
+                      <option
+                        *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8]"
+                        [selected]="item == basicData.noOfRestaurant"
+                        value="{{ item }}"
+                        >{{ item }}</option
+                      >
+                    </select>
+                  </div>
+                  <div
+                    class="btn-group"
+                    dropdown
+                    style="width: 15%; margin-right: 2%;"
+                  >
+                    <label>Decimal Places</label>
+                  </div>
+                  <div
+                    class="btn-group"
+                    dropdown
+                    style="width: 13%; margin-right: 2%;"
+                  >
+                    <select
+                      class="form-control"
+                      [(ngModel)]="basicData.decimalPlace"
+                    >
+                      <option value="">Select Decmal</option>
+                      <option
+                        *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8]"
+                        [selected]="item == basicData.decimalPlace"
+                        value="{{ item }}"
+                        >{{ item }}</option
+                      >
+                    </select>
+                  </div>
+                  <div class="btn-group" dropdown style="width: 14%;">
+                    <label>No of Banqets</label>
+                  </div>
+                  <div class="btn-group" dropdown style="width: 12%;">
+                    <select
+                      class="form-control"
+                      [(ngModel)]="basicData.noOfBanquet"
+                    >
+                      <option value="">Select banqets</option>
+                      <option
+                        *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8]"
+                        [selected]="item == basicData.noOfBanquet"
+                        value="{{ item }}"
+                        >{{ item }}</option
+                      >
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-9 col-sm-12">
+              <div class="form-group form-row">
+                <label for="propertyName" class="col-4 col-form-label"
+                  >Default Currency</label
+                >
+                <div class="col">
+                  <div
+                    class="btn-group"
+                    dropdown
+                    style="width: 59%; margin-right: 2%;"
+                  >
+                    <select class="form-control">
+                      <option value="">Select Crrency</option>
+                      <option
+                        *ngFor="let currencyType of CurrencyTypeMaster"
+                        [selected]="currencyType.Id == basicData.currency"
+                        value="{{ currencyType.Id }}"
+                        >{{ currencyType.Cur_desc }}</option
+                      >
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-9 col-sm-12">
+              <div class="form-group form-row">
+                <label for="propertyName" class="col-4 col-form-label"
+                  >Date Format</label
+                >
+                <div class="col">
+                  <div
+                    class="btn-group"
+                    dropdown
+                    style="width: 59%; margin-right: 2%;"
+                  >
+                    <select
+                      class="form-control"
+                      [(ngModel)]="basicData.dateFormat"
+                    >
+                      <option value="">Select dateformat</option>
+                      <option
+                        *ngFor="let dateFormatItem of dateFormatList"
+                        [selected]="dateFormatItem.key == basicData.dateFormat"
+                        value="{{ dateFormatItem.key }}"
+                        >{{ dateFormatItem.value }}</option
+                      >
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-9 col-sm-12">
+              <div class="form-group form-row">
+                <label for="propertyName" class="col-4 col-form-label"
+                  >Time Zone Locatiion</label
+                >
+                <div class="col">
+                  <div
+                    class="btn-group"
+                    dropdown
+                    style="width: 59%; margin-right: 2%;"
+                  >
+                    <select
+                      class="form-control"
+                      [(ngModel)]="basicData.timeZone"
+                    >
+                      <option value="">Select timezone</option>
+                      <option
+                        *ngFor="
+                          let timezone of timezoneList
+                            | searchresult: timezonefilter:'timezone'
+                        "
+                        [selected]="timezone == basicData.timeZone"
+                        value="{{ timezone }}"
+                        >{{ timezone }}</option
+                      >
+                    </select>
+                    <!--  <span><small><i>Current time {{ now | date : 'h:mm:ss a' }}</i></small></span> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-9 col-sm-12">
+              <div class="form-group form-row">
+                <label for="propertyName" class="col-4 col-form-label"
+                  >Time Format</label
+                >
+                <div class="col">
+                  <div
+                    class="btn-group"
+                    dropdown
+                    style="width: 59%; margin-right: 4%;"
+                  >
+                    <select
+                      class="form-control"
+                      [(ngModel)]="basicData.timeFormat"
+                    >
+                      <option value="">Select timeformat</option>
+                      <option
+                        [selected]="basicData.timeFormat == '12 Hours'"
+                        value="12 Hours"
+                        >12 Hours</option
+                      >
+                      <option
+                        [selected]="basicData.timeFormat == '24 Hours'"
+                        value="24 Hours"
+                        >24 Hours</option
+                      >
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <div class="col-12 col-flexible" style="margin-top: -21px;">
+      <div class="form-container">
+        <section class="form-footer">
+          <div class="row">
+            <div class="col">
+              <button
+                class="btn btn-normal pull-right cont"
+                style="margin-left: 10px;"
+                mwlConfirmationPopover
+                [popoverTitle]="popoverTitle2"
+                [popoverMessage]="popoverMessage2"
+                [confirmText]="confirmText1"
+                [cancelText]="cancelText1"
+                placement="left"
+                (confirm)="BasicInfoAdd()"
+                (cancel)="cancelClicked = true"
+                confirmButtonType="coninfo"
+                cancelButtonType="light"
+              >
+                <i
+                  class="fa fa-plus"
+                  aria-hidden="true"
+                  style="color: #fff;"
+                ></i>
+                Save
+              </button>
+              <button
+                class="btn btn-normal pull-right cont"
+                type="button"
+                (click)="clearSearch()"
+              >
+                Clear
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <div id="general" class="container tab-pane active">
+    <div class="col-12 col-flexible">
+      <div class="form-container">
+        <section class="form-body mt-3">
+          <div class="row">
+            <div class="col-md-6 col-sm-12">
+              <div class="form-group form-row">
+                <label for="userName" class="col-4 col-form-label">Name</label>
+                <div class="col">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="restaurentName"
+                    [(ngModel)]="generalData.name"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+              <div class="form-group form-row">
+                <label for="inputMobile" class="col-4 col-form-label"
+                  >Mobile No</label
+                >
+                <div class="col">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputMobile"
+                    maxlength="10"
+                    [(ngModel)]="generalData.mobleno"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 col-sm-12">
+              <div class="form-group form-row">
+                <label for="inputPhone" class="col-4 col-form-label"
+                  >Phone No</label
+                >
+                <div class="col">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputPhone"
+                    maxlength="10"
+                    [(ngModel)]="generalData.phoneNO"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+              <div class="form-group form-row">
+                <label for="inputAddress" class="col-4 col-form-label"
+                  >Address</label
+                >
+                <div class="col">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputAddress"
+                    [(ngModel)]="generalData.address"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 col-sm-12">
+              <div class="form-group form-row">
+                <label for="inputCity" class="col-4 col-form-label">City</label>
+                <div class="col">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputCity"
+                    [(ngModel)]="generalData.city"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+              <div class="form-group form-row">
+                <label for="inputPhone" class="col-4 col-form-label"
+                  >Email</label
+                >
+                <div class="col">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputPhone"
+                    [(ngModel)]="generalData.email"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 col-sm-12">
+              <div class="form-group form-row">
+                <label for="inputState" class="col-4 col-form-label"
+                  >State</label
+                >
+                <div class="col">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputState"
+                    [(ngModel)]="generalData.state"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+              <div class="form-group form-row">
+                <label for="inputPhone" class="col-4 col-form-label"
+                  >Gst No</label
+                >
+                <div class="col">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputPhone"
+                    [(ngModel)]="generalData.gstNo"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 col-sm-12">
+              <div class="form-group form-row">
+                <label for="selectCountry" class="col-4 col-form-label"
+                  >Country</label
+                >
+                <div class="col">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="selectCountry"
+                    [(ngModel)]="generalData.country"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+              <div class="form-group form-row">
+                <label for="website" class="col-4 col-form-label"
+                  >Website</label
+                >
+                <div class="col">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="website"
+                    [(ngModel)]="generalData.website"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 col-sm-12">
+              <div class="form-group form-row">
+                <label for="inputZip" class="col-4 col-form-label"
+                  >Zip Code</label
+                >
+                <div class="col">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputZip"
+                    [(ngModel)]="generalData.zipCode"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <div class="col-12 col-flexible" style="margin-top: 2px;">
+      <div class="form-container">
+        <section class="form-footer">
+          <div class="row">
+            <div class="col">
+              <button
+                class="btn btn-normal pull-right cont"
+                style="margin-left: 10px;"
+                mwlConfirmationPopover
+                [popoverTitle]="popoverTitle2"
+                [popoverMessage]="popoverMessage2"
+                [confirmText]="confirmText1"
+                [cancelText]="cancelText1"
+                placement="left"
+                (confirm)="generalInfoAdd()"
+                (cancel)="cancelClicked = true"
+                confirmButtonType="coninfo"
+                cancelButtonType="light"
+              >
+                <i
+                  class="fa fa-plus"
+                  aria-hidden="true"
+                  style="color: #fff;"
+                ></i>
+                Save
+              </button>
+              <button
+                class="btn btn-normal pull-right cont"
+                type="button"
+                (click)="clearSearch()"
+              >
+                Clear
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <div id="advance" class="container tab-pane fade">
+    <div class="col-12 col-flexible">
+      <div class="form-container">
+        <section class="form-body mt-3">
+          <div class="container-fluid" style="padding: 10px 0px;">
+            <h5 id="pageHeading">Restaurants</h5>
+
+            <div class="row">
+              <div class="col-12 col-flexible">
+                <alert
+                  *ngIf="alertMessageDetails.response"
+                  [type]="alertMessageDetails.type"
+                  [dismissible]="true"
+                  class="text-center"
+                >
+                  {{ alertMessageDetails.message }}
+                </alert>
+              </div>
+
+              <div class="col">
+                <div class="table-responsive">
+                  <div class="rTable">
+                    <div class="rTableRow">
+                      <div class="rTableHead" style="width: 6%;">Sl.No.</div>
+                      <div class="rTableHead text-center" style="width: 25%;">
+                        Restaurant Name
+                      </div>
+                      <div class="rTableHead" style="width: 15%;">
+                        Manager Name
+                      </div>
+                      <div class="rTableHead" style="width: 15%;">
+                        Number of Tables
+                      </div>
+                      <div class="rTableHead" style="width: 15%;">
+                        Number of Staffs
+                      </div>
+                      <div class="rTableHead" style="width: 15%;">
+                        Phone Extension
+                      </div>
+
+                      <div class="rTableHead" style="width: 9%;">Actions</div>
+                    </div>
+
+                    <div class="rTableRow">
+                      <div class="rTableCell text-center" style="width: 6%;">
+                        1
+                      </div>
+                      <div class="rTableCell" style="width: 25%;">
+                        <input
+                          type="text"
+                          name="editAminityName"
+                          [(ngModel)]="advanceRestaurantData.restaurantName"
+                          class="edit-input-box"
+                        />
+                      </div>
+                      <div class="rTableCell" style="width: 15%;">
+                        <input
+                          type="text"
+                          name="editAminityDesc"
+                          [(ngModel)]="advanceRestaurantData.managerName"
+                          class="edit-input-box"
+                        />
+                      </div>
+                      <div class="rTableCell" style="width: 15%;">
+                        <select
+                          class="form-control"
+                          id="restaurant"
+                          [(ngModel)]="advanceRestaurantData.noOfTable"
+                        >
+                          <option>select Table</option>
+                          <option
+                            *ngFor="
+                              let item of [
+                                1,
+                                2,
+                                3,
+                                4,
+                                5,
+                                6,
+                                7,
+                                8,
+                                9,
+                                10,
+                                11,
+                                12,
+                                13,
+                                14,
+                                15,
+                                16,
+                                17,
+                                18,
+                                19,
+                                20,
+                                21,
+                                22,
+                                23,
+                                24,
+                                25
+                              ]
+                            "
+                            [selected]="item == advanceRestaurantData.noOfTable"
+                            value="{{ item }}"
+                            >{{ item }}</option
+                          >
+                        </select>
+                      </div>
+                      <div class="rTableCell" style="width: 15%;">
+                        <input
+                          type="text"
+                          name="editAminityDesc"
+                          [(ngModel)]="advanceRestaurantData.noOfStaff"
+                          class="edit-input-box"
+                        />
+                      </div>
+                      <div class="rTableCell" style="width: 15%;">
+                        <input
+                          type="text"
+                          name="editAminityDesc"
+                          class="edit-input-box"
+                          [(ngModel)]="advanceRestaurantData.phoneNo"
+                        />
+                      </div>
+                      <div class="rTableCell text-center" style="width: 9%;">
+                        <div
+                          class="d-inline-block"
+                          style="cursor: pointer;"
+                          (click)="addrestaurantTable()"
+                        >
+                          <img src="./assets/images/edit.png" alt="edit" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="row"
+              id="footerButtonContainer"
+              style="margin-top: 20px;"
+            >
+              <div class="col point-cursor" (click)="addAminity()">
+                <span class="badge badge-sky" style="vertical-align: text-top;"
+                  ><i class="fa fa-plus"></i
+                ></span>
+                <div style="margin-left: 6px; display: inline-block;">
+                  Add Rstaurant
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="container-fluid" style="padding: 10px 0px;">
+            <h5 id="pageHeading">Banquets</h5>
+
+            <div class="row">
+              <div class="col-12 col-flexible">
+                <alert
+                  *ngIf="alertMessageDetails.response"
+                  [type]="alertMessageDetails.type"
+                  [dismissible]="true"
+                  class="text-center"
+                >
+                  {{ alertMessageDetails.message }}
+                </alert>
+              </div>
+
+              <div class="col">
+                <div class="table-responsive">
+                  <div class="rTable">
+                    <div class="rTableRow">
+                      <div class="rTableHead" style="width: 6%;">Sl.No.</div>
+                      <div class="rTableHead text-center" style="width: 25%;">
+                        Banqets Name
+                      </div>
+                      <div class="rTableHead" style="width: 15%;">
+                        Manager Name
+                      </div>
+                      <div class="rTableHead" style="width: 15%;">
+                        Number of Tables
+                      </div>
+                      <div class="rTableHead" style="width: 15%;">
+                        Number of Staffs
+                      </div>
+                      <div class="rTableHead" style="width: 15%;">
+                        Phone Extension
+                      </div>
+
+                      <div class="rTableHead" style="width: 9%;">Actions</div>
+                    </div>
+
+                    <div class="rTableRow">
+                      <div class="rTableCell text-center" style="width: 6%;">
+                        1
+                      </div>
+                      <div class="rTableCell" style="width: 25%;">
+                        <input
+                          type="text"
+                          name="editAminityName"
+                          [(ngModel)]="advanceBanqueteData.restaurantName"
+                          class="edit-input-box"
+                        />
+                      </div>
+                      <div class="rTableCell" style="width: 15%;">
+                        <input
+                          type="text"
+                          name="editAminityDesc"
+                          [(ngModel)]="advanceBanqueteData.managerName"
+                          class="edit-input-box"
+                        />
+                      </div>
+                      <div class="rTableCell" style="width: 15%;">
+                        <select
+                          class="form-control"
+                          id="restaurant"
+                          [(ngModel)]="advanceBanqueteData.noOfTable"
+                        >
+                          <option>select Table</option>
+                          <option
+                            *ngFor="
+                              let item of [
+                                1,
+                                2,
+                                3,
+                                4,
+                                5,
+                                6,
+                                7,
+                                8,
+                                9,
+                                10,
+                                11,
+                                12,
+                                13,
+                                14,
+                                15,
+                                16,
+                                17,
+                                18,
+                                19,
+                                20,
+                                21,
+                                22,
+                                23,
+                                24,
+                                25
+                              ]
+                            "
+                            [selected]="item == advanceBanqueteData.noOfTable"
+                            value="{{ item }}"
+                            >{{ item }}</option
+                          >
+                        </select>
+                      </div>
+                      <div class="rTableCell" style="width: 15%;">
+                        <input
+                          type="text"
+                          name="editAminityDesc"
+                          [(ngModel)]="advanceBanqueteData.noOfStaff"
+                          class="edit-input-box"
+                        />
+                      </div>
+                      <div class="rTableCell" style="width: 15%;">
+                        <input
+                          type="text"
+                          name="editAminityDesc"
+                          class="edit-input-box"
+                          [(ngModel)]="advanceBanqueteData.phoneNo"
+                        />
+                      </div>
+                      <div class="rTableCell text-center" style="width: 9%;">
+                        <div
+                          class="d-inline-block"
+                          style="cursor: pointer;"
+                          (click)="addBanaquteTable()"
+                        >
+                          <img src="./assets/images/edit.png" alt="edit" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="row"
+              id="footerButtonContainer"
+              style="margin-top: 20px;"
+            >
+              <div class="col point-cursor" (click)="addAminity()">
+                <span class="badge badge-sky" style="vertical-align: text-top;"
+                  ><i class="fa fa-plus"></i
+                ></span>
+                <div style="margin-left: 6px; display: inline-block;">
+                  Add Banquets
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+<ng4-loading-spinner
+  [timeout]="1300000"
+  [loadingText]="'Please wait...'"
+></ng4-loading-spinner>

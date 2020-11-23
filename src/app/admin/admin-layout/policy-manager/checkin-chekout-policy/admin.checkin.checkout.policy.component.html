@@ -1,0 +1,176 @@
+<div class="container-fluid" style="padding:10px 0px; ">
+    <h5>Check In &amp; Check Out Policy</h5>
+
+    <div class="row">
+
+        <div class="col-12 col-flexible">
+            <alert *ngIf="alertMessageDetails.response" [type]="alertMessageDetails.type" [dismissible]="true"
+                class="text-center">
+                {{alertMessageDetails.message}}
+            </alert>
+        </div>
+
+        <div class="col">
+            <div class="table-responsive">
+
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow" id="tableHeaderRow">
+                        <div class="divDisplayTableCell head brdLft text-center" style="width:6%;">Sl. No.</div>
+                        <div class="divDisplayTableCell head text-center" style="width:16%;">Check In & Out Policy</div>
+                        <div class="divDisplayTableCell head text-center" style="width:7%;">Value</div>
+                        <div class="divDisplayTableCell head text-center" style="width:7%;">Day(s)</div>
+                        <div class="divDisplayTableCell head text-center" style="width:7%;">Hour(s)</div>
+                        <div class="divDisplayTableCell head text-center" style="width:18%;">Descriptions</div>
+                        <div class="divDisplayTableCell head text-center" style="width:7%;">Value</div>
+                        <div class="divDisplayTableCell head text-center" style="width:8%;">% of Booking</div>
+                        <div class="divDisplayTableCell head text-center" style="width:8%;">Amt</div>
+                        <div class="divDisplayTableCell head text-center" style="width:8%;">Room Night(s)</div>
+                        <div class="divDisplayTableCell head text-center" style="width:8%;">Actions</div>
+                    </div>
+                </div>
+
+                <!-- <perfect-scrollbar class="position-relative" [style.max-height.px]="scrollBarContainerHeight" [scrollIndicators]="true"> -->
+
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow"
+                        *ngFor="let policyItem of checkInCheckOutPolicyList; let i = index;">
+                        <div class="divDisplayTableCell brdLft text-center" style="width:6%;">{{i+1}}</div>
+
+                        <div class="divDisplayTableCell text-center" style="width:16%;">
+                            <span [hidden]="policyItem.editable">
+                                {{policyItem.checkinPolicyName}}
+                            </span>
+                            <input [hidden]="!policyItem.editable" type="text" name="editCheckinPolicyName"
+                                id="editCheckinPolicyName_{{i}}" [(ngModel)]="policyItem.checkinPolicyName"
+                                class="edit-input-box" />
+                        </div>
+
+                        <div class="divDisplayTableCell text-center" style="width:7%;">
+                            <span [hidden]="policyItem.editable">
+                                {{policyItem.dayHourValue}}
+                            </span>
+                            <input [hidden]="!policyItem.editable" type="text" name="editPolicyDayHourValue"
+                                id="editPolicyDayHourValue_{{i}}" [(ngModel)]="policyItem.dayHourValue" class="edit-input-box" />
+                        </div>
+
+                        <div class="divDisplayTableCell brdLft text-center" style="width:7%;">
+                            <label class="radio">&nbsp;
+                                <input type="radio" name="policyDayHour" id="policyDay_{{i}}" [checked]="policyItem.dayHourSelection == 'D'"
+                                    [value]="policyItem.checkinPolicyID">
+                                <span class="checkround"></span>
+                            </label>
+                        </div>
+
+                        <div class="divDisplayTableCell brdLft text-center" style="width:7%;">
+                            <label class="radio">&nbsp;
+                                <input type="radio" name="policyDayHour" id="policyHour_{{i}}"
+                                    [checked]="policyItem.dayHourSelection == 'H'" [value]="policyItem.checkinPolicyID">
+                                <span class="checkround"></span>
+                            </label>
+                        </div>
+
+                        <div class="divDisplayTableCell text-center" style="width:18%;">
+                            <span [hidden]="policyItem.editable">
+                                {{policyItem.checkinPolicyDesc}}
+                            </span>
+                            <input [hidden]="!policyItem.editable" type="text" name="editCheckinPolicyDesc"
+                                id="editCheckinPolicyDesc_{{i}}" [(ngModel)]="policyItem.checkinPolicyDesc"
+                                class="edit-input-box" />
+                        </div>
+
+                        <div class="divDisplayTableCell text-center" style="width:7%;">
+                            <span [hidden]="policyItem.editable">
+                                {{policyItem.charge}}
+                            </span>
+                            <input [hidden]="!policyItem.editable" type="text" name="editPolicyAmountValue"
+                                id="editPolicyAmountValue_{{i}}" [(ngModel)]="policyItem.charge"
+                                class="edit-input-box" />
+                        </div>
+
+                        <div class="divDisplayTableCell brdLft text-center" style="width:8%;">
+                            <label class="radio">&nbsp;
+                                <input type="radio" name="chkinChkoutPolicyRadio" id="percentOfBooking1_{{i}}"
+                                    [checked]="policyItem.chargeType == 'PB'" [value]="policyItem.checkinPolicyID">
+                                <span class="checkround"></span>
+                            </label>
+                        </div>
+
+                        <div class="divDisplayTableCell brdLft text-center" style="width:8%;">
+                            <label class="radio">&nbsp;
+                                <input type="radio" name="chkinChkoutPolicyRadio" id="percentOfBooking2_{{i}}"
+                                    [checked]="policyItem.chargeType == 'AM'" [value]="policyItem.checkinPolicyID">
+                                <span class="checkround"></span>
+                            </label>
+                        </div>
+
+                        <div class="divDisplayTableCell brdLft text-center" style="width:8%;">
+                            <label class="radio">&nbsp;
+                                <input type="radio" name="chkinChkoutPolicyRadio" id="percentOfBooking_3{{i}}"
+                                    [checked]="policyItem.chargeType == 'RN'" [value]="policyItem.checkinPolicyID">
+                                <span class="checkround"></span>
+                            </label>
+                        </div>
+
+                        <div class="divDisplayTableCell text-center" style="width:8%;">
+                            <div class="d-inline-block point-cursor"
+                                (click)="policyItem.editable = !policyItem.editable">
+                                <img *ngIf="!policyItem.editable" src="./assets/images/edit.png" alt="edit">
+                                <i *ngIf="policyItem.editable" style="color:#6787BF;" class="fa fa-save" alt="save"
+                                    (click)="editRate(i)"></i>
+                            </div>
+                            <div class="d-inline-block point-cursor" style="margin-left: 10px;"
+                                (click)="openConfirmModal(i)">
+                                <img src="./assets/images/delete.png" alt="delete">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- </perfect-scrollbar> -->
+
+                <ng-template #popTemplate>
+
+                    <div class="table-responsive" style="width:400px;">
+                        <div class="divDisplayTable">
+                            <div class="divDisplayTableRow" id="tableHeaderRow">
+                                <div class="divDisplayTableCell head brdLft text-center" style="width:15%;">Sl. No.
+                                </div>
+                                <div class="divDisplayTableCell head text-center" style="width:10%;">
+                                    <input type="checkbox" name="body" id="headCkb" [(ngModel)]="allCkbox"
+                                        (change)="selectCKBStatus('all')">
+                                </div>
+                                <div class="divDisplayTableCell head text-center" style="width:35%;">Policies</div>
+                            </div>
+                            <div class="divDisplayTableRow" *ngFor="let policyItem of policyList">
+                                <div class="divDisplayTableCell brdLft text-center" style="width:15%;">
+                                    {{policyItem.policyId}}</div>
+                                <div class="divDisplayTableCell text-center" style="width:10%;">
+                                    <input type="checkbox" name="body" id="policyckb_{{i}}"
+                                        [(ngModel)]="policyItem.checked" (change)="selectCKBStatus(policyItem)">
+                                </div>
+                                <div class="divDisplayTableCell text-left" style="width:15%;">{{policyItem.name}}</div>
+                            </div>
+                        </div>
+                        <div class="col text-center table-footer">
+                            <button class="btn btn-normal">Ok</button>
+                        </div>
+                    </div>
+
+                </ng-template>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="footerButtonContainer" style="margin-top:20px;">
+        <div class="col point-cursor">
+            <span class="badge badge-sky" style="vertical-align:text-top;"><i class="fa fa-plus"></i></span>
+            <div style="margin-left:6px;display: inline-block;">Add</div>
+        </div>
+
+        <div class="col">
+            <!-- <button class="btn btn-normal pull-right" type="submit">Save</button> -->
+            <!-- <button class="btn btn-normal pull-right" type="submit">Reset</button> -->
+        </div>
+    </div>
+</div>

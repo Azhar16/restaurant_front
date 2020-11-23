@@ -1,0 +1,47 @@
+.row {
+
+    &:first-child {
+        margin-left: 0px;
+    }
+
+    &:last-child {
+        margin-right: 20px;
+    }
+
+    .card {
+        padding: 80px 20px;
+        margin-left: 20px;
+        margin-bottom: 20px;
+        cursor: pointer;
+        margin-top: 0px;
+        -webkit-transition: margin-top 0.5s; /* For Safari 3.1 to 6.0 */
+        transition: margin-top 0.5s;
+
+        &:hover{
+            //box-shadow:0 10px 20px rgba(0,0,0,.2);
+            -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            -moz-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            -ms-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            margin-top: -20px;
+        }
+
+        .box {
+            text-align: center;
+            .img {
+                width: 120px;
+                height: 120px;
+                margin: 0 auto;
+                border-radius: 50%;
+                overflow: hidden;
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            h5{
+                margin-top: 30px;
+            }
+        }
+    }
+}

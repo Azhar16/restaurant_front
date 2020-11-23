@@ -1,0 +1,119 @@
+<div class="container-fluid" style="padding:10px 0px; ">
+    <h5>Room Taxes</h5>
+
+    <div class="row">
+
+        <div class="col-12 col-flexible">
+            <alert *ngIf="alertMessageDetails.response" [type]="alertMessageDetails.type" [dismissible]="true" class="text-center">
+                {{alertMessageDetails.message}}
+            </alert>
+        </div>
+
+        <div class="col">
+            <div class="table-responsive">
+
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow" id="tableHeaderRow">
+                        <div class="divDisplayTableCell head brdLft text-right" style="width:10%;">Sl. No.</div>
+                        <div class="divDisplayTableCell head text-center" style="width:12%;">Tax Code</div>
+                        <div class="divDisplayTableCell head text-center" style="width:25%;">Tax Descriptions</div>
+                        <div class="divDisplayTableCell head text-center" style="width:23%;">Tax Amount</div>
+                        <div class="divDisplayTableCell head text-center" style="width:20%;">Application Label</div>
+                        <div class="divDisplayTableCell head text-center" style="width:10%;">Actions</div>
+                    </div>
+                </div>
+
+                <perfect-scrollbar class="position-relative" [style.max-height.px]="scrollBarContainerHeight" [scrollIndicators]="true">
+
+                    <div class="divDisplayTable">
+                        <div class="divDisplayTableRow" *ngFor="let taxItem of taxList; let i = index;">
+                            <div class="divDisplayTableCell brdLft text-center" style="width:10%;">{{i + 1}}</div>
+                            <div class="divDisplayTableCell text-center" style="width:12%;">
+                                <span [hidden]="taxItem.editable">{{taxItem.taxCode}}</span>
+                                <input [hidden]="!taxItem.editable" type="text" name="editTaxCode" id="editTaxCode_{{i}}" [(ngModel)]="taxItem.taxCode" class="edit-input-box" />
+                            </div>
+                            <div class="divDisplayTableCell" style="width:25%;">
+                                <span [hidden]="taxItem.editable">
+                                    {{taxItem.taxDescription}}
+                                </span>
+                                <input [hidden]="!taxItem.editable" type="text" name="editTaxDesc" id="editTaxDesc_{{i}}" [(ngModel)]="taxItem.taxDescription" class="edit-input-box" />
+                            </div>
+                            <div class="divDisplayTableCell position-relative" style="width:23%;">
+                                <div *ngIf="!taxItem.editable" class="d-inline-block text-right" style="margin-right: 10px; top:0px; width:60%">
+                                    <span>{{taxItem.taxAmount}}</span>
+                                </div>
+                                <div *ngIf="!taxItem.editable" class="d-inline-block text-center" style="width:30%">
+                                    <div class="decimal-percent-badge">{{taxItem.percent ? '%' : '.00'}}</div>
+                                </div>
+                                <div *ngIf="taxItem.editable" class="d-inline-block text-center" style="width:60%">
+                                    <input type="text" name="editTaxAmt" id="editTaxAmt_{{i}}" [(ngModel)]="taxItem.taxAmount" class="edit-input-box" />
+                                </div>
+                                <div *ngIf="taxItem.editable" class="pull-right" style="width:40%;">
+                                    <div class="input_wrapper" style="right:-15px;top:-1px;">
+                                        <input type="checkbox" class="switch_4" [(ngModel)]="taxItem.percent">
+                                        <span class="is_checked">%</span>
+                                        <span class="is_unchecked">.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="divDisplayTableCell text-center" style="width:20%;">
+                                <span [hidden]="taxItem.editable">{{taxItem.applicationLevel}}</span>
+                                <input [hidden]="!taxItem.editable" type="text" name="editTaxApplicationLevel" id="editTaxApplicationLevel_{{i}}" [(ngModel)]="taxItem.applicationLevel" class="edit-input-box" />
+                            </div>
+                            <div class="divDisplayTableCell text-center" style="width:10%;">
+                                <div class="d-inline-block point-cursor" (click)="taxItem.editable = !taxItem.editable">
+                                    <img *ngIf="!taxItem.editable" src="./assets/images/edit.png" alt="edit">
+                                    <i *ngIf="taxItem.editable" style="color:#6787BF;" class="fa fa-save" alt="save" (click)="editTax(i)"></i>
+                                </div>
+                                <div class="d-inline-block point-cursor" style="margin-left: 10px;" (click)="openConfirmModal(i)">
+                                    <img src="./assets/images/delete.png" alt="delete">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="divDisplayTableRow" *ngIf="showAddTax">
+                            <div class="divDisplayTableCell brdLft" style="width:10%;">&nbsp;</div>
+                            <div class="divDisplayTableCell text-center" style="width:12%;">
+                                <input type="text" class="edit-input-box" name="taxCode" id="taxCode" [(ngModel)]="newTaxObject.taxCode" />
+                            </div>
+                            <div class="divDisplayTableCell" style="width:25%;">
+                                <input type="text" class="edit-input-box" name="taxDescription" id="taxDescription" [(ngModel)]="newTaxObject.taxDescription" />
+                            </div>
+                            <div class="divDisplayTableCell" style="width:23%;">
+                                <div class="d-inline-block text-center" style="width:60%">
+                                    <input type="text" class="edit-input-box" name="taxAmount" id="taxAmount" [(ngModel)]="newTaxObject.taxAmount" />
+                                </div>
+                                <div class="pull-right" style="width:40%">
+                                    <div class="input_wrapper" style="right:-15px;top:-1px;">
+                                        <input type="checkbox" class="switch_4" [(ngModel)]="newTaxObject.percent">
+                                        <span class="is_checked">%</span>
+                                        <span class="is_unchecked">.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="divDisplayTableCell text-center" style="width:20%;">
+                                <input type="text" class="edit-input-box" name="applicationLabel" id="applicationLabel" [(ngModel)]="newTaxObject.applicationLevel" />
+                            </div>
+                            <div class="divDisplayTableCell text-center" style="width:10%;" (click)="createTax()">
+                                <div class="d-inline-block point-cursor">
+                                    <img src="./assets/images/save.png" alt="create tax">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </perfect-scrollbar>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="footerButtonContainer" style="margin-top:20px;">
+        <div class="col point-cursor" (click)="toggleCreateTax()">
+            <span class="badge badge-sky" style="vertical-align:text-top;"><i class="fa fa-plus"></i></span>
+            <div class="d-inline-block" style="margin-left:6px;">Add Tax</div>
+        </div>
+    </div>
+
+</div>

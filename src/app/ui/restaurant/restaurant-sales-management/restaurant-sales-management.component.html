@@ -1,0 +1,141 @@
+<div class="cust-container" style="padding:0px;margin: 10px 0px">
+
+    <div class="head-section ">
+        <div class="row head-row">
+            <div class="col inner-col-right-reduce">
+                <h5>Sales Management</h5>
+            </div>
+            <!-- <div class="col-6 inner-col-left-reduce">
+                <h5>Add Reservation</h5>
+            </div> -->
+        </div>
+
+        <div class="row body-row">
+            <div class="col ">
+                <div class="card" style="padding: 10px 20px;">
+                    <div class="row">
+                        <div class="col-2">
+                            <div class="form-group form-row">
+                                <div class="input-group date-cal">
+                                        <span >
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                    <input bsDatepicker class="form-control" id="open_date" #dpend="bsDatepicker"
+                                        type="text" [bsConfig]="bsConfigEnd" placeholder="Start Date">
+                                       </div>
+                            </div>
+                        </div>
+                            <div class="col-2">
+                            <div class="form-group form-row">
+                                <div class="input-group date-cal">
+                                        <span >
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                    <input bsDatepicker class="form-control" id="open_date" #dpend="bsDatepicker"
+                                        type="text" [bsConfig]="bsConfigEnd" placeholder="End Date">
+                                        </div>
+                            </div>
+                        </div>
+                            <div class="col-2">
+                            <div class="form-group">
+                                <select class="form-control" id="restaurant"
+                            	 >
+                            		<option>Select Restaurant</option>
+                            	</select>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <select class="form-control" id="daily_sale"
+                            	 >
+                            		<option>Daily Sale</option>
+                            	</select>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <select class="form-control" id="Options"
+                            	 >
+                            		<option>Options</option>
+                            	</select>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                        	<div class="form-group">
+                         <button class="btn btn-normal ml-0" type="button"
+                                    >Fetch</button>
+                                </div>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+           
+
+    <div class="body-section no-padding">
+        <div class="row body-row mt-3">
+            <div class="table-responsive" id="tableDiv">
+                <table  class="table table-responsive divDisplayTable" id="tableid" border="1" style="width: 100%; border-collapse: collapse" >
+                    <thead>
+                        <tr class="divDisplayTableRow" id="tableHeaderRow">
+                            <th class="divDisplayTableCell head brdLft text-center">SL. NO.</th>
+                            <th class="divDisplayTableCell head text-center">Start Date</th>
+                            <th class="divDisplayTableCell head text-center">End Date</th>
+							<th class="divDisplayTableCell head text-center"> Restaurant Name</th>
+							<th class="divDisplayTableCell head text-center">Total Order</th>
+							<th class="divDisplayTableCell head text-center">In House Order</th>
+							<th class="divDisplayTableCell head text-center">Online Order</th>
+							<th class="divDisplayTableCell head text-center">Home Delivery</th>
+							<th class="divDisplayTableCell head text-center">Total Revenue</th>
+							<th class="divDisplayTableCell head text-center">Total Taxes</th>
+							
+						    </tr>
+                    </thead>
+                    <tbody >
+                        <tr class="divDisplayTableRow" >
+                            
+                        </tr>
+                    </tbody>
+                      
+                </table>
+            </div>
+                <div class="table-responsive" id="tableDiv2">
+                <table  class="table table-responsive divDisplayTable" id="tableid" border="1" style="width: 100%; border-collapse: collapse" >
+                    <thead>
+                        <tr class="divDisplayTableRow" id="tableHeaderRow">
+                            <th class="divDisplayTableCell head brdLft text-center">SL. NO.</th>
+                            <th class="divDisplayTableCell head text-center">Start Date</th>
+							<th class="divDisplayTableCell head text-center"> Restaurant Name</th>
+							<th class="divDisplayTableCell head text-center">Table Number</th>
+							<th class="divDisplayTableCell head text-center">Order No</th>
+							<th class="divDisplayTableCell head text-center">Order Type</th>
+							<th class="divDisplayTableCell head text-center">No of Heads</th>
+							<th class="divDisplayTableCell head text-center">Bill No</th>
+							<th class="divDisplayTableCell head text-center">Bill Amount</th>
+							<th class="divDisplayTableCell head text-center">View</th>
+							<th class="divDisplayTableCell head text-center">Status</th>
+							
+						    </tr>
+                    </thead>
+                    <tbody >
+                        <tr class="divDisplayTableRow" >
+                            
+                        </tr>
+                    </tbody>
+                      
+                </table>
+
+              	</div>
+               </div>
+			   
+			   <ng-template #noDataBody></ng-template>
+			</div>
+
+
+       
+
+ 

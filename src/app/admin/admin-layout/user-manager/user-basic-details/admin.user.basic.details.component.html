@@ -1,0 +1,281 @@
+<div class="container-fluid" style="padding:10px 0px; ">
+    <div class="row booking-row">
+
+        <div class="col-12 col-flexible">
+            <div class="form-container">
+                <header>
+                    User Info
+                </header>
+
+                <section class="form-body mt-3">
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="userName" class="col-4 col-form-label">User Name</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="userName"
+                                        [(ngModel)]="userDetails.User.userName">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="employeeid" class="col-4 col-form-label">Employee ID</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" readonly id="employeeid"
+                                        [(ngModel)]="userDetails.User.empId">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="inputPassword" class="col-4 col-form-label">Password</label>
+                                <div class="col">
+                                    <input type="password" class="form-control" id="inputPassword" [(ngModel)]="userDetails.User.password">
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+
+                    <!-- <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="employeeid" class="col-4 col-form-label">Employee ID</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="employeeid" [(ngModel)]="userDetails.User.loginId">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="inputemail" class="col-4 col-form-label">Email</label>
+                                <div class="col">
+                                    <input type="email" class="form-control" id="inputemail" [(ngModel)]="userDetails.Employee.email">
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="inputPhone" class="col-4 col-form-label">Phone No</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="inputPhone"
+                                        maxlength="10" [(ngModel)]="userDetails.Employee.phone">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="inputMobile" class="col-4 col-form-label">Mobile No</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="inputMobile"
+                                        maxlength="10" [(ngModel)]="userDetails.Employee.mobile">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="firstname" class="col-4 col-form-label">First Name</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="firstname"
+                                        [(ngModel)]="userDetails.Employee.empName">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="lastname" class="col-4 col-form-label">Last Name</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="lastname" [(ngModel)]="userDetails.Employee.lastName" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="firstname" class="col-4 col-form-label">Gender</label>
+                                <div class="col">
+                                    <div class="btn-group" dropdown>
+                                        <button id="button-gender" dropdownToggle type="button"
+                                            class="btn btn-block btn-default dropdown-toggle"
+                                            aria-controls="dropdown-gender">
+                                            {{userDetails.Employee.gender}} <span class="caret"></span>
+                                        </button>
+                                        <ul id="dropdown-gender" *dropdownMenu class="dropdown-menu" role="menu"
+                                            aria-labelledby="button-gender">
+                                            <li role="menuitem" (click)="userDetails.Employee.gender = 'Male'"><a
+                                                    class="dropdown-item" href="javascript:void(0);">Male</a></li>
+                                            <li role="menuitem" (click)="userDetails.Employee.gender = 'Female'"><a
+                                                    class="dropdown-item" href="javascript:void(0);">Female</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="dob" class="col-4 col-form-label">Date of Birth</label>
+                                <div class="col">
+                                    <div class="input-group date-cal">
+                                        <span (click)="joiningdate.show()">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                        <input type="text" class="form-control" id="dob" #joiningdate="bsDatepicker"
+                                            bsDatepicker [bsConfig]="bsConfigBirthDate"
+                                            [(ngModel)]="userDetails.Employee.dOB">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="inputBloodGroup" class="col-4 col-form-label">Blood Group</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="inputBloodGroup"
+                                        [(ngModel)]="userDetails.Employee.bloodGroup">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="emergencyno" class="col-4 col-form-label">Emergency No</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="emergencyno"
+                                        [(ngModel)]="userDetails.Employee.emergencyNumber">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="inputID" class="col-4 col-form-label">ID#</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="inputID"
+                                        [(ngModel)]="userDetails.Employee.iD">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="emergencyno" class="col-4 col-form-label">ID Type</label>
+                                <div class="col">
+                                    <div class="btn-group" dropdown>
+                                        <button id="button-id-type" dropdownToggle type="button"
+                                            class="btn btn-block btn-default dropdown-toggle"
+                                            aria-controls="dropdown-id-type">
+                                            {{userDetails.Employee.iDType == null ? 'Select ID Type' : userDetails.Employee.iDType}}
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul id="dropdown-id-type" *dropdownMenu class="dropdown-menu" role="menu"
+                                            aria-labelledby="button-id-type">
+                                            <li role="menuitem" (click)="userDetails.Employee.iDType = 'Pan Card'">
+                                                <a class="dropdown-item" href="javascript:void(0);">Pan Card</a>
+                                            </li>
+                                            <li role="menuitem" (click)="userDetails.Employee.iDType = 'Aadhar Card'">
+                                                <a class="dropdown-item" href="javascript:void(0);">Aadhar Card</a>
+                                            </li>
+                                            <li role="menuitem" (click)="userDetails.Employee.iDType = 'Votar Card'">
+                                                <a class="dropdown-item" href="javascript:void(0);">Votar Card</a>
+                                            </li>
+                                            <li role="menuitem"
+                                                (click)="userDetails.Employee.iDType = 'Driving Licence'">
+                                                <a class="dropdown-item" href="javascript:void(0);">Driving Licence</a>
+                                            </li>
+                                            <li role="menuitem" (click)="userDetails.Employee.iDType = 'Passport'">
+                                                <a class="dropdown-item" href="javascript:void(0);">Passport</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="inputAddress" class="col-4 col-form-label">Address</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="inputAddress"
+                                        [(ngModel)]="userDetails.Employee.address1">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="selectCountry" class="col-4 col-form-label">Country</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="selectCountry"
+                                        [(ngModel)]="userDetails.Employee.country">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="inputState" class="col-4 col-form-label">State</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="inputState"
+                                        [(ngModel)]="userDetails.Employee.state">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="inputCity" class="col-4 col-form-label">City</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="inputCity"
+                                        [(ngModel)]="userDetails.Employee.city">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group form-row">
+                                <label for="inputZip" class="col-4 col-form-label">Zip Code</label>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="inputZip"
+                                        [(ngModel)]="userDetails.Employee.zipCode">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+            </div>
+        </div>
+
+        <div class="col-12 col-flexible" style="margin-top: 2px;">
+            <div class="form-container">
+                <section class="form-footer">
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-normal pull-right" style="margin-left:10px;"
+                                (click)="openUserWorkDetails()"> Next </button>
+                            <button class="btn btn-normal pull-right"> Reset </button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+    </div>
+</div>

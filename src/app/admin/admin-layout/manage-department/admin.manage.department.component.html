@@ -1,0 +1,125 @@
+<div class="container-fluid" style="padding:10px 0px; ">
+    <h5>Departments</h5>
+
+    <div class="row">
+
+        <div class="col-12 col-flexible">
+            <alert *ngIf="alertMessageDetails.response" [type]="alertMessageDetails.type" [dismissible]="true" class="text-center">
+                {{alertMessageDetails.message}}
+            </alert>
+        </div>
+
+        <div class="col">
+            <div class="table-responsive">
+
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow" id="tableHeaderRow">
+                        <div class="divDisplayTableCell head brdLft text-center" style="width:10%;">Sl. No.</div>
+                        <!-- <div class="divDisplayTableCell head brdLft text-center" style="width:10%;">
+                            <input type="checkbox" name="head" id="headckb" [(ngModel)]="allDepartmentCkbox" (change)="selectDepartmentCKBStatus('all')">
+                        </div> -->
+                        <div class="divDisplayTableCell head text-center" style="width:25%;">Department</div>
+                        <div class="divDisplayTableCell head text-center" style="width:30%;">Description of Department</div>
+                        <!-- <div class="divDisplayTableCell head text-center" style="width:20%;">Status</div> -->
+                        <div class="divDisplayTableCell head text-center" style="width:15%;">Actions</div>
+                    </div>
+                </div>
+
+                <perfect-scrollbar class="position-relative" [style.max-height.px]="scrollBarContainerHeight" [scrollIndicators]="true">
+                    <ng-container *ngIf="departmentList != null && departmentList.length > 0; else noDataBody">
+                        <div class="divDisplayTable">
+                            <div class="divDisplayTableRow" *ngFor="let deptItem of departmentList; let i = index;">
+                                <div class="divDisplayTableCell brdLft text-center" style="width:10%;">{{i+1}}</div>
+                                <!-- <div class="divDisplayTableCell brdLft text-center" style="width:10%;">
+                                <input type="checkbox" name="rateCkb" id="rpckb_{{i}}" [(ngModel)]="deptItem.checked" (change)="selectDepartmentCKBStatus(deptItem)">
+                            </div> -->
+                                <div class="divDisplayTableCell text-center" style="width:25%;">
+                                    <span [hidden]="deptItem.editable">
+                                        {{deptItem.departmentName}}
+                                    </span>
+                                    <input [hidden]="!deptItem.editable" type="text" name="editDepartmentName_{{i}}" id="editDepartmentName_{{i}}" [(ngModel)]="deptItem.departmentName" class="edit-input-box" />
+                                </div>
+                                <div class="divDisplayTableCell text-center" style="width:30%;">
+                                    <span [hidden]="deptItem.editable">
+                                        {{deptItem.departDesc}}
+                                    </span>
+                                    <input [hidden]="!deptItem.editable" type="text" name="editDepartDesc_{{i}}" id="editDepartDesc_{{i}}" [(ngModel)]="deptItem.departDesc" class="edit-input-box" />
+                                </div>
+
+                                <!-- <div class="divDisplayTableCell position-relative text-center" style="width:20%;">                                
+                                <div *ngIf="!deptItem.editable" class="d-inline-block" style="width:60%;">
+                                    <div class="d-inline-block" *ngIf="deptItem.status == '1'">                                        
+                                        <img src="./assets/images/iconfinder_tick_16_22643.png" alt="true">
+                                    </div>
+                                    <div class="d-inline-block" *ngIf="deptItem.status == '0'">                                        
+                                        <img src="./assets/images/iconfinder_DeleteRed.png" alt="true">
+                                    </div>
+                                </div>
+                                
+                                <div *ngIf="deptItem.editable" class="d-inline-block position-absolute" style="width:60%;right: 5%;top:5px;">
+                                    <div class="input_wrapper">
+                                        <input type="checkbox" class="switch_4" [(ngModel)]="deptItem.status">
+                                        <span class="is_checked">Y</span>
+                                        <span class="is_unchecked">N</span>
+                                    </div>
+                                </div>
+                            </div> -->
+
+                                <div class="divDisplayTableCell text-center" style="width:15%;">
+                                    <!-- <div class="d-inline-block point-cursor" (click)="deptItem.editable = !deptItem.editable">
+                                        <img *ngIf="!deptItem.editable" src="./assets/images/edit.png" alt="edit">
+                                        <i *ngIf="deptItem.editable" style="color:#6787BF;" class="fa fa-save" alt="save" (click)="editDepartment(i)"></i>
+                                    </div> -->
+                                    <div class="d-inline-block point-cursor" style="margin-left: 10px;" (click)="openConfirmModal(i)">
+                                        <img src="./assets/images/delete.png" alt="delete">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <div class="divDisplayTable" *ngIf="showNewDepartmentRow">
+                        <div class="divDisplayTableRow" >
+                            <div class="divDisplayTableCell brdLft" style="width:10%;">&nbsp;</div>
+                            <div class="divDisplayTableCell text-center" style="width:25%;">
+                                    <input  type="text" name="addDepartmentName" id="addDepartmentName" [(ngModel)]="newDepartmentObject.departmentName" class="edit-input-box" />
+                            </div>
+                            <div class="divDisplayTableCell text-center position-relative" style="width:30%;">                                
+                                    <input type="text" name="addDepartDesc" id="addDepartDesc" [(ngModel)]="newDepartmentObject.departDesc" class="edit-input-box" />
+                            </div>
+                            <div class="divDisplayTableCell text-center" style="width:15%;" (click)="createNewDepartment()">
+                                <div class="d-inline-block point-cursor"><img src="./assets/images/save.png" alt="Add New Department"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </perfect-scrollbar>
+
+                <ng-template #noDataBody>
+                    <div class="divDisplayTable">
+                        <div class="divDisplayTableRow" *ngIf="departmentList != null && departmentList.length == 0">
+                            <div class="divDisplayTableCell brdLft text-center" style="width:100%">
+                                No Data Found
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="footerButtonContainer" style="margin-top:20px;">
+        <div class="col">
+            <div class="d-inline-block point-cursor" (click)="displayNewDepartmentRow();">
+                <span class="badge badge-sky" style="vertical-align:text-top;"><i class="fa fa-plus"></i></span>
+                <div style="margin-left:6px;display: inline-block;">Add</div>
+            </div>
+        </div>
+
+        <div class="col">
+            <!-- <button class="btn btn-normal pull-right" type="submit">Save</button> -->
+            <!-- <button class="btn btn-normal pull-right" type="submit">Reset</button> -->
+        </div>
+    </div>
+</div>

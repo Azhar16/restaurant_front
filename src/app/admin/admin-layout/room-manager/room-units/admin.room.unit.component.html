@@ -1,0 +1,144 @@
+<div class="container-fluid" style="padding:10px 0px; ">
+    <h5 id="pageHeading">Hotel Rooms</h5>
+
+    <div class="row">
+
+        <div class="col-12 col-flexible">
+            <alert *ngIf="alertMessageDetails.response" [type]="alertMessageDetails.type" [dismissible]="true" class="text-center">
+                {{alertMessageDetails.message}}
+            </alert>
+        </div>
+
+        <div class="col">
+            <div class="table-responsive">
+
+                <div class="divDisplayTable">
+                    <div class="divDisplayTableRow">
+                        <div class="divDisplayTableCell head brdLft text-center" style="width:20%">Sl.No.</div>
+                        <div class="divDisplayTableCell head brdLft text-center" style="width:20%">Room Number</div>
+                        <div class="divDisplayTableCell head brdLft text-center" style="width:20%">Status</div>
+                        <div class="divDisplayTableCell head brdLft text-center" style="width:20%">Business Availablity</div>
+                        <div class="divDisplayTableCell head brdLft text-center" style="width:20%">Actions</div>
+                    </div>
+                </div>
+
+                <perfect-scrollbar class="position-relative" [style.max-height.px]="scrollBarContainerHeight" [scrollIndicators]="true">
+                    <div class="divDisplayTable">
+                        <div class="divDisplayTableRow" *ngFor="let roomUnitData of roomUnitList; let i = index;">
+                            <div class="divDisplayTableCell brdLft text-right" style="width:20%;">
+                                <div style="padding-right: 40%;">{{i+1}}</div>
+                            </div>
+                            <div class="divDisplayTableCell text-center" style="width:20%">
+                                {{roomUnitData.roomNumber}}
+                            </div>
+                            <div class="divDisplayTableCell text-center" style="width:20%">
+                                {{roomUnitData.roomStatus}}
+                            </div>
+                            <div class="divDisplayTableCell text-center" style="width:20%">
+                                {{roomUnitData.availableToAssign == '1' ? 'Yes' : 'No'}}
+                            </div>
+                            <div class="divDisplayTableCell text-center" style="width:20%">
+                                <div class="d-inline-block point-cursor" (click)="openConfirmModal(i)">
+                                    <img src="./assets/images/delete.png" alt="delete">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </perfect-scrollbar>
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="footerButtonContainer" style="margin-top:20px;">
+        <div class="col" style="cursor:pointer;">
+            <span class="badge badge-sky" style="vertical-align:text-top;" (click)="createRoomUnit(createRoomUnitTemplate)"><i class="fa fa-plus"></i></span>
+            <div style="margin-left:6px;display: inline-block;" (click)="createRoomUnit(createRoomUnitTemplate)">Add Rooms</div>
+        </div>
+    </div>
+
+</div>
+
+
+<ng-template #createRoomUnitTemplate>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Create Room</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div class="container">
+
+            <div class="form-row" id="div_radio">
+                <div class="from-group">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" [(ngModel)]="roomTypeBeCreated" value="general">
+                        <label class="form-check-label" for="inlineRadio1">Guest Room</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" [(ngModel)]="roomTypeBeCreated" value="special">
+                        <label class="form-check-label" for="inlineRadio2">Special Room</label>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="roomTypeBeCreated == 'general'">
+                <div class="form-row align-items-center">
+                    <div class="col-12">
+                        <label for="inputEmail4">Add Room Range</label>
+                    </div>
+                </div>
+                <div class="form-row align-items-center" style="margin-top:20px;">
+                    <div class="col-2 text-center">From</div>
+                    <div class="col-4">
+                        <input type="text" class="form-control" placeholder="Start" [(ngModel)]="roomStartNumber">
+                    </div>
+                    <div class="col-2 text-center">To</div>
+                    <div class="col-4">
+                        <input type="text" class="form-control" placeholder="End" [(ngModel)]="roomEndNumber">
+                    </div>
+                </div>
+
+                <div class="form-row" style="margin-top:20px;">
+                    <div class="col-2 text-center  align-items-center">Room Prefix</div>
+                    <div class="col-4">
+                        <input type="text" class="form-control" id="roomPrefix" placeholder="Room Prefix" [(ngModel)]="roomPrefix">
+                    </div>
+                    <div class="col-2 text-center  align-items-center">Room Suffix</div>
+                    <div class="col-4">
+                        <input type="text" class="form-control" id="roomSuffix" placeholder="Room Suffix" [(ngModel)]="roomsuffix">
+                    </div>
+                </div>
+
+            </div>
+
+            <div *ngIf="roomTypeBeCreated == 'special'">
+                <div class="form-row align-items-center">
+                    <div class="col-12">
+                        <label>Add Special Room</label>
+                    </div>
+                </div>
+                <div class="form-row" style="margin-top:20px;">
+                    <div class="col-2 text-center  align-items-center">Name</div>
+                    <div class="col-4">
+                        <input type="text" class="form-control" id="specialRoom" [(ngModel)]="spRoomName" placeholder="Special Room Name">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row" style="margin-top:20px;">
+                <div class="col">
+                    <button class="btn btn-normal pull-right" name="submit" type="button" (click)="addRoomUnit()">
+                        Submit
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</ng-template>
